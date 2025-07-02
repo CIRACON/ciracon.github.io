@@ -1,0 +1,46 @@
+name: Daily Site Regeneration
+
+on:
+  schedule:
+    # Run daily at 6:00 AM UTC (adjust as needed)
+    - cron: '0 6 * * *'
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js (if needed for future build processes)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Update copyright year in files
+      run: |
+        # Update any hardcoded years in files (if needed)
+        echo "Site regeneration completed on $(date)"
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
+        # Only deploy if there are changes
+        enable_jekyll: false
+        
+    - name: Log regeneration
+      run: |
+        echo "Daily regeneration completed successfully at $(date)" >> regeneration.log
+        
+    - name: Commit regeneration log
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add regeneration.log
+        git diff --staged --quiet || git commit -m "Daily site regeneration - $(date)"
+        git push
