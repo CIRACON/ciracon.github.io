@@ -12,12 +12,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate index.html with Copilot
+      - name: Create instructions issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh copilot suggest -p "$(cat instructions.md)" > index.html
-          
+          gh issue create \
+            --title "Regenerate site - $(date -u +'%Y-%m-%d')" \
+            --body-file instructions.md \
+            --assignee github-copilot \
+            --repo ${{ github.repository }}
+
       - name: Log regeneration
         run: echo "Daily regeneration completed at $(date -u)" >> regeneration.log
 
