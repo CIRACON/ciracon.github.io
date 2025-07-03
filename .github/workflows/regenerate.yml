@@ -19,7 +19,7 @@ jobs:
           gh issue create \
             --title "Regenerate site - $(date -u +'%Y-%m-%d')" \
             --body-file instructions.md \
-            --assignee github-copilot \
+            --assignee @copilot \
             --repo ${{ github.repository }}
 
       - name: Log regeneration
