@@ -22,49 +22,74 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Read instructions file as a single string
+          set -euo pipefail
+
+          # Read instructions
           INSTRUCTIONS=$(cat instructions.md)
 
-          # Build OpenAI-style request JSON safely with jq
-          REQUEST_JSON=$(jq -n --arg instructions "$INSTRUCTIONS" '
+          # Build request JSON body to a file (matches your working example style)
+          BODY=request.json
+          cat > "$BODY" << 'EOF'
           {
-            model: "gpt-4.1-mini",
-            messages: [
+            "model": "gpt-4o-mini",
+            "input": [
               {
                 "role": "system",
-                "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
+                  }
+                ]
               },
               {
-                "role": '\"user\"',
-                "content": $instructions
+                "role": "user",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "<<INSTRUCTIONS>>"
+                  }
+                ]
               }
             ]
-          }')
+          }
+          EOF
+
+          # Safely inject instructions text using jq (to avoid sed/escaping issues)
+          # 1. Read template JSON
+          # 2. Replace placeholder with actual instructions
+          jq --arg instructions "$INSTRUCTIONS" '
+            .input[1].content[0].text = $instructions
+          ' "$BODY" > request_filled.json
+
+          mv request_filled.json "$BODY"
 
           echo "Request JSON:"
-          echo "$REQUEST_JSON"
+          cat "$BODY"
 
-          # Call GitHub Models (v1 chat completions)
-          RESPONSE=$(curl -sS -L -X POST \
-            https://models.github.ai/v1/chat/completions \
-            -H "Accept: application/json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$REQUEST_JSON")
+          TMP_OUT=response.txt
 
-          echo "Raw response from model:"
-          echo "$RESPONSE"
+          # Call GitHub Models using your correct pattern
+          curl -sS \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H 'Accept: application/json' \
+            -H 'X-GitHub-Api-Version: 2023-07-07' \
+            -H 'Content-Type: application/json' \
+            --data-binary @"$BODY" \
+            https://api.github.com/models/gpt-4o-mini/responses \
+            | tee raw_response.json \
+            | jq -r '(.output_text // .choices[0].message.content // null)' > "$TMP_OUT" || true
 
-          # Extract the assistant's message content (OpenAI-style schema)
-          HTML_CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
+          echo "Raw response JSON:"
+          cat raw_response.json || true
 
-          if [ -z "$HTML_CONTENT" ]; then
-            echo "Model did not return HTML content"
+          if [ ! -s "$TMP_OUT" ]; then
+            echo "Model did not return any content"
             exit 1
           fi
 
           # Write to index.html
-          printf '%s\n' "$HTML_CONTENT" > index.html
+          cat "$TMP_OUT" > index.html
 
       - name: Log regeneration
         run: echo "Daily regeneration completed at $(date -u)" >> regeneration.log
