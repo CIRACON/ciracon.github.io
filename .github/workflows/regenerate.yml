@@ -15,53 +15,56 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Show jq version (already installed)
+        run: jq --version
 
       - name: Generate site with GitHub LLM
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Read instructions
+          # Read instructions as a single string
           INSTRUCTIONS=$(cat instructions.md)
 
-          # Build the JSON payload for GitHub Models
-          cat << 'EOF' > request.json
+          # Build JSON request using jq to handle all escaping
+          REQUEST_JSON=$(jq -n --arg instructions "$INSTRUCTIONS" '
           {
-            "model": "gpt-4.1-mini",
-            "input": [
+            model: "gpt-4.1-mini",
+            input: [
               {
-                "role": "system",
-                "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
+                role: "system",
+                content: "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
               },
               {
-                "role": "user",
-                "content": "<<INSTRUCTIONS>>"
+                role: "user",
+                content: $instructions
               }
             ],
-            "response_format": {
-              "type": "text"
+            response_format: {
+              type: "text"
             }
-          }
-          EOF
+          }')
 
-          # Inject instructions content into the payload
-          # (simple replace; instructions must not contain '<<INSTRUCTIONS>>')
-          sed -i "s/<<INSTRUCTIONS>>/$(printf '%s' "$INSTRUCTIONS" | jq -Rs . | sed 's/^\"//;s/\"$//')/" request.json
-
-          # Call GitHub Models (replace owner/repo if needed)
+          # Call GitHub Models
           RESPONSE=$(curl -sS -X POST \
             https://models.github.ai/v1/chat/completions \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            -d @request.json)
+            -d "$REQUEST_JSON")
 
-          # Extract the model's text content
-          HTML_CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content[0].text // empty')
+          echo "Raw response from model:"
+          echo "$RESPONSE"
+
+          # Extract the model's content.
+          # Depending on the API shape, adjust this path if needed.
+          HTML_CONTENT=$(echo "$RESPONSE" | jq -r '
+            .choices[0].message.content // empty |
+            if type == "string" then . else
+              map(select(.type == "output_text"))[0].text // empty
+            end
+          ')
 
           if [ -z "$HTML_CONTENT" ]; then
             echo "Model did not return HTML content"
-            echo "$RESPONSE"
             exit 1
           fi
 
