@@ -18,14 +18,14 @@ jobs:
       - name: Show jq version
         run: jq --version
 
-      - name: Generate site with GitHub LLM
+      - name: Generate site with GitHub Models
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Read instructions
+          # Read instructions file as a single string
           INSTRUCTIONS=$(cat instructions.md)
 
-          # Build JSON request using jq (OpenAI-style API)
+          # Build OpenAI-style request JSON safely with jq
           REQUEST_JSON=$(jq -n --arg instructions "$INSTRUCTIONS" '
           {
             model: "gpt-4.1-mini",
@@ -35,7 +35,7 @@ jobs:
                 "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
               },
               {
-                "role": "user",
+                "role": '\"user\"',
                 "content": $instructions
               }
             ]
@@ -44,9 +44,10 @@ jobs:
           echo "Request JSON:"
           echo "$REQUEST_JSON"
 
-          # Call GitHub Models via the OpenAI-compatible endpoint
-          RESPONSE=$(curl -sS -X POST \
-            https://models.github.com/v1/chat/completions \
+          # Call GitHub Models (v1 chat completions)
+          RESPONSE=$(curl -sS -L -X POST \
+            https://models.github.ai/v1/chat/completions \
+            -H "Accept: application/json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d "$REQUEST_JSON")
@@ -54,7 +55,7 @@ jobs:
           echo "Raw response from model:"
           echo "$RESPONSE"
 
-          # Extract the assistant's message content (standard OpenAI layout)
+          # Extract the assistant's message content (OpenAI-style schema)
           HTML_CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
 
           if [ -z "$HTML_CONTENT" ]; then
