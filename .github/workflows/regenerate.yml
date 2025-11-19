@@ -27,8 +27,9 @@ jobs:
           # Read instructions
           INSTRUCTIONS=$(cat instructions.md)
 
-          # Build request JSON body to a file (matches your working example style)
           BODY=request.json
+
+          # Base request body; we will inject instructions via jq to avoid escaping issues
           cat > "$BODY" << 'EOF'
           {
             "model": "gpt-4o-mini",
@@ -37,7 +38,7 @@ jobs:
                 "role": "system",
                 "content": [
                   {
-                    "type": "text",
+                    "type": "input_text",
                     "text": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
                   }
                 ]
@@ -46,7 +47,7 @@ jobs:
                 "role": "user",
                 "content": [
                   {
-                    "type": "text",
+                    "type": "input_text",
                     "text": "<<INSTRUCTIONS>>"
                   }
                 ]
@@ -55,21 +56,17 @@ jobs:
           }
           EOF
 
-          # Safely inject instructions text using jq (to avoid sed/escaping issues)
-          # 1. Read template JSON
-          # 2. Replace placeholder with actual instructions
+          # Inject instructions text safely
           jq --arg instructions "$INSTRUCTIONS" '
             .input[1].content[0].text = $instructions
           ' "$BODY" > request_filled.json
 
           mv request_filled.json "$BODY"
 
-          echo "Request JSON:"
+          echo "=== Request JSON ==="
           cat "$BODY"
 
-          TMP_OUT=response.txt
-
-          # Call GitHub Models using your correct pattern
+          # Call GitHub Models
           curl -sS \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             -H 'Accept: application/json' \
@@ -77,19 +74,35 @@ jobs:
             -H 'Content-Type: application/json' \
             --data-binary @"$BODY" \
             https://api.github.com/models/gpt-4o-mini/responses \
-            | tee raw_response.json \
-            | jq -r '(.output_text // .choices[0].message.content // null)' > "$TMP_OUT" || true
+            > raw_response.json || {
+              echo "Model HTTP call failed"
+              cat raw_response.json || true
+              exit 1
+            }
 
-          echo "Raw response JSON:"
-          cat raw_response.json || true
+          echo "=== Raw response JSON ==="
+          cat raw_response.json
 
-          if [ ! -s "$TMP_OUT" ]; then
-            echo "Model did not return any content"
+          # Try multiple possible locations for the text output
+          HTML_CONTENT=$(jq -r '
+              # Newer GitHub Models schema: top-level output_text
+              .output_text // 
+              # Chat-style schema: choices[0].message.content as string
+              .choices[0].message.content // 
+              # Content blocks: take first output_text block's text
+              (.choices[0].message.content | 
+                  (if type=="array" then . else [] end) |
+                  map(select(.type=="output_text"))[0].text) //
+              empty
+          ' raw_response.json)
+
+          if [ -z "$HTML_CONTENT" ] || [ "$HTML_CONTENT" = "null" ]; then
+            echo "No usable HTML content found in model response."
             exit 1
           fi
 
           # Write to index.html
-          cat "$TMP_OUT" > index.html
+          printf '%s\n' "$HTML_CONTENT" > index.html
 
       - name: Log regeneration
         run: echo "Daily regeneration completed at $(date -u)" >> regeneration.log
