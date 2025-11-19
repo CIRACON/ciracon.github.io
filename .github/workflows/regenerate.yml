@@ -27,82 +27,53 @@ jobs:
           # Read instructions
           INSTRUCTIONS=$(cat instructions.md)
 
+          # Build request body using standard OpenAI format
           BODY=request.json
-
-          # Base request body; we will inject instructions via jq to avoid escaping issues
-          cat > "$BODY" << 'EOF'
+          jq -n --arg instructions "$INSTRUCTIONS" '
           {
             "model": "gpt-4o-mini",
-            "input": [
+            "messages": [
               {
                 "role": "system",
-                "content": [
-                  {
-                    "type": "input_text",
-                    "text": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
-                  }
-                ]
+                "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
               },
               {
                 "role": "user",
-                "content": [
-                  {
-                    "type": "input_text",
-                    "text": "<<INSTRUCTIONS>>"
-                  }
-                ]
+                "content": $instructions
               }
-            ]
-          }
-          EOF
-
-          # Inject instructions text safely
-          jq --arg instructions "$INSTRUCTIONS" '
-            .input[1].content[0].text = $instructions
-          ' "$BODY" > request_filled.json
-
-          mv request_filled.json "$BODY"
+            ],
+            "max_tokens": 4000
+          }' > "$BODY"
 
           echo "=== Request JSON ==="
           cat "$BODY"
 
-          # Call GitHub Models
-          curl -sS \
+          # Call GitHub Models chat completions endpoint
+          RESPONSE=$(curl -sS -L \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            -H 'Accept: application/json' \
-            -H 'X-GitHub-Api-Version: 2023-07-07' \
-            -H 'Content-Type: application/json' \
+            -H "Accept: application/json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/json" \
             --data-binary @"$BODY" \
-            https://api.github.com/models/gpt-4o-mini/responses \
-            > raw_response.json || {
-              echo "Model HTTP call failed"
-              cat raw_response.json || true
-              exit 1
-            }
+            https://api.github.com/models/gpt-4o-mini/chat/completions)
 
           echo "=== Raw response JSON ==="
-          cat raw_response.json
+          echo "$RESPONSE" | jq . || echo "$RESPONSE"
 
-          # Try multiple possible locations for the text output
-          HTML_CONTENT=$(jq -r '
-              # Newer GitHub Models schema: top-level output_text
-              .output_text // 
-              # Chat-style schema: choices[0].message.content as string
-              .choices[0].message.content // 
-              # Content blocks: take first output_text block's text
-              (.choices[0].message.content | 
-                  (if type=="array" then . else [] end) |
-                  map(select(.type=="output_text"))[0].text) //
-              empty
-          ' raw_response.json)
+          # Extract the content from standard OpenAI response format
+          HTML_CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
 
           if [ -z "$HTML_CONTENT" ] || [ "$HTML_CONTENT" = "null" ]; then
-            echo "No usable HTML content found in model response."
+            echo "Error: No HTML content in response"
+            echo "Full response was:"
+            echo "$RESPONSE"
             exit 1
           fi
 
           # Write to index.html
           printf '%s\n' "$HTML_CONTENT" > index.html
+
+          echo "Successfully generated index.html"
 
       - name: Log regeneration
         run: echo "Daily regeneration completed at $(date -u)" >> regeneration.log
