@@ -15,38 +15,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show jq version (already installed)
+      - name: Show jq version
         run: jq --version
 
       - name: Generate site with GitHub LLM
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Read instructions as a single string
+          # Read instructions
           INSTRUCTIONS=$(cat instructions.md)
 
-          # Build JSON request using jq to handle all escaping
+          # Build JSON request using jq (OpenAI-style API)
           REQUEST_JSON=$(jq -n --arg instructions "$INSTRUCTIONS" '
           {
             model: "gpt-4.1-mini",
-            input: [
+            messages: [
               {
-                role: "system",
-                content: "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
+                "role": "system",
+                "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
               },
               {
-                role: "user",
-                content: $instructions
+                "role": "user",
+                "content": $instructions
               }
-            ],
-            response_format: {
-              type: "text"
-            }
+            ]
           }')
 
-          # Call GitHub Models
+          echo "Request JSON:"
+          echo "$REQUEST_JSON"
+
+          # Call GitHub Models via the OpenAI-compatible endpoint
           RESPONSE=$(curl -sS -X POST \
-            https://models.github.ai/v1/chat/completions \
+            https://models.github.com/v1/chat/completions \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d "$REQUEST_JSON")
@@ -54,14 +54,8 @@ jobs:
           echo "Raw response from model:"
           echo "$RESPONSE"
 
-          # Extract the model's content.
-          # Depending on the API shape, adjust this path if needed.
-          HTML_CONTENT=$(echo "$RESPONSE" | jq -r '
-            .choices[0].message.content // empty |
-            if type == "string" then . else
-              map(select(.type == "output_text"))[0].text // empty
-            end
-          ')
+          # Extract the assistant's message content (standard OpenAI layout)
+          HTML_CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
 
           if [ -z "$HTML_CONTENT" ]; then
             echo "Model did not return HTML content"
