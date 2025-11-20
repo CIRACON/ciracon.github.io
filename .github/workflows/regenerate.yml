@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write   # needed to push changes
+      models: read      # needed to access GitHub Models API
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,28 +28,36 @@ jobs:
           # Read instructions
           INSTRUCTIONS=$(cat instructions.md)
 
-          # Build request body for GitHub Models /responses endpoint
+          # Build request body for GitHub Models chat completions endpoint
           BODY=request.json
           jq -n --arg instructions "$INSTRUCTIONS" '
           {
-            "input_text": ("You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation.\n\n" + $instructions),
-            "parameters": {
-              "max_tokens": 4000,
-              "temperature": 0.7
-            }
+            "model": "gpt-4o-mini",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
+              },
+              {
+                "role": "user",
+                "content": $instructions
+              }
+            ],
+            "max_tokens": 4000,
+            "temperature": 0.7
           }' > "$BODY"
 
           echo "=== Request JSON ==="
           cat "$BODY"
 
-          # Call GitHub Models responses endpoint
+          # Call GitHub Models chat completions endpoint
           RESPONSE=$(curl -sS -w "\nHTTP_STATUS:%{http_code}" \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            -H "Accept: application/json" \
-            -H "X-GitHub-Api-Version: 2023-07-07" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Content-Type: application/json" \
             --data-binary @"$BODY" \
-            https://api.github.com/models/gpt-4o-mini/responses)
+            https://models.github.ai/inference/chat/completions)
 
           # Split response and status
           HTTP_BODY=$(echo "$RESPONSE" | sed '$d')
@@ -65,18 +74,13 @@ jobs:
             exit 1
           fi
 
-          # Extract content - GitHub Models returns output_text at top level
-          HTML_CONTENT=$(echo "$HTTP_BODY" | jq -r '.output_text // empty')
+          # Extract content from chat completions response
+          HTML_CONTENT=$(echo "$HTTP_BODY" | jq -r '.choices[0].message.content // empty')
 
           if [ -z "$HTML_CONTENT" ] || [ "$HTML_CONTENT" = "null" ]; then
-            echo "Error: No HTML content in response"
-            echo "Trying alternative extraction paths..."
-            # Try other possible paths
-            HTML_CONTENT=$(echo "$HTTP_BODY" | jq -r '.choices[0].message.content // .text // .response // empty')
-          fi
-
-          if [ -z "$HTML_CONTENT" ] || [ "$HTML_CONTENT" = "null" ]; then
-            echo "Error: Could not extract HTML from any known response path"
+            echo "Error: Could not extract HTML from response"
+            echo "Response structure:"
+            echo "$HTTP_BODY" | jq .
             exit 1
           fi
 
