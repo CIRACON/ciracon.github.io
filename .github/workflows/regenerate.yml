@@ -16,77 +16,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show jq version
-        run: jq --version
+      - name: Read instructions
+        id: read_instructions
+        run: |
+          INSTRUCTIONS=$(cat instructions.md)
+          echo "instructions<<EOF" >> $GITHUB_OUTPUT
+          echo "$INSTRUCTIONS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Generate site with GitHub Models
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: github/models-action@v1
+        id: generate_site
+        with:
+          model: 'gpt-4o-mini'
+          prompt: |
+            You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation.
+
+            Instructions:
+            ${{ steps.read_instructions.outputs.instructions }}
+          max_tokens: 4000
+          temperature: 0.7
+
+      - name: Write generated HTML
         run: |
-          set -euo pipefail
-
-          # Read instructions
-          INSTRUCTIONS=$(cat instructions.md)
-
-          # Build request body for GitHub Models chat completions endpoint
-          BODY=request.json
-          jq -n --arg instructions "$INSTRUCTIONS" '
-          {
-            "model": "gpt-4o-mini",
-            "messages": [
-              {
-                "role": "system",
-                "content": "You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation."
-              },
-              {
-                "role": "user",
-                "content": $instructions
-              }
-            ],
-            "max_tokens": 4000,
-            "temperature": 0.7
-          }' > "$BODY"
-
-          echo "=== Request JSON ==="
-          cat "$BODY"
-
-          # Call GitHub Models chat completions endpoint
-          RESPONSE=$(curl -sS -w "\nHTTP_STATUS:%{http_code}" \
-            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -H "Content-Type: application/json" \
-            --data-binary @"$BODY" \
-            https://api.github.com/models/gpt-4o-mini/responses)
-
-          # Split response and status
-          HTTP_BODY=$(echo "$RESPONSE" | sed '$d')
-          HTTP_STATUS=$(echo "$RESPONSE" | tail -n1 | cut -d':' -f2)
-
-          echo "=== HTTP Status ==="
-          echo "$HTTP_STATUS"
-
-          echo "=== Raw response ==="
-          echo "$HTTP_BODY" | jq . 2>/dev/null || echo "$HTTP_BODY"
-
-          if [ "$HTTP_STATUS" != "200" ] && [ "$HTTP_STATUS" != "201" ]; then
-            echo "Error: API returned status $HTTP_STATUS"
-            exit 1
-          fi
-
-          # Extract content from chat completions response
-          HTML_CONTENT=$(echo "$HTTP_BODY" | jq -r '.choices[0].message.content // empty')
-
-          if [ -z "$HTML_CONTENT" ] || [ "$HTML_CONTENT" = "null" ]; then
-            echo "Error: Could not extract HTML from response"
-            echo "Response structure:"
-            echo "$HTTP_BODY" | jq .
-            exit 1
-          fi
-
-          # Write to index.html
-          printf '%s\n' "$HTML_CONTENT" > index.html
-
+          printf '%s\n' "${{ steps.generate_site.outputs.result }}" > index.html
           echo "Successfully generated index.html"
 
       - name: Log regeneration
