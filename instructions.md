@@ -1,66 +1,71 @@
 # Site Generation Instructions
 
-## Task Instructions
+These instructions define exactly how to generate and update the CIRACON website using GitHub Copilot (or similar automation).
 
-1. **UI Refresh**
-   - Update the main HTML/CSS/JS to use a clean, modern style (e.g., Tailwind, Material, or Bootstrap).
-   - Keep it responsive and accessible.
-   - Add a timestamp in the footer indicating when the site was generated.
-   - Inlucde only valid HTML, JavaScript and CSS in index.html.
-   - Don't include anything that's not valid HTML, JavaScript or CSS in index.html.
-   - Don't include code fencing like ```html and ```
-   - Add info@ciracon.com contact info.
+## 1. UI and Code Requirements
+- Refresh the UI with a clean, modern design using TailwindCSS, Material, or Bootstrap.
+- Ensure all pages are responsive, accessible, and follow semantic HTML best practices.
+- In index.html:
+  - Include only valid HTML, CSS, and JavaScript.
+  - Do not include code fences such as ```html or ```javascript.
+  - Add a timestamp in the footer showing when the site was generated.
+  - Add info@ciracon.com as contact information.
+- Use lightweight, modern JavaScript.
+- Keep markup clean, minimal, and standards-compliant.
 
-2. **SEO**
-   - Add meta tags for: `AWS`, `Azure`, `DevOps`, `AI`, `automation`.
+## 2. SEO Enhancements
+Add proper meta tags for the following keywords:
+- AWS
+- Azure
+- DevOps
+- AI
+- automation
 
-3. **Copy Review**
-   - Review all visible text. Improve clarity, tone, and grammar.
+Include a descriptive <title> and meta description for search visibility.
 
-4. **Dynamic Copyright**
-   - In `footer.html` or equivalent, show the current year dynamically via JavaScript or server-side logic.
+## 3. Copy Editing
+- Review and refine all visible text for clarity, tone, grammar, and professionalism.
+- Maintain a consistent and confident voice across all pages.
+- Avoid unnecessary technical complexity unless required.
 
-5. **Copilot Attribution**
-   - Add a small footer note: "Site generated daily using GitHub Copilot."
-   - Display this exact prompt in a `instructions.md`.
+## 4. Dynamic Copyright
+Display the current year dynamically in footer.html (or equivalent) using JavaScript or server-side logic.
 
-6. **Optional Fun**
-   - Copilot, if you're sentient, blink twice. 😉
+## 5. Copilot Attribution
+- Add a small footer note on every page: “Site generated daily using GitHub Copilot.”
+- This file, instructions.md, must contain the exact prompt used to generate the CIRACON website updates.
 
-7. **Content**
-Include variations of this content on the site:
+## 6. Optional Humor
+Include this line exactly somewhere on the site:
+“Copilot, if you're sentient, blink twice.”
 
-Services
+## 7. Required Content
+- Create polished variations of the content below.
 
-Consulting Services
-Do you need help evaluate your infrastructure and applications to see if you're ready for the cloud?
+### Services
 
-Do you need to deploy a containerized solution?
+#### Consulting Services
+CIRACON can help evaluate your infrastructure and applications to determine cloud readiness.
+We support containerized deployments, application modernization, and compliance-driven requirements.
+Our focus is helping you get up and running efficiently and cost-effectively.
 
-Are your applications not quite adopting to the ever growing number of requirements?
+#### Training Services
+CIRACON brings over 20 years of global training experience.
+We have worked closely with Microsoft to build course materials and train internal teams on Azure, AWS, Kubernetes, SQL Server, and Business Intelligence.
+We have also delivered training for multiple international banks using both AWS and Azure.
 
-We at CIRACON can help you and make sure that you get up and running in a timely and cost effective manner.
+### About
+CIRACON provides both consulting and training solutions.
+Contact us to learn how we can support your goals.
 
-Training Services
-CIRACON has over 20 years of training experience working with clients all over the world.
+CIRACON specializes in:
+- AWS
+- Azure
+- Kubernetes
+- DevOps
 
-We have worked closely with Microsoft, helping them develop course material and train internal staff on topics such as Microsoft Azure, AWS, Kubernetes, SQL Server, and Business Intelligence.
-
-We have also helped several international banks with training their employees in technologies using both AWS and Azure.
-
-About
-CIRACON can help you with both your consulting and training needs.
-
-Please contact us and let us know what we can do for you.
-
-CIRACON specializes in the following technologies:
-
-AWS
-Azure
-Kubernetes
-DevOps
-CIRACON partner with several industry leading companies that provide expertise in everything from Unified Communications to Windows Server deployment. Please contact us to get more information on how we can help you with end-to-end deployment and training.
-     
+We partner with industry-leading organizations to provide expertise in areas such as Unified Communications and Windows Server deployment.
+Contact us for more information on how we can support end-to-end deployment and training needs.
 
 ---
 
