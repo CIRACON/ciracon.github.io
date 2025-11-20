@@ -1,9 +1,11 @@
 # Site Generation Instructions
 
-These instructions define exactly how to generate and update the CIRACON website using GitHub Copilot (or similar automation).
+These instructions define exactly how to generate and update the CIRACON website using GitHub Copilot.
 
 ## 1. UI and Code Requirements
 - Refresh the UI with a clean, modern design using TailwindCSS, Material, or Bootstrap.
+- Draw inspiration from https://quickbooks.intuit.com/.
+- Be creative.
 - Ensure all pages are responsive, accessible, and follow semantic HTML best practices.
 - In index.html:
   - Include only valid HTML, CSS, and JavaScript.
