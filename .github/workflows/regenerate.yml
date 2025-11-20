@@ -49,9 +49,30 @@ jobs:
               \"temperature\": 0.7
             }")
           
+          # Debug: Print response for troubleshooting
+          echo "API Response:"
+          echo "$RESPONSE" | jq '.' || echo "Failed to parse JSON response"
+          
           # Extract the content from the response
-          echo "$RESPONSE" | jq -r '.choices[0].message.content' > index.html
-          echo "Successfully generated index.html"
+          CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
+          
+          # Check if content was extracted successfully
+          if [ -z "$CONTENT" ] || [ "$CONTENT" = "null" ]; then
+            echo "Error: Failed to extract content from API response"
+            echo "Response was: $RESPONSE"
+            exit 1
+          fi
+          
+          # Write content to index.html
+          echo "$CONTENT" > index.html
+          
+          # Verify the file was created and is not empty
+          if [ ! -s index.html ]; then
+            echo "Error: index.html is empty after generation"
+            exit 1
+          fi
+          
+          echo "Successfully generated index.html ($(wc -c < index.html) bytes)"
 
       - name: Log regeneration
         run: echo "Daily regeneration completed at $(date -u)" >> regeneration.log
