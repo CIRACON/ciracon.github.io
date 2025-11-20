@@ -16,30 +16,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Read instructions
-        id: read_instructions
-        run: |
-          INSTRUCTIONS=$(cat instructions.md)
-          echo "instructions<<EOF" >> $GITHUB_OUTPUT
-          echo "$INSTRUCTIONS" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
       - name: Generate site with GitHub Models
-        uses: github/models-action@v1
         id: generate_site
-        with:
-          model: 'gpt-4o-mini'
-          prompt: |
-            You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation.
-
-            Instructions:
-            ${{ steps.read_instructions.outputs.instructions }}
-          max_tokens: 4000
-          temperature: 0.7
-
-      - name: Write generated HTML
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          printf '%s\n' "${{ steps.generate_site.outputs.result }}" > index.html
+          # Read instructions from the file
+          INSTRUCTIONS=$(cat instructions.md)
+          
+          # Create the prompt
+          PROMPT="You are a static site generator. Given instructions, output ONLY the full HTML for index.html, with no explanation.
+
+          Instructions:
+          $INSTRUCTIONS"
+          
+          # Escape the prompt for JSON
+          PROMPT_JSON=$(jq -n --arg prompt "$PROMPT" '$prompt')
+          
+          # Call GitHub Models API
+          RESPONSE=$(curl -s "https://models.github.ai/inference/chat/completions" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -d "{
+              \"messages\": [
+                {
+                  \"role\": \"user\",
+                  \"content\": $PROMPT_JSON
+                }
+              ],
+              \"model\": \"openai/gpt-4o-mini\",
+              \"max_tokens\": 4000,
+              \"temperature\": 0.7
+            }")
+          
+          # Extract the content from the response
+          echo "$RESPONSE" | jq -r '.choices[0].message.content' > index.html
           echo "Successfully generated index.html"
 
       - name: Log regeneration
