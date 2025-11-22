@@ -3,59 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CIRACON offers consulting and training services in AWS, Azure, DevOps, AI, and automation.">
+    <meta name="description" content="CIRACON provides consulting and training solutions in AWS, Azure, DevOps, AI, and automation.">
     <meta name="keywords" content="AWS, Azure, DevOps, AI, automation">
     <title>CIRACON - Consulting and Training Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 font-sans">
     <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold">CIRACON</h1>
-            <nav class="mt-4">
-                <ul class="flex space-x-4">
-                    <li><a href="#services" class="text-blue-600 hover:underline">Services</a></li>
-                    <li><a href="#about" class="text-blue-600 hover:underline">About</a></li>
-                    <li><a href="mailto:info@ciracon.com" class="text-blue-600 hover:underline">Contact</a></li>
-                </ul>
-            </nav>
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-3xl font-bold text-gray-800">CIRACON</h1>
         </div>
     </header>
-    <main class="max-w-7xl mx-auto px-4 py-8">
-        <section id="services" class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">Our Services</h2>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-xl font-bold">Consulting Services</h3>
-                <p>CIRACON can help evaluate your infrastructure and applications to determine cloud readiness. We support containerized deployments, application modernization, and compliance-driven requirements. Our focus is helping you get up and running efficiently and cost-effectively.</p>
+    <main class="container mx-auto px-6 py-8">
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-gray-700">Services</h2>
+            <div class="mt-4">
+                <h3 class="text-xl font-semibold text-gray-600">Consulting Services</h3>
+                <p class="text-gray-500">CIRACON can help evaluate your infrastructure and applications to determine cloud readiness. We support containerized deployments, application modernization, and compliance-driven requirements. Our focus is helping you get up and running efficiently and cost-effectively.</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow mt-4">
-                <h3 class="text-xl font-bold">Training Services</h3>
-                <p>CIRACON brings over 20 years of global training experience. We have worked closely with Microsoft to build course materials and train internal teams on Azure, AWS, Kubernetes, SQL Server, and Business Intelligence. We have also delivered training for multiple international banks using both AWS and Azure.</p>
+            <div class="mt-4">
+                <h3 class="text-xl font-semibold text-gray-600">Training Services</h3>
+                <p class="text-gray-500">CIRACON brings over 20 years of global training experience. We have worked closely with Microsoft to build course materials and train internal teams on Azure, AWS, Kubernetes, SQL Server, and Business Intelligence. We have also delivered training for multiple international banks using both AWS and Azure.</p>
             </div>
         </section>
-        <section id="about" class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">About Us</h2>
-            <p>CIRACON provides both consulting and training solutions. Contact us to learn how we can support your goals.</p>
-            <p>CIRACON specializes in:</p>
-            <ul class="list-disc list-inside">
+        <section>
+            <h2 class="text-2xl font-semibold text-gray-700">About</h2>
+            <p class="text-gray-500">CIRACON provides both consulting and training solutions. Contact us to learn how we can support your goals.</p>
+            <p class="text-gray-500">CIRACON specializes in:</p>
+            <ul class="list-disc list-inside text-gray-500">
                 <li>AWS</li>
                 <li>Azure</li>
                 <li>Kubernetes</li>
                 <li>DevOps</li>
             </ul>
-            <p>We partner with industry-leading organizations to provide expertise in areas such as Unified Communications and Windows Server deployment. Contact us for more information on how we can support end-to-end deployment and training needs.</p>
+            <p class="text-gray-500">We partner with industry-leading organizations to provide expertise in areas such as Unified Communications and Windows Server deployment. Contact us for more information on how we can support end-to-end deployment and training needs.</p>
         </section>
+        <p class="mt-4 italic text-gray-500">“Copilot, if you're sentient, blink twice.”</p>
     </main>
-    <footer class="bg-white shadow mt-12">
-        <div class="max-w-7xl mx-auto px-4 py-4 text-center">
-            <p>Contact us at <a href="mailto:info@ciracon.com" class="text-blue-600">info@ciracon.com</a></p>
-            <p>&copy; <span id="year"></span> CIRACON. All rights reserved.</p>
-            <p>Site generated daily using GitHub Copilot.</p>
-            <p>Copilot, if you're sentient, blink twice.</p>
+    <footer class="bg-white shadow mt-8">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            <p>Contact us at: <a href="mailto:info@ciracon.com" class="text-blue-500">info@ciracon.com</a></p>
+            <p>&copy; <span id="current-year"></span> CIRACON. All rights reserved.</p>
+            <p class="text-sm">Site generated daily using GitHub Copilot.</p>
         </div>
     </footer>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
