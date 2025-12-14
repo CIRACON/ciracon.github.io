@@ -12,7 +12,7 @@ CIRACON provides consulting and training solutions specializing in AWS, Azure, K
 
 The website is uniquely regenerated **daily** using GitHub Actions and AI. This automated workflow:
 
-1. **Runs daily at 10:00 UTC** (2:00 AM Pacific Time) via a scheduled GitHub Actions workflow
+1. **Runs daily at 10:00 UTC** via a scheduled GitHub Actions workflow
 2. **Uses GitHub Models API** (GPT-4o-mini) to generate fresh HTML based on instructions
 3. **Reads instructions** from `instructions.md` which defines the site requirements, content, and design guidelines
 4. **Generates index.html** with a new design variation while maintaining core content
@@ -27,7 +27,7 @@ The website is uniquely regenerated **daily** using GitHub Actions and AI. This 
 - **Schedule**: Daily at 10:00 UTC (cron: `0 10 * * *`)
 - **Manual trigger**: Available via GitHub Actions UI
 
-The workflow ensures the website stays fresh with modern designs while maintaining consistent branding and content. Each regeneration creates a clean, responsive, and accessible design using modern CSS frameworks like TailwindCSS, Material, or Bootstrap.
+The workflow ensures the website stays fresh with modern designs while maintaining consistent branding and content. Each regeneration creates a clean, responsive design using modern CSS frameworks like TailwindCSS, Material, or Bootstrap.
 
 ### How It Works
 
