@@ -1,27 +1,44 @@
-# [Start Bootstrap](http://startbootstrap.com/) - [Small Business](http://startbootstrap.com/template-overviews/small-business/)
+# CIRACON Public Website
 
-[Small Business](http://startbootstrap.com/template-overviews/small-business/) is a responsive marketing landing page template for [Bootstrap](http://getbootstrap.com/) created by [Start Bootstrap](http://startbootstrap.com/).
+<a href="https://github.com/CIRACON/ciracon.github.io/actions/workflows/regenerate.yml"><img src="https://github.com/CIRACON/ciracon.github.io/actions/workflows/regenerate.yml/badge.svg"></a>
 
-## Getting Started
+This repository hosts the CIRACON public website at [https://ciracon.github.io](https://ciracon.github.io).
 
-To begin using this template, choose one of the following options to get started:
-* [Download the latest release on Start Bootstrap](http://startbootstrap.com/template-overviews/small-business/)
-* Clone the repo: `git clone https://github.com/BlackrockDigital/startbootstrap-small-business.git`
-* Fork the repo
+## About
 
-## Bugs and Issues
+CIRACON provides consulting and training solutions specializing in AWS, Azure, Kubernetes, and DevOps. This website serves as our public-facing presence, showcasing our services and expertise.
 
-Have a bug or an issue with this template? [Open a new issue](https://github.com/BlackrockDigital/startbootstrap-small-business/issues) here on GitHub or leave a comment on the [template overview page at Start Bootstrap](http://startbootstrap.com/template-overviews/small-business/).
+## Daily Re-design Workflow
 
-## Creator
+The website is uniquely regenerated **daily** using GitHub Actions and AI. This automated workflow:
 
-Start Bootstrap was created by and is maintained by **[David Miller](http://davidmiller.io/)**, Owner of [Blackrock Digital](http://blackrockdigital.io/).
+1. **Runs daily at 10:00 UTC** (2:00 AM Pacific Time) via a scheduled GitHub Actions workflow
+2. **Uses GitHub Models API** (GPT-4o-mini) to generate fresh HTML based on instructions
+3. **Reads instructions** from `instructions.md` which defines the site requirements, content, and design guidelines
+4. **Generates index.html** with a new design variation while maintaining core content
+5. **Commits and pushes** the regenerated site back to the repository
+6. **Can be triggered manually** via workflow_dispatch for on-demand regeneration
 
-* https://twitter.com/davidmillerskt
-* https://github.com/davidtmiller
+### Workflow Details
 
-Start Bootstrap is based on the [Bootstrap](http://getbootstrap.com/) framework created by [Mark Otto](https://twitter.com/mdo) and [Jacob Thorton](https://twitter.com/fat).
+- **Workflow file**: `.github/workflows/regenerate.yml`
+- **Instructions file**: `instructions.md` - Contains the prompt and requirements for site generation
+- **Model**: GPT-4o-mini via GitHub Models API
+- **Schedule**: Daily at 10:00 UTC (cron: `0 10 * * *`)
+- **Manual trigger**: Available via GitHub Actions UI
 
-## Copyright and License
+The workflow ensures the website stays fresh with modern designs while maintaining consistent branding and content. Each regeneration creates a clean, responsive, and accessible design using modern CSS frameworks like TailwindCSS, Material, or Bootstrap.
 
-Copyright 2013-2016 Blackrock Digital LLC. Code released under the [MIT](https://github.com/BlackrockDigital/startbootstrap-small-business/blob/gh-pages/LICENSE) license.
+### How It Works
+
+1. The workflow checks out the repository
+2. Reads the generation instructions from `instructions.md`
+3. Sends a prompt to the GitHub Models API with the instructions
+4. Receives generated HTML content
+5. Writes the content to `index.html`
+6. Logs the regeneration timestamp to `regeneration.log`
+7. Commits and pushes changes if the site was updated
+
+## License
+
+Copyright © CIRACON. All rights reserved.
