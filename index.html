@@ -3,37 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CIRACON offers expert consulting and training services in AWS, Azure, DevOps, AI, and automation.">
+    <meta name="description" content="CIRACON provides consulting and training solutions in AWS, Azure, DevOps, AI, and automation.">
     <meta name="keywords" content="AWS, Azure, DevOps, AI, automation">
-    <title>CIRACON - Consulting and Training Solutions</title>
+    <title>CIRACON - Consulting & Training Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const footerYear = new Date().getFullYear();
+            document.getElementById('footer-year').textContent = footerYear;
+        });
+    </script>
 </head>
-<body class="bg-gray-100 text-gray-900">
-    <header class="bg-blue-600 text-white p-6">
-        <h1 class="text-3xl font-bold">Welcome to CIRACON</h1>
-        <nav class="mt-4">
-            <a href="#services" class="mr-6">Services</a>
-            <a href="#about" class="mr-6">About</a>
-            <a href="mailto:info@ciracon.com">Contact</a>
-        </nav>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold">CIRACON</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:text-blue-600">Home</a></li>
+                    <li><a href="#services" class="hover:text-blue-600">Services</a></li>
+                    <li><a href="#about" class="hover:text-blue-600">About</a></li>
+                    <li><a href="mailto:info@ciracon.com" class="hover:text-blue-600">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-
-    <main class="container mx-auto p-6">
+    <main class="container mx-auto px-4 py-8">
         <section id="services" class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">Our Services</h2>
-            <article class="mb-8">
-                <h3 class="font-bold">Consulting Services</h3>
+            <h2 class="text-2xl font-semibold">Our Services</h2>
+            <div class="mt-4">
+                <h3 class="text-xl font-semibold">Consulting Services</h3>
                 <p>CIRACON can help evaluate your infrastructure and applications to determine cloud readiness. We support containerized deployments, application modernization, and compliance-driven requirements. Our focus is helping you get up and running efficiently and cost-effectively.</p>
-            </article>
-            <article>
-                <h3 class="font-bold">Training Services</h3>
+            </div>
+            <div class="mt-4">
+                <h3 class="text-xl font-semibold">Training Services</h3>
                 <p>CIRACON brings over 20 years of global training experience. We have worked closely with Microsoft to build course materials and train internal teams on Azure, AWS, Kubernetes, SQL Server, and Business Intelligence. We have also delivered training for multiple international banks using both AWS and Azure.</p>
-            </article>
+            </div>
         </section>
-
         <section id="about">
-            <h2 class="text-2xl font-semibold mb-4">About Us</h2>
+            <h2 class="text-2xl font-semibold">About Us</h2>
             <p>CIRACON provides both consulting and training solutions. Contact us to learn how we can support your goals.</p>
             <p>CIRACON specializes in:</p>
             <ul class="list-disc ml-6">
@@ -43,18 +51,15 @@
                 <li>DevOps</li>
             </ul>
             <p>We partner with industry-leading organizations to provide expertise in areas such as Unified Communications and Windows Server deployment. Contact us for more information on how we can support end-to-end deployment and training needs.</p>
-            <p class="mt-4">“Copilot, if you're sentient, blink twice.”</p>
         </section>
+        <p class="mt-4 text-center">“Copilot, if you're sentient, blink twice.”</p>
     </main>
-
-    <footer class="bg-gray-300 text-center p-4">
-        <p>Contact: <a href="mailto:info@ciracon.com" class="text-blue-600">info@ciracon.com</a></p>
-        <p>&copy; <span id="currentYear"></span> CIRACON. All rights reserved.</p>
-        <p>Site generated daily using GitHub Copilot.</p>
+    <footer class="bg-white shadow mt-12">
+        <div class="container mx-auto px-4 py-4 text-center">
+            <p>Contact us: <a href="mailto:info@ciracon.com" class="text-blue-600">info@ciracon.com</a></p>
+            <p>&copy; <span id="footer-year"></span> CIRACON. All rights reserved.</p>
+            <p class="text-sm">Site generated daily using GitHub Copilot.</p>
+        </div>
     </footer>
-
-    <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-    </script>
 </body>
 </html>
