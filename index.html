@@ -3,36 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CIRACON offers expert consulting and training services in AWS, Azure, DevOps, AI, and automation.">
+    <title>CIRACON - Consulting and Training Solutions</title>
+    <meta name="description" content="CIRACON provides expert consulting and training solutions in AWS, Azure, DevOps, AI, and automation.">
     <meta name="keywords" content="AWS, Azure, DevOps, AI, automation">
-    <title>CIRACON | Consulting & Training Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <header class="bg-blue-600 text-white p-6">
-        <h1 class="text-3xl font-bold">Welcome to CIRACON</h1>
-        <nav class="mt-4">
-            <ul class="flex space-x-4">
-                <li><a href="#services" class="hover:underline">Services</a></li>
-                <li><a href="#about" class="hover:underline">About</a></li>
-                <li><a href="mailto:info@ciracon.com" class="hover:underline">Contact</a></li>
-            </ul>
-        </nav>
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-blue-600 py-6">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold text-white">Welcome to CIRACON</h1>
+            <p class="mt-2 text-lg text-gray-200">Your partner in cloud consulting and training.</p>
+        </div>
     </header>
-    <main class="p-6">
-        <section id="services" class="mb-8">
-            <h2 class="text-2xl font-semibold">Our Services</h2>
-            <div class="mt-4">
-                <h3 class="text-xl font-bold">Consulting Services</h3>
-                <p>CIRACON can help evaluate your infrastructure and applications to determine cloud readiness. We support containerized deployments, application modernization, and compliance-driven requirements. Our focus is helping you get up and running efficiently and cost-effectively.</p>
-            </div>
-            <div class="mt-4">
-                <h3 class="text-xl font-bold">Training Services</h3>
-                <p>CIRACON brings over 20 years of global training experience. We have worked closely with Microsoft to build course materials and train internal teams on Azure, AWS, Kubernetes, SQL Server, and Business Intelligence. We have also delivered training for multiple international banks using both AWS and Azure.</p>
+    <main class="container mx-auto my-8">
+        <section class="mb-8">
+            <h2 class="text-3xl font-semibold mb-4">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-2xl font-bold">Consulting Services</h3>
+                    <p class="mt-2">CIRACON can help evaluate your infrastructure and applications to determine cloud readiness. We support containerized deployments, application modernization, and compliance-driven requirements. Our focus is helping you get up and running efficiently and cost-effectively.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-2xl font-bold">Training Services</h3>
+                    <p class="mt-2">CIRACON brings over 20 years of global training experience. We have worked closely with Microsoft to build course materials and train internal teams on Azure, AWS, Kubernetes, SQL Server, and Business Intelligence. We have also delivered training for multiple international banks using both AWS and Azure.</p>
+                </div>
             </div>
         </section>
-        <section id="about">
-            <h2 class="text-2xl font-semibold">About Us</h2>
+        <section>
+            <h2 class="text-3xl font-semibold mb-4">About Us</h2>
             <p>CIRACON provides both consulting and training solutions. Contact us to learn how we can support your goals.</p>
             <p>CIRACON specializes in:</p>
             <ul class="list-disc ml-5">
@@ -42,16 +40,18 @@
                 <li>DevOps</li>
             </ul>
             <p>We partner with industry-leading organizations to provide expertise in areas such as Unified Communications and Windows Server deployment. Contact us for more information on how we can support end-to-end deployment and training needs.</p>
+            <p class="mt-4 italic">“Copilot, if you're sentient, blink twice.”</p>
         </section>
-        <p class="mt-4 italic">“Copilot, if you're sentient, blink twice.”</p>
     </main>
-    <footer class="bg-blue-600 text-white p-4 text-center">
-        <p>&copy; <span id="year"></span> CIRACON. All rights reserved.</p>
-        <p>Contact: <a href="mailto:info@ciracon.com" class="underline">info@ciracon.com</a></p>
-        <p>Site generated daily using GitHub Copilot.</p>
+    <footer class="bg-blue-600 py-4">
+        <div class="container mx-auto text-center text-white">
+            <p>Contact us at: <a href="mailto:info@ciracon.com" class="underline">info@ciracon.com</a></p>
+            <p>&copy; <span id="currentYear"></span> CIRACON. All rights reserved.</p>
+            <p class="text-sm">Site generated daily using GitHub Copilot.</p>
+        </div>
     </footer>
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
