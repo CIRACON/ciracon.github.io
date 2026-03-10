@@ -81,6 +81,22 @@
           <h3>AI Governance & Evaluation</h3>
           <p>Guardrails, evaluation frameworks, and compliance controls that ensure AI systems are safe, auditable, and aligned with organizational policies.</p>
         </div>
+
+        <div class="card reveal">
+          <div class="card-icon" style="background: rgba(16,185,129,0.1); color: #10B981;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><path d="M12 5v14"/><circle cx="12" cy="5" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+          </div>
+          <h3>MCP Servers & Tool Integration</h3>
+          <p>Model Context Protocol servers that give AI models secure, structured access to enterprise tools, databases, APIs, and internal systems—turning LLMs into capable operators.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon" style="background: rgba(168,85,247,0.1); color: #A855F7;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z"/><path d="M17 14v3h-3M17 17l-4-4"/></svg>
+          </div>
+          <h3>AI Agents & Orchestration</h3>
+          <p>Autonomous multi-step AI workflows that plan, reason, and execute across systems—task orchestration, tool chaining, and human-in-the-loop controls for complex operations.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -99,40 +115,41 @@
           <div class="arch-layer" data-color="blue">
             <span class="arch-layer-label">Applications</span>
             <div class="arch-layer-items">
-              <span data-tip="Domain-specific AI assistants">Copilots</span>
-              <span data-tip="Customer-facing AI chat interfaces">Chat UIs</span>
-              <span data-tip="Programmatic LLM access">APIs</span>
-              <span data-tip="Workflow triggers and automation">Agents</span>
+              <span data-tip="Domain-specific AI assistants"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Copilots</span>
+              <span data-tip="Customer-facing AI chat interfaces"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Chat UIs</span>
+              <span data-tip="Programmatic LLM access"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>APIs</span>
+              <span data-tip="Autonomous multi-step workflows"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M12 12v4M8 20h8"/></svg>Agents</span>
             </div>
           </div>
           <div class="arch-connector"></div>
           <div class="arch-layer" data-color="teal">
             <span class="arch-layer-label">AI Platform</span>
             <div class="arch-layer-items">
-              <span data-tip="Prompt versioning and A/B testing">Prompt Management</span>
-              <span data-tip="Model deployment and scaling">Model Serving</span>
-              <span data-tip="Quality and safety evaluation">Eval Pipelines</span>
-              <span data-tip="Safety filters and policy enforcement">Guardrails</span>
+              <span data-tip="Prompt versioning and A/B testing"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4v14a2 2 0 002 2h12a2 2 0 002-2v-5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Prompt Management</span>
+              <span data-tip="Model deployment and scaling"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>Model Serving</span>
+              <span data-tip="Quality and safety evaluation"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Eval Pipelines</span>
+              <span data-tip="Secure tool access via Model Context Protocol"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><path d="M12 5v14"/><circle cx="12" cy="5" r="2"/><circle cx="12" cy="19" r="2"/></svg>MCP Servers</span>
+              <span data-tip="Safety filters and policy enforcement"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Guardrails</span>
             </div>
           </div>
           <div class="arch-connector"></div>
           <div class="arch-layer" data-color="purple">
             <span class="arch-layer-label">Knowledge</span>
             <div class="arch-layer-items">
-              <span data-tip="High-dimensional similarity search">Vector Store</span>
-              <span data-tip="Document processing pipelines">Indexing</span>
-              <span data-tip="Context ranking and selection">Retrieval</span>
-              <span data-tip="Document chunking strategies">Embeddings</span>
+              <span data-tip="High-dimensional similarity search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Vector Store</span>
+              <span data-tip="Document processing pipelines"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Indexing</span>
+              <span data-tip="Context ranking and selection"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Retrieval</span>
+              <span data-tip="Document chunking strategies"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>Embeddings</span>
             </div>
           </div>
           <div class="arch-connector"></div>
           <div class="arch-layer" data-color="amber">
             <span class="arch-layer-label">Infrastructure</span>
             <div class="arch-layer-items">
-              <span data-tip="Kubernetes-based container orchestration">K8s</span>
-              <span data-tip="Metrics, logs, and traces">Observability</span>
-              <span data-tip="Role-based access and secrets">Security</span>
-              <span data-tip="Terraform/Pulumi automation">IaC</span>
+              <span data-tip="Kubernetes-based container orchestration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>K8s</span>
+              <span data-tip="Metrics, logs, and traces"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Observability</span>
+              <span data-tip="Role-based access and secrets"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Security</span>
+              <span data-tip="Terraform/Pulumi automation"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>IaC</span>
             </div>
           </div>
         </div>

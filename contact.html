@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Ld5U4UsAAAAAAEZFfvgKsBnEeTmI22psxSOiLcYi"></script>
 </head>
 <body>
 
@@ -53,6 +54,7 @@
           <!-- StaticForms: action posts to staticforms.xyz, JS enhances with async submit -->
           <form id="contact-form" action="https://api.staticforms.xyz/submit" method="POST">
             <input type="hidden" name="accessKey" value="sf_d3b18bjii0l3lajbk9m209j9">
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
             <!-- Honeypot: hidden spam protection field -->
             <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
@@ -120,7 +122,7 @@
             <!-- Form error message (shown on failure) -->
             <div id="form-error" class="form-message form-message-error" hidden>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-              <span>Something went wrong. Please try again or email <a href="mailto:ola@ciracon.com">ola@ciracon.com</a> directly.</span>
+              <span>Something went wrong. Please try again or email <a href="mailto:info@ciracon.com">info@ciracon.com</a> directly.</span>
             </div>
 
             <button type="submit" id="submit-btn" class="btn btn-primary" style="margin-top: var(--space-sm);">
@@ -140,7 +142,7 @@
             </div>
             <h3>Thank you — your message has been sent.</h3>
             <p>We'll review your inquiry and get back to you soon.</p>
-            <p class="form-success-secondary">For urgent requests, email <a href="mailto:ola@ciracon.com">ola@ciracon.com</a> directly.</p>
+            <p class="form-success-secondary">For urgent requests, email <a href="mailto:info@ciracon.com">info@ciracon.com</a> directly.</p>
           </div>
         </div>
 
@@ -151,7 +153,7 @@
 
             <div style="margin-bottom: var(--space-2xl);">
               <div class="eyebrow eyebrow-accent" style="margin-bottom: var(--space-sm);"><span class="eyebrow-dot"></span> Email</div>
-              <a href="mailto:ola@ciracon.com" style="color: var(--text-light); font-size: 1.125rem; font-weight: 500;">ola@ciracon.com</a>
+              <a href="mailto:info@ciracon.com" style="color: var(--text-light); font-size: 1.125rem; font-weight: 500;">info@ciracon.com</a>
             </div>
 
             <div style="margin-bottom: var(--space-2xl);">
@@ -210,7 +212,7 @@
       <div>
         <h4>Connect</h4>
         <div class="footer-links">
-          <a href="mailto:ola@ciracon.com">ola@ciracon.com</a>
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
           <a href="contact.html">Schedule a Consultation</a>
         </div>
       </div>

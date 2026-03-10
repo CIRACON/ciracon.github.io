@@ -137,12 +137,21 @@ document.addEventListener('DOMContentLoaded', function () {
       if (btnLoading) btnLoading.hidden = false;
       if (formError) formError.hidden = true;
 
-      var formData = new FormData(contactForm);
+      // Get reCAPTCHA v3 token before submitting
+      grecaptcha.ready(function () {
+        grecaptcha.execute('6Ld5U4UsAAAAAAEZFfvgKsBnEeTmI22psxSOiLcYi', { action: 'submit' }).then(function (token) {
+          var recaptchaField = document.getElementById('g-recaptcha-response');
+          if (recaptchaField) recaptchaField.value = token;
 
-      fetch(contactForm.action, {
-        method: 'POST',
-        body: formData
-      })
+          var formData = new FormData(contactForm);
+          var jsonBody = {};
+          formData.forEach(function (value, key) { jsonBody[key] = value; });
+
+          fetch(contactForm.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(jsonBody)
+          })
       .then(function (response) {
         if (response.ok || response.status === 200) {
           // Success: hide form, show thank-you panel
@@ -161,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (btnText) btnText.hidden = false;
         if (btnLoading) btnLoading.hidden = true;
       });
+        }); // end grecaptcha.execute
+      }); // end grecaptcha.ready
     });
   }
 
