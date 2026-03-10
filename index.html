@@ -3,1026 +3,386 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ciracon | AI Consulting, DevOps & Platform Engineering, Cloud Automation</title>
-  <meta name="description" content="Ciracon is a technology consulting firm specializing in enterprise AI platforms, DevOps transformation, Kubernetes platform engineering, and cloud-native automation. We move organizations from experimentation to production.">
-  <meta name="keywords" content="AI consulting, DevOps consulting, Kubernetes platform engineering, enterprise AI platforms, cloud automation, AI engineering services, RAG, platform engineering, infrastructure as code, CI/CD automation">
+  <title>Ciracon | AI Engineering, DevOps & Cloud Automation Consulting</title>
+  <meta name="description" content="Ciracon designs and builds production-grade AI platforms, DevOps automation systems, and cloud-native infrastructure. Engineering-first consulting for enterprises moving from experimentation to production.">
+  <meta name="keywords" content="AI consulting, AI engineering services, enterprise AI platforms, DevOps consulting, Kubernetes consulting, cloud automation, Infrastructure as Code consulting, RAG consulting, platform engineering">
   <link rel="canonical" href="https://www.ciracon.com/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --black: #0a0a0a;
-      --gray-900: #111111;
-      --gray-800: #1a1a1a;
-      --gray-700: #2a2a2a;
-      --gray-600: #3a3a3a;
-      --gray-500: #6a6a6a;
-      --gray-400: #8a8a8a;
-      --gray-300: #aaaaaa;
-      --gray-200: #cccccc;
-      --gray-100: #e5e5e5;
-      --white: #f0f0f0;
-
-      /* Accent colors */
-      --blue: #4a9eff;
-      --cyan: #22d3ee;
-      --violet: #a78bfa;
-      --amber: #f59e0b;
-
-      --bg: var(--black);
-      --text: var(--white);
-      --text-dim: var(--gray-400);
-      --text-muted: var(--gray-500);
-      --border: var(--gray-700);
-      --surface: var(--gray-900);
-
-      --font-mono: 'IBM Plex Mono', monospace;
-      --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
-
-      --space-xs: 0.5rem;
-      --space-sm: 1rem;
-      --space-md: 1.5rem;
-      --space-lg: 3rem;
-      --space-xl: 6rem;
-      --space-2xl: 8rem;
-
-      --transition: 300ms ease;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-sans); font-size: 16px; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
-    a { color: inherit; text-decoration: none; }
-
-    /* ── Nav ── */
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: var(--space-md) var(--space-lg); background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-    .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-family: var(--font-mono); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
-    .logo span { color: var(--blue); }
-    .nav-links { display: flex; gap: var(--space-lg); align-items: center; }
-    .nav-links a { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); transition: color var(--transition); letter-spacing: 0.05em; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta { padding: 0.75rem 1.5rem; border: 1px solid var(--blue); color: var(--blue) !important; transition: all var(--transition); }
-    .nav-cta:hover { background: var(--blue); color: var(--bg) !important; }
-    .nav-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 0.5rem; }
-    .nav-toggle svg { display: block; }
-
-    /* ── Hero ── */
-    .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .hero-bg { position: absolute; inset: 0; z-index: 0; }
-    .grid-overlay { position: absolute; inset: 0; background-image: linear-gradient(var(--gray-800) 1px, transparent 1px), linear-gradient(90deg, var(--gray-800) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.4; }
-
-    /* Animated node network */
-    .hero-nodes { position: absolute; inset: 0; overflow: hidden; }
-    .hero-node { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); opacity: 0.3; animation: nodeFloat 8s ease-in-out infinite; }
-    .hero-node::after { content: ''; position: absolute; top: 50%; left: 50%; width: 120px; height: 1px; background: linear-gradient(90deg, rgba(74,158,255,0.2), transparent); transform-origin: left center; }
-    .hero-node:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
-    .hero-node:nth-child(1)::after { transform: rotate(25deg); }
-    .hero-node:nth-child(2) { top: 25%; right: 15%; animation-delay: -2s; opacity: 0.2; }
-    .hero-node:nth-child(2)::after { transform: rotate(160deg); }
-    .hero-node:nth-child(3) { bottom: 30%; left: 20%; animation-delay: -4s; }
-    .hero-node:nth-child(3)::after { transform: rotate(-30deg); width: 80px; }
-    .hero-node:nth-child(4) { bottom: 20%; right: 25%; animation-delay: -1s; opacity: 0.15; }
-    .hero-node:nth-child(4)::after { transform: rotate(200deg); }
-    .hero-node:nth-child(5) { top: 50%; left: 5%; animation-delay: -3s; opacity: 0.25; }
-    .hero-node:nth-child(5)::after { transform: rotate(10deg); width: 150px; }
-    .hero-node:nth-child(6) { top: 40%; right: 8%; animation-delay: -5s; }
-    .hero-node:nth-child(6)::after { transform: rotate(170deg); width: 100px; }
-    @keyframes nodeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-    .hero-content { position: relative; z-index: 10; text-align: center; width: 90%; max-width: 900px; }
-    .hero-tag { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--blue); margin-bottom: var(--space-lg); display: flex; align-items: center; justify-content: center; gap: var(--space-sm); }
-    .hero-tag::before, .hero-tag::after { content: ''; width: 30px; height: 1px; background: var(--blue); opacity: 0.4; }
-    .hero-title { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: var(--space-md); }
-    .hero-title strong { font-weight: 600; }
-    .hero-sub { font-size: 1.125rem; color: var(--text-dim); margin-bottom: var(--space-lg); font-weight: 300; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.8; }
-    .hero-keywords { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: var(--space-xl); }
-    .hero-keywords span { font-family: var(--font-mono); font-size: 0.6875rem; padding: 0.4rem 0.8rem; border: 1px solid var(--gray-600); color: var(--text-muted); letter-spacing: 0.05em; transition: all var(--transition); }
-    .hero-keywords span:hover { border-color: var(--blue); color: var(--blue); }
-    .hero-cta { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: var(--blue); color: var(--bg); font-family: var(--font-mono); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: all var(--transition); }
-    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(74,158,255,0.2); }
-    .hero-cta svg { transition: transform var(--transition); }
-    .hero-cta:hover svg { transform: translate(3px, -3px); }
-    .hero-experience { margin-top: var(--space-lg); font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; }
-    .hero-experience strong { color: var(--text-dim); font-weight: 500; }
-
-    /* ── Main ── */
-    .main-content { position: relative; background: var(--bg); z-index: 20; }
-
-    /* ── Section ── */
-    .section { padding: var(--space-2xl) var(--space-lg); max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border); }
-    .section-full { padding: var(--space-2xl) var(--space-lg); border-top: 1px solid var(--border); }
-    .section-full-inner { max-width: 1200px; margin: 0 auto; }
-    .section-header { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-md); margin-bottom: var(--space-xl); }
-    .section-num { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--blue); }
-    .section-line { height: 1px; background: var(--border); }
-    .section-title { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
-    .statement { max-width: 800px; }
-    .statement-text { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 300; line-height: 1.5; letter-spacing: -0.01em; margin-bottom: var(--space-lg); }
-    .statement-text strong { font-weight: 500; color: var(--text); }
-    .statement-sub { color: var(--text-dim); font-size: 1rem; line-height: 1.8; max-width: 600px; }
-
-    /* ── About visual: Journey diagram ── */
-    .journey-diagram { display: flex; align-items: center; justify-content: center; gap: 0; margin-top: var(--space-xl); padding: var(--space-lg) 0; position: relative; }
-    .journey-node { text-align: center; flex: 1; position: relative; z-index: 2; }
-    .journey-icon { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--gray-600); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-sm); background: var(--bg); transition: all 0.4s ease; }
-    .journey-node:hover .journey-icon { border-color: var(--blue); box-shadow: 0 0 20px rgba(74,158,255,0.15); }
-    .journey-icon svg { opacity: 0.6; transition: opacity 0.3s; }
-    .journey-node:hover .journey-icon svg { opacity: 1; }
-    .journey-label { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
-    .journey-node:hover .journey-label { color: var(--text); }
-    .journey-connector { width: 80px; height: 2px; background: linear-gradient(90deg, var(--gray-600), var(--blue), var(--gray-600)); opacity: 0.3; flex-shrink: 0; position: relative; top: -16px; }
-
-    /* ── Service cards (4-col) ── */
-    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); margin-top: var(--space-xl); }
-    .service-card { background: var(--bg); padding: var(--space-lg); transition: all var(--transition); position: relative; overflow: hidden; }
-    .service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; transition: height 0.4s ease; }
-    .service-card:nth-child(1)::before { background: var(--blue); }
-    .service-card:nth-child(2)::before { background: var(--cyan); }
-    .service-card:nth-child(3)::before { background: var(--violet); }
-    .service-card:nth-child(4)::before { background: var(--amber); }
-    .service-card:hover { background: var(--surface); }
-    .service-card:hover::before { height: 100%; }
-    .service-icon { width: 48px; height: 48px; margin-bottom: var(--space-md); display: flex; align-items: center; justify-content: center; border: 1px solid var(--gray-600); border-radius: 8px; transition: all var(--transition); }
-    .service-card:nth-child(1) .service-icon { color: var(--blue); }
-    .service-card:nth-child(2) .service-icon { color: var(--cyan); }
-    .service-card:nth-child(3) .service-icon { color: var(--violet); }
-    .service-card:nth-child(4) .service-icon { color: var(--amber); }
-    .service-card:hover .service-icon { border-color: currentColor; background: rgba(255,255,255,0.03); }
-    .service-card h3 { font-size: 1.25rem; font-weight: 500; margin-bottom: var(--space-sm); letter-spacing: -0.01em; }
-    .service-card p { color: var(--text-dim); font-size: 0.9375rem; line-height: 1.7; font-weight: 300; }
-    .service-card .service-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-top: var(--space-md); }
-    .service-card .service-tags span { font-family: var(--font-mono); font-size: 0.625rem; padding: 0.25rem 0.5rem; border: 1px solid var(--border); color: var(--text-muted); }
-
-    /* ── Architecture diagram (AI) ── */
-    .arch-diagram { background: var(--surface); border: 1px solid var(--border); padding: var(--space-lg) var(--space-lg) var(--space-md); margin-top: var(--space-lg); position: relative; overflow: visible; }
-    .arch-layers { display: flex; flex-direction: column; gap: 0; max-width: 700px; margin: 0 auto; }
-    .arch-layer { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md) var(--space-lg); background: var(--bg); border: 1px solid var(--border); transition: all 0.4s ease; cursor: default; position: relative; }
-    .arch-layer:hover { border-color: var(--blue); background: rgba(74,158,255,0.03); box-shadow: 0 0 20px rgba(74,158,255,0.06); }
-    .arch-layer:nth-child(1):hover { border-color: var(--blue); background: rgba(74,158,255,0.03); box-shadow: 0 0 20px rgba(74,158,255,0.06); }
-    .arch-layer:nth-child(3):hover { border-color: var(--cyan); background: rgba(34,211,238,0.03); box-shadow: 0 0 20px rgba(34,211,238,0.06); }
-    .arch-layer:nth-child(5):hover { border-color: var(--violet); background: rgba(167,139,250,0.03); box-shadow: 0 0 20px rgba(167,139,250,0.06); }
-    .arch-layer:nth-child(7):hover { border-color: var(--amber); background: rgba(245,158,11,0.03); box-shadow: 0 0 20px rgba(245,158,11,0.06); }
-    .arch-layer-num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 500; opacity: 0.08; flex-shrink: 0; width: 36px; text-align: center; transition: opacity 0.3s; }
-    .arch-layer:hover .arch-layer-num { opacity: 0.2; }
-    .arch-layer-label { font-family: var(--font-mono); font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); width: 100px; flex-shrink: 0; transition: color 0.3s; }
-    .arch-layer:hover .arch-layer-label { color: var(--text-dim); }
-    .arch-layer-items { display: flex; flex-wrap: wrap; gap: 0.375rem; flex: 1; }
-    .arch-layer-items span { font-size: 0.75rem; padding: 0.3rem 0.625rem; background: var(--gray-800); color: var(--text-dim); border-radius: 2px; position: relative; transition: all 0.3s ease; cursor: default; }
-    .arch-layer-items span:hover { background: var(--gray-700); color: var(--text); transform: translateY(-1px); }
-    .arch-layer-items span[data-tip]::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) scale(0.95); font-family: var(--font-sans); font-size: 0.6875rem; line-height: 1.5; color: var(--text); background: var(--gray-700); border: 1px solid var(--gray-600); padding: 0.5rem 0.75rem; border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 10; }
-    .arch-layer-items span[data-tip]:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
-    .arch-layer-items span[data-tip]::before { content: ''; position: absolute; bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--gray-600); opacity: 0; transition: opacity 0.2s ease; z-index: 10; }
-    .arch-layer-items span[data-tip]:hover::before { opacity: 1; }
-    .arch-layer:nth-child(1) .arch-layer-items span { border-left: 2px solid var(--blue); }
-    .arch-layer:nth-child(3) .arch-layer-items span { border-left: 2px solid var(--cyan); }
-    .arch-layer:nth-child(5) .arch-layer-items span { border-left: 2px solid var(--violet); }
-    .arch-layer:nth-child(7) .arch-layer-items span { border-left: 2px solid var(--amber); }
-    .arch-connector { display: flex; align-items: center; justify-content: center; height: 28px; position: relative; }
-    .arch-connector::before { content: ''; width: 1px; height: 100%; background: linear-gradient(to bottom, var(--gray-600), var(--gray-500)); position: absolute; left: 50%; }
-    .arch-connector .arch-flow-label { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); background: var(--surface); padding: 0 0.5rem; position: relative; z-index: 1; opacity: 0.5; }
-    .arch-connector-arrows { display: flex; gap: 2px; align-items: center; position: absolute; left: calc(50% + 10px); color: var(--gray-500); font-size: 0.5rem; animation: flowDown 2s ease-in-out infinite; }
-    @keyframes flowDown { 0%, 100% { opacity: 0.2; transform: translateY(-3px); } 50% { opacity: 0.6; transform: translateY(3px); } }
-    .arch-title { font-family: var(--font-mono); font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: var(--space-md); text-align: center; }
-    .arch-legend { display: flex; justify-content: center; gap: var(--space-lg); margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--border); }
-    .arch-legend-item { display: flex; align-items: center; gap: 0.375rem; font-family: var(--font-mono); font-size: 0.5625rem; color: var(--text-muted); letter-spacing: 0.05em; }
-    .arch-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .arch-legend-dot.blue { background: var(--blue); }
-    .arch-legend-dot.cyan { background: var(--cyan); }
-    .arch-legend-dot.violet { background: var(--violet); }
-    .arch-legend-dot.amber { background: var(--amber); }
-
-    /* ── Pipeline diagram (DevOps) ── */
-    .pipeline-diagram { background: var(--surface); border: 1px solid var(--border); padding: var(--space-lg); margin-top: var(--space-lg); }
-    .pipeline-title { font-family: var(--font-mono); font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: var(--space-md); text-align: center; }
-    .pipeline-flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
-    .pipeline-stage { text-align: center; padding: var(--space-sm) var(--space-md); border: 1px solid var(--border); background: var(--bg); position: relative; transition: all 0.3s ease; cursor: default; min-width: 100px; }
-    .pipeline-stage:hover { border-color: var(--cyan); background: rgba(34,211,238,0.03); }
-    .pipeline-stage-icon { font-size: 1.25rem; margin-bottom: 0.25rem; }
-    .pipeline-stage-label { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-dim); }
-    .pipeline-arrow { color: var(--cyan); font-family: var(--font-mono); font-size: 1rem; padding: 0 0.25rem; opacity: 0.4; }
-    .pipeline-feedback { display: flex; align-items: center; justify-content: center; margin-top: var(--space-sm); gap: var(--space-xs); }
-    .pipeline-feedback-line { height: 1px; flex: 1; max-width: 200px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.2; }
-    .pipeline-feedback-label { font-family: var(--font-mono); font-size: 0.5625rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
-
-    /* ── Service detail ── */
-    .service-detail { margin-bottom: var(--space-2xl); }
-    .service-detail:last-child { margin-bottom: 0; }
-    .sd-header { display: flex; align-items: baseline; gap: var(--space-md); margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border); }
-    .sd-num { font-family: var(--font-mono); font-size: 0.625rem; flex-shrink: 0; }
-    .sd-num.c1 { color: var(--blue); }
-    .sd-num.c2 { color: var(--cyan); }
-    .sd-num.c3 { color: var(--violet); }
-    .sd-num.c4 { color: var(--amber); }
-    .sd-title { font-size: 1.75rem; font-weight: 500; letter-spacing: -0.01em; }
-    .sd-body { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
-    .sd-overview p { color: var(--text-dim); line-height: 1.8; margin-bottom: var(--space-md); font-size: 0.9375rem; }
-    .sd-overview p:first-child { font-size: 1.0625rem; color: var(--text); font-weight: 300; }
-    .sd-sidebar { min-width: 0; }
-    .sd-label { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-sm); }
-    .sd-caps { list-style: none; margin-bottom: var(--space-lg); }
-    .sd-caps li { padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.75rem; }
-    .sd-caps li::before { content: ''; width: 4px; height: 4px; flex-shrink: 0; }
-    .sd-caps.c1 li::before { background: var(--blue); }
-    .sd-caps.c2 li::before { background: var(--cyan); }
-    .sd-caps.c3 li::before { background: var(--violet); }
-    .sd-caps.c4 li::before { background: var(--amber); }
-    .sd-outcome { background: var(--surface); padding: var(--space-md); }
-    .sd-outcome.c1 { border-left: 2px solid var(--blue); }
-    .sd-outcome.c2 { border-left: 2px solid var(--cyan); }
-    .sd-outcome.c3 { border-left: 2px solid var(--violet); }
-    .sd-outcome.c4 { border-left: 2px solid var(--amber); }
-    .sd-outcome p { font-size: 0.9375rem; color: var(--text-dim); line-height: 1.7; }
-    .sd-outcome strong { color: var(--text); font-weight: 500; }
-
-    /* ── Approach (4-col visual) ── */
-    .approach-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
-    .approach-item { background: var(--bg); padding: var(--space-lg) var(--space-md); transition: background var(--transition); position: relative; }
-    .approach-item:hover { background: var(--surface); }
-    .approach-icon { width: 40px; height: 40px; margin-bottom: var(--space-md); display: flex; align-items: center; justify-content: center; }
-    .approach-item:nth-child(1) .approach-icon { color: var(--blue); }
-    .approach-item:nth-child(2) .approach-icon { color: var(--cyan); }
-    .approach-item:nth-child(3) .approach-icon { color: var(--violet); }
-    .approach-item:nth-child(4) .approach-icon { color: var(--amber); }
-    .approach-num { font-family: var(--font-mono); font-size: 0.625rem; color: var(--text-muted); display: block; margin-bottom: var(--space-sm); }
-    .approach-item h3 { font-size: 1rem; font-weight: 500; margin-bottom: var(--space-xs); line-height: 1.3; }
-    .approach-item p { color: var(--text-dim); font-size: 0.8125rem; line-height: 1.7; }
-
-    /* ── Engagements (with visual outcomes) ── */
-    .engagement { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); margin-bottom: var(--space-xl); padding-bottom: var(--space-xl); border-bottom: 1px solid var(--border); }
-    .engagement:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .eng-title { font-size: 1.375rem; font-weight: 500; margin-bottom: var(--space-md); line-height: 1.3; }
-    .eng-desc p { color: var(--text-dim); line-height: 1.8; font-size: 0.9375rem; margin-bottom: var(--space-md); }
-    .eng-details { list-style: none; }
-    .eng-details li { padding: 0.5rem 0; font-size: 0.875rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.75rem; }
-    .eng-details li::before { content: ''; width: 4px; height: 4px; background: var(--blue); flex-shrink: 0; }
-    .eng-outcome { background: var(--surface); padding: var(--space-lg); display: flex; flex-direction: column; justify-content: center; border-left: 2px solid var(--blue); }
-    .eng-outcome-label { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: var(--space-sm); }
-    .eng-outcome p { font-size: 1rem; color: var(--text); line-height: 1.7; font-weight: 300; }
-    .eng-metric { display: flex; align-items: baseline; gap: var(--space-xs); margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--border); }
-    .eng-metric-value { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 500; color: var(--blue); }
-    .eng-metric-label { font-size: 0.75rem; color: var(--text-muted); }
-
-    /* ── Solutions ── */
-    .solutions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-top: var(--space-lg); }
-    .solution-card { border: 1px solid var(--border); padding: var(--space-lg); transition: all var(--transition); display: block; }
-    .solution-card:hover { border-color: var(--blue); background: var(--surface); }
-    .solution-card h3 { font-size: 1.125rem; font-weight: 500; margin-bottom: var(--space-xs); display: flex; align-items: center; gap: 0.5rem; }
-    .solution-card h3 svg { color: var(--blue); opacity: 0.4; transition: opacity var(--transition); }
-    .solution-card:hover h3 svg { opacity: 1; }
-    .solution-card p { color: var(--text-dim); font-size: 0.875rem; line-height: 1.7; }
-
-    /* ── Clients ── */
-    .clients-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
-    .client-card { background: var(--bg); padding: var(--space-lg); transition: background var(--transition); }
-    .client-card:hover { background: var(--surface); }
-    .client-icon { color: var(--blue); margin-bottom: var(--space-sm); opacity: 0.6; }
-    .client-card:hover .client-icon { opacity: 1; }
-    .client-card h3 { font-size: 1rem; font-weight: 500; margin-bottom: var(--space-xs); }
-    .client-card p { color: var(--text-dim); font-size: 0.8125rem; line-height: 1.7; }
-
-    /* ── CTA ── */
-    .cta-section { text-align: center; padding: var(--space-2xl) var(--space-lg); border-top: 1px solid var(--border); }
-    .cta-section h2 { font-size: 2rem; font-weight: 300; margin-bottom: var(--space-sm); }
-    .cta-section > p { color: var(--text-dim); margin-bottom: var(--space-lg); max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7; }
-    .cta-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: var(--blue); color: var(--bg); font-family: var(--font-mono); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: all var(--transition); }
-    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(74,158,255,0.2); }
-    .cta-areas { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: var(--space-lg); }
-    .cta-areas span { font-family: var(--font-mono); font-size: 0.6875rem; padding: 0.4rem 0.8rem; border: 1px solid var(--border); color: var(--text-muted); transition: all var(--transition); }
-    .cta-areas span:hover { border-color: var(--blue); color: var(--blue); }
-    .cta-email { font-family: var(--font-mono); font-size: 0.875rem; color: var(--text-dim); margin-top: var(--space-md); display: block; }
-
-    /* ── Footer ── */
-    .footer { border-top: 1px solid var(--border); padding: var(--space-lg); }
-    .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .footer-logo { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.1em; font-size: 0.75rem; text-transform: uppercase; }
-    .footer-copy { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-muted); }
-
-    /* ── Scroll reveal ── */
-    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ── Responsive ── */
-    @media (max-width: 1024px) {
-      .approach-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 900px) {
-      .services-grid { grid-template-columns: 1fr; }
-      .sd-body { grid-template-columns: 1fr; }
-      .engagement { grid-template-columns: 1fr; }
-      .clients-grid { grid-template-columns: 1fr; }
-      .solutions-grid { grid-template-columns: 1fr; }
-      .journey-diagram { flex-wrap: wrap; gap: var(--space-md); }
-      .journey-connector { display: none; }
-      .pipeline-flow { flex-wrap: wrap; justify-content: center; }
-    }
-    @media (max-width: 768px) {
-      .arch-layer { flex-direction: column; align-items: flex-start; }
-      .arch-layer-label { width: auto; }
-      .arch-layer-num { display: none; }
-      .arch-layer-items span[data-tip]::after { white-space: normal; width: 180px; }
-    }
-    @media (max-width: 640px) {
-      .nav { padding: var(--space-sm) var(--space-md); }
-      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(10,10,10,0.98); border-bottom: 1px solid var(--border); padding: var(--space-md); gap: var(--space-md); }
-      .nav-links.open { display: flex; }
-      .nav-links a { display: block; }
-      .nav-toggle { display: block; }
-      .section, .section-full { padding: var(--space-xl) var(--space-md); }
-      .footer-inner { flex-direction: column; gap: var(--space-sm); text-align: center; }
-      .approach-grid { grid-template-columns: 1fr; }
-      .hero-keywords { gap: 0.375rem; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
+  <!-- ═══════ Navigation ═══════ -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="#" class="logo"><span>C</span>ira<span>c</span>on</a>
-      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#approach">Approach</a>
-        <a href="#engagements">Work</a>
-        <a href="mailto:info@ciracon.com" class="nav-cta">Start a Project</a>
+        <a href="index.html" class="active">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html" class="nav-cta">Schedule a Consultation</a>
       </div>
     </div>
   </nav>
 
-  <!-- ═══════ HERO ═══════ -->
-  <section class="hero">
+  <!-- ═══════ Hero ═══════ -->
+  <section class="hero section-dark">
     <div class="hero-bg">
       <div class="grid-overlay"></div>
-      <div class="hero-nodes">
-        <div class="hero-node"></div>
-        <div class="hero-node"></div>
-        <div class="hero-node"></div>
-        <div class="hero-node"></div>
-        <div class="hero-node"></div>
-        <div class="hero-node"></div>
-      </div>
+      <div class="hero-gradient hero-gradient-1"></div>
+      <div class="hero-gradient hero-gradient-2"></div>
     </div>
-
-    <div class="hero-content">
-      <p class="hero-tag">AI Engineering · DevOps · Cloud</p>
-      <h1 class="hero-title">
-        From experimentation<br>to <strong>production AI</strong>
-      </h1>
-      <p class="hero-sub">
-        We design, build, and operationalize enterprise AI platforms,
-        DevOps automation systems, and cloud-native infrastructure.
-        Practical engineering that delivers measurable outcomes.
-      </p>
-      <div class="hero-keywords">
-        <span>AI Platforms</span>
-        <span>DevOps</span>
-        <span>Kubernetes</span>
-        <span>Cloud Automation</span>
-        <span>RAG Systems</span>
+    <div class="container">
+      <div class="hero-content">
+        <div class="eyebrow eyebrow-accent reveal">
+          <span class="eyebrow-dot"></span>
+          AI Engineering · DevOps · Cloud
+        </div>
+        <h1 class="hero-title reveal reveal-delay-1">
+          AI Platforms. DevOps&nbsp;Automation. Cloud&nbsp;Architecture.
+        </h1>
+        <p class="hero-sub reveal reveal-delay-2">
+          Ciracon helps organizations design and build production&#8209;grade AI and engineering platforms. From experimentation to systems that scale.
+        </p>
+        <div class="btn-group reveal reveal-delay-3">
+          <a href="contact.html" class="btn btn-primary">
+            Schedule a Consultation
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="services.html" class="btn btn-secondary">View Services</a>
+        </div>
+        <div class="hero-meta reveal reveal-delay-4">
+          <div class="hero-meta-item">
+            <strong>25+</strong> Years Engineering
+          </div>
+          <div class="hero-meta-item">
+            <strong>AI</strong> Production Systems
+          </div>
+          <div class="hero-meta-item">
+            <strong>K8s</strong> Platform Engineering
+          </div>
+          <div class="hero-meta-item">
+            <strong>IaC</strong> Automation First
+          </div>
+        </div>
       </div>
-      <a href="#services" class="hero-cta">
-        Explore Our Services
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-      </a>
-      <p class="hero-experience"><strong>25+ years</strong> of engineering across AI, cloud, and enterprise systems</p>
     </div>
   </section>
 
-  <main class="main-content">
-
-    <!-- ═══════ ABOUT ═══════ -->
-    <section id="about" class="section">
+  <!-- ═══════ Services Overview ═══════ -->
+  <section class="section section-darker">
+    <div class="container">
       <div class="section-header reveal">
-        <span class="section-num">01</span>
-        <div class="section-line"></div>
-        <h2 class="section-title">About Ciracon</h2>
+        <div class="eyebrow eyebrow-accent"><span class="eyebrow-dot"></span> What We Do</div>
+        <h2>Engineering systems that<br>work in production</h2>
+        <p class="lead text-secondary-dark">Three core practice areas. One mission: moving organizations from experimentation to production-grade platforms.</p>
       </div>
 
-      <div class="statement reveal reveal-delay-1">
-        <p class="statement-text">
-          We help organizations move from <strong>AI experimentation to production systems</strong>—building platforms that scale, automating infrastructure that holds, and engineering solutions that <strong>deliver real business outcomes</strong>.
-        </p>
-        <p class="statement-sub">
-          Ciracon is a technology consulting firm built by engineers who have spent over 25 years designing and operating AI, DevOps, and cloud-native systems across enterprise environments.
-        </p>
-      </div>
-
-      <!-- Journey diagram -->
-      <div class="journey-diagram reveal reveal-delay-2">
-        <div class="journey-node">
-          <div class="journey-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4m-7.07-15.07l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
-          </div>
-          <span class="journey-label">Discover</span>
-        </div>
-        <div class="journey-connector"></div>
-        <div class="journey-node">
-          <div class="journey-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-          </div>
-          <span class="journey-label">Architect</span>
-        </div>
-        <div class="journey-connector"></div>
-        <div class="journey-node">
-          <div class="journey-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v4l-4 2 4 2v4"/><path d="M16 3v4l4 2-4 2v4"/><path d="M12 17v4"/></svg>
-          </div>
-          <span class="journey-label">Build</span>
-        </div>
-        <div class="journey-connector"></div>
-        <div class="journey-node">
-          <div class="journey-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-          <span class="journey-label">Operate</span>
-        </div>
-        <div class="journey-connector"></div>
-        <div class="journey-node">
-          <div class="journey-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-          </div>
-          <span class="journey-label">Scale</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ SERVICES OVERVIEW ═══════ -->
-    <section id="services" class="section">
-      <div class="section-header reveal">
-        <span class="section-num">02</span>
-        <div class="section-line"></div>
-        <h2 class="section-title">Services</h2>
-      </div>
-
-      <div class="statement reveal reveal-delay-1">
-        <p class="statement-text">
-          Four core practice areas. One focus: <strong>engineering systems that work in production</strong>.
-        </p>
-      </div>
-
-      <div class="services-grid">
-        <article class="service-card reveal reveal-delay-1">
-          <div class="service-icon">
+      <div class="grid-3">
+        <!-- AI Engineering -->
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a4 4 0 014 4c0 1.5-.8 2.8-2 3.5v1h-4v-1A4 4 0 0112 2z"/><path d="M10 10.5v2h4v-2"/><path d="M10 14v1a2 2 0 104 0v-1"/><path d="M8 22h8"/><path d="M12 18v4"/></svg>
           </div>
           <h3>AI Engineering</h3>
-          <p>Enterprise AI platforms, RAG systems, copilots, and intelligent automation—built for production, not just demos. We move organizations from AI experimentation to reliable, governed AI systems.</p>
-          <div class="service-tags">
-            <span>GenAI</span><span>RAG</span><span>Copilots</span><span>LLM Integration</span>
-          </div>
-        </article>
+          <p>Enterprise AI platforms, RAG systems, copilots, and intelligent automation—built for production, not just demos.</p>
+          <ul class="feature-list feature-list-dark" style="margin-top: 1rem;">
+            <li>Generative AI platforms</li>
+            <li>RAG & semantic search</li>
+            <li>Enterprise copilots</li>
+            <li>AI governance</li>
+          </ul>
+          <a href="ai-engineering.html" class="card-link">
+            Learn more
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
 
-        <article class="service-card reveal reveal-delay-2">
-          <div class="service-icon">
+        <!-- DevOps -->
+        <div class="card reveal reveal-delay-2">
+          <div class="card-icon" style="background: rgba(20,184,166,0.1); color: var(--accent-secondary);">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="20" r="2"/><path d="M5.5 5.5L9.5 9.5M14.5 9.5l4-4M9.5 14.5l-4 4M14.5 14.5l4 4"/></svg>
           </div>
           <h3>DevOps & Platform Engineering</h3>
-          <p>Kubernetes platforms, CI/CD automation, GitOps workflows, and developer self-service portals that accelerate engineering velocity and operational confidence.</p>
-          <div class="service-tags">
-            <span>Kubernetes</span><span>CI/CD</span><span>GitOps</span><span>Observability</span>
-          </div>
-        </article>
+          <p>Kubernetes platforms, CI/CD automation, GitOps workflows, and developer portals that accelerate engineering velocity.</p>
+          <ul class="feature-list feature-list-dark" style="margin-top: 1rem;">
+            <li>Kubernetes platforms</li>
+            <li>CI/CD & GitOps</li>
+            <li>Observability stacks</li>
+            <li>Developer self-service</li>
+          </ul>
+          <a href="devops-platform-engineering.html" class="card-link">
+            Learn more
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
 
-        <article class="service-card reveal reveal-delay-3">
-          <div class="service-icon">
+        <!-- Cloud -->
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon" style="background: rgba(99,102,241,0.1); color: var(--accent-muted);">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2"/><path d="M22 2L13 11"/><path d="M16 2h6v6"/></svg>
           </div>
-          <h3>Cloud & Infrastructure Automation</h3>
-          <p>Cloud-native architecture on AWS and Azure paired with automation that eliminates manual provisioning, enforces compliance, and optimizes costs across environments.</p>
-          <div class="service-tags">
-            <span>AWS</span><span>Azure</span><span>Terraform</span><span>FinOps</span>
-          </div>
-        </article>
-
-        <article class="service-card reveal reveal-delay-4">
-          <div class="service-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-          </div>
-          <h3>AI Strategy & Advisory</h3>
-          <p>AI opportunity discovery, architecture design, governance frameworks, and implementation roadmaps—advisory grounded in engineering, not just theory.</p>
-          <div class="service-tags">
-            <span>AI Roadmaps</span><span>Governance</span><span>Maturity Assessment</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ═══════ SERVICE DETAILS ═══════ -->
-    <section id="service-details" class="section">
-      <div class="section-header reveal">
-        <span class="section-num">03</span>
-        <div class="section-line"></div>
-        <h2 class="section-title">In Depth</h2>
-      </div>
-
-      <!-- AI Engineering -->
-      <div class="service-detail">
-        <div class="sd-header reveal">
-          <span class="sd-num c1">01</span>
-          <h3 class="sd-title">AI Engineering</h3>
-        </div>
-        <div class="sd-body">
-          <div class="sd-overview reveal reveal-delay-1">
-            <p>Most organizations have experimented with AI. Few have moved from prototype to a reliable, governed production system. That's where we operate.</p>
-            <p>We build enterprise AI platforms that integrate large language models, retrieval augmented generation, and intelligent automation directly into your existing systems and workflows.</p>
-            <p><strong>Problems we solve:</strong> AI prototypes that never reach production. Unstructured data that remains inaccessible. Manual processes that should be intelligent. Knowledge silos that slow teams down.</p>
-          </div>
-          <div class="sd-sidebar reveal reveal-delay-2">
-            <p class="sd-label">Capabilities</p>
-            <ul class="sd-caps c1">
-              <li>Generative AI platforms</li>
-              <li>Retrieval Augmented Generation (RAG)</li>
-              <li>Enterprise copilots and assistants</li>
-              <li>Semantic search systems</li>
-              <li>AI-powered analytics</li>
-              <li>AI system monitoring and evaluation</li>
-              <li>Responsible AI governance frameworks</li>
-              <li>Enterprise knowledge systems</li>
-            </ul>
-            <div class="sd-outcome c1">
-              <p><strong>Outcome:</strong> A secure, production-grade AI platform that enables teams to deploy AI capabilities quickly and reliably.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- AI architecture diagram -->
-        <div class="arch-diagram reveal reveal-delay-3">
-          <p class="arch-title">Enterprise AI Platform Architecture</p>
-          <div class="arch-layers">
-            <div class="arch-layer">
-              <span class="arch-layer-num">01</span>
-              <span class="arch-layer-label">Applications</span>
-              <div class="arch-layer-items">
-                <span data-tip="AI assistants embedded in team workflows">Copilots</span>
-                <span data-tip="Semantic search across enterprise knowledge">Search</span>
-                <span data-tip="AI-powered insights and reporting">Analytics</span>
-                <span data-tip="Conversational interfaces for internal tools">Assistants</span>
-              </div>
-            </div>
-            <div class="arch-connector"><span class="arch-flow-label">&#9660;</span><span class="arch-connector-arrows">&#9662;&#9662;</span></div>
-            <div class="arch-layer">
-              <span class="arch-layer-num">02</span>
-              <span class="arch-layer-label">AI Layer</span>
-              <div class="arch-layer-items">
-                <span data-tip="Routing and chaining across multiple LLMs">LLM Orchestration</span>
-                <span data-tip="Retrieval-augmented generation for accurate answers">RAG Pipeline</span>
-                <span data-tip="Versioned prompt templates and A/B testing">Prompt Mgmt</span>
-                <span data-tip="Guardrails, content filtering, and safety checks">Guardrails</span>
-              </div>
-            </div>
-            <div class="arch-connector"><span class="arch-flow-label">&#9660;</span><span class="arch-connector-arrows">&#9662;&#9662;</span></div>
-            <div class="arch-layer">
-              <span class="arch-layer-num">03</span>
-              <span class="arch-layer-label">Data</span>
-              <div class="arch-layer-items">
-                <span data-tip="Embedding storage for similarity search">Vector Store</span>
-                <span data-tip="Indexed enterprise knowledge base">Knowledge Index</span>
-                <span data-tip="Connections to existing business systems">Enterprise APIs</span>
-                <span data-tip="PDFs, wikis, Confluence, SharePoint">Documents</span>
-              </div>
-            </div>
-            <div class="arch-connector"><span class="arch-flow-label">&#9660;</span><span class="arch-connector-arrows">&#9662;&#9662;</span></div>
-            <div class="arch-layer">
-              <span class="arch-layer-num">04</span>
-              <span class="arch-layer-label">Governance</span>
-              <div class="arch-layer-items">
-                <span data-tip="Real-time performance and cost tracking">Monitoring</span>
-                <span data-tip="Quality scoring and drift detection">Evaluation</span>
-                <span data-tip="Role-based permissions and data boundaries">Access Control</span>
-                <span data-tip="Full request/response logging for compliance">Audit</span>
-              </div>
-            </div>
-          </div>
-          <div class="arch-legend">
-            <div class="arch-legend-item"><div class="arch-legend-dot blue"></div>Application</div>
-            <div class="arch-legend-item"><div class="arch-legend-dot cyan"></div>Intelligence</div>
-            <div class="arch-legend-item"><div class="arch-legend-dot violet"></div>Data</div>
-            <div class="arch-legend-item"><div class="arch-legend-dot amber"></div>Governance</div>
-          </div>
+          <h3>Cloud Architecture & Automation</h3>
+          <p>Cloud-native infrastructure on AWS and Azure, paired with automation that eliminates manual provisioning and optimizes costs.</p>
+          <ul class="feature-list feature-list-dark" style="margin-top: 1rem;">
+            <li>Multi-cloud architecture</li>
+            <li>Infrastructure as Code</li>
+            <li>FinOps & cost optimization</li>
+            <li>Compliance automation</li>
+          </ul>
+          <a href="cloud-automation.html" class="card-link">
+            Learn more
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- DevOps -->
-      <div class="service-detail">
-        <div class="sd-header reveal">
-          <span class="sd-num c2">02</span>
-          <h3 class="sd-title">DevOps & Platform Engineering</h3>
-        </div>
-        <div class="sd-body">
-          <div class="sd-overview reveal reveal-delay-1">
-            <p>Engineering teams shouldn't spend their time fighting infrastructure. We design and implement cloud-native developer platforms that improve velocity, reliability, and operational confidence.</p>
-            <p>From Kubernetes cluster architecture to full CI/CD automation and observability stacks, we build the platform layer that lets your engineers focus on shipping product.</p>
-            <p><strong>Problems we solve:</strong> Slow deployments. Fragile CI/CD pipelines. Inconsistent environments. Lack of observability. Teams blocked on infrastructure requests.</p>
-          </div>
-          <div class="sd-sidebar reveal reveal-delay-2">
-            <p class="sd-label">Capabilities</p>
-            <ul class="sd-caps c2">
-              <li>Kubernetes platforms (AKS, EKS, kubeadm)</li>
-              <li>Infrastructure as Code (Terraform, Bicep)</li>
-              <li>CI/CD pipeline automation</li>
-              <li>GitOps workflows</li>
-              <li>Secure software supply chains</li>
-              <li>Observability (Prometheus, Grafana, OpenTelemetry)</li>
-              <li>Developer self-service platforms</li>
-              <li>Cloud cost optimization</li>
-            </ul>
-            <div class="sd-outcome c2">
-              <p><strong>Outcome:</strong> Engineering teams deploy faster with improved reliability, full operational visibility, and self-service workflows.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- DevOps pipeline diagram -->
-        <div class="pipeline-diagram reveal reveal-delay-3">
-          <p class="pipeline-title">Continuous Delivery Pipeline</p>
-          <div class="pipeline-flow">
-            <div class="pipeline-stage">
-              <div class="pipeline-stage-icon">&#9998;</div>
-              <div class="pipeline-stage-label">Code</div>
-            </div>
-            <span class="pipeline-arrow">&#8594;</span>
-            <div class="pipeline-stage">
-              <div class="pipeline-stage-icon">&#9881;</div>
-              <div class="pipeline-stage-label">Build</div>
-            </div>
-            <span class="pipeline-arrow">&#8594;</span>
-            <div class="pipeline-stage">
-              <div class="pipeline-stage-icon">&#10003;</div>
-              <div class="pipeline-stage-label">Test</div>
-            </div>
-            <span class="pipeline-arrow">&#8594;</span>
-            <div class="pipeline-stage">
-              <div class="pipeline-stage-icon">&#9656;</div>
-              <div class="pipeline-stage-label">Deploy</div>
-            </div>
-            <span class="pipeline-arrow">&#8594;</span>
-            <div class="pipeline-stage">
-              <div class="pipeline-stage-icon">&#9673;</div>
-              <div class="pipeline-stage-label">Monitor</div>
-            </div>
-          </div>
-          <div class="pipeline-feedback">
-            <div class="pipeline-feedback-line"></div>
-            <span class="pipeline-feedback-label">Feedback Loop</span>
-            <div class="pipeline-feedback-line"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cloud & Automation -->
-      <div class="service-detail">
-        <div class="sd-header reveal">
-          <span class="sd-num c3">03</span>
-          <h3 class="sd-title">Cloud & Infrastructure Automation</h3>
-        </div>
-        <div class="sd-body">
-          <div class="sd-overview reveal reveal-delay-1">
-            <p>Cloud migrations fail when architecture is an afterthought. Manual processes are the silent tax on engineering productivity. We solve both together.</p>
-            <p>We design cloud environments that are secure, cost-effective, and built to evolve—then automate everything from provisioning to compliance validation so your infrastructure is reproducible and self-service.</p>
-            <p><strong>Problems we solve:</strong> Uncontrolled cloud costs. Security gaps. Manual infrastructure provisioning. Compliance processes that slow delivery. Monolithic applications that resist scaling.</p>
-          </div>
-          <div class="sd-sidebar reveal reveal-delay-2">
-            <p class="sd-label">Capabilities</p>
-            <ul class="sd-caps c3">
-              <li>Multi-cloud architecture (AWS, Azure)</li>
-              <li>Landing zone design and implementation</li>
-              <li>Automated infrastructure provisioning</li>
-              <li>Application modernization and containerization</li>
-              <li>Automated compliance validation</li>
-              <li>Automated security scanning</li>
-              <li>Cost optimization and FinOps</li>
-              <li>Data pipeline automation</li>
-            </ul>
-            <div class="sd-outcome c3">
-              <p><strong>Outcome:</strong> Cloud infrastructure that is secure, cost-optimized, reproducible, and deployable through self-service automation.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI Strategy -->
-      <div class="service-detail">
-        <div class="sd-header reveal">
-          <span class="sd-num c4">04</span>
-          <h3 class="sd-title">AI Strategy & Advisory</h3>
-        </div>
-        <div class="sd-body">
-          <div class="sd-overview reveal reveal-delay-1">
-            <p>AI adoption without a clear strategy leads to scattered experiments and wasted investment. We work with leadership teams to define practical AI strategies grounded in technical reality.</p>
-            <p>Our advisory work is rooted in engineering—we don't just recommend AI, we know how to build and operate it. That means strategies that are technically feasible, architecturally sound, and designed to deliver measurable outcomes.</p>
-            <p><strong>Problems we solve:</strong> No clear AI roadmap. Disconnected AI experiments. Uncertainty about where AI delivers ROI. Lack of AI governance. Teams with AI ambition but no implementation path.</p>
-          </div>
-          <div class="sd-sidebar reveal reveal-delay-2">
-            <p class="sd-label">Capabilities</p>
-            <ul class="sd-caps c4">
-              <li>AI opportunity discovery</li>
-              <li>AI architecture design</li>
-              <li>Responsible AI governance</li>
-              <li>Enterprise AI platform roadmaps</li>
-              <li>AI capability maturity assessments</li>
-              <li>AI implementation planning</li>
-              <li>Technology evaluation and selection</li>
-            </ul>
-            <div class="sd-outcome c4">
-              <p><strong>Outcome:</strong> A practical AI adoption strategy with a clear implementation path and measurable business outcomes.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ APPROACH ═══════ -->
-    <section id="approach" class="section-full">
-      <div class="section-full-inner">
-        <div class="section-header reveal">
-          <span class="section-num">04</span>
-          <div class="section-line"></div>
-          <h2 class="section-title">Our Approach</h2>
-        </div>
-
-        <div class="statement reveal reveal-delay-1" style="margin-bottom: var(--space-xl);">
-          <p class="statement-text">
-            Every engagement starts with <strong>architecture</strong>, prioritizes <strong>automation</strong>, and delivers <strong>production-grade systems</strong>.
+  <!-- ═══════ Why Ciracon ═══════ -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="grid-1-1">
+        <div class="reveal">
+          <div class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Why Ciracon</div>
+          <h2 style="color: var(--text-primary);">Engineering-first consulting for modern platforms</h2>
+          <p class="lead text-secondary-light" style="margin-top: 1rem; max-width: 500px;">
+            We don't just advise. We architect, build, and operate the systems that power your business.
           </p>
         </div>
-
-        <div class="approach-grid">
-          <div class="approach-item reveal reveal-delay-1">
-            <div class="approach-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        <div>
+          <div class="process-step reveal" style="border-color: var(--border-light);">
+            <span class="process-step-num">01</span>
+            <div>
+              <h3 style="color: var(--text-primary);">Production-grade AI systems</h3>
+              <p style="color: var(--text-secondary);">We move organizations past prototypes to governed, reliable AI platforms that serve real users.</p>
             </div>
-            <span class="approach-num">01</span>
-            <h3>Architecture-First Design</h3>
-            <p>We lead with architecture decisions that define scalability, security, and operational characteristics before writing code.</p>
           </div>
-          <div class="approach-item reveal reveal-delay-2">
-            <div class="approach-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4m0 12v4m-7.07-15.07l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
+          <div class="process-step reveal reveal-delay-1" style="border-color: var(--border-light);">
+            <span class="process-step-num">02</span>
+            <div>
+              <h3 style="color: var(--text-primary);">Automation-first architecture</h3>
+              <p style="color: var(--text-secondary);">Every system we build prioritizes automation—from infrastructure provisioning to compliance validation.</p>
             </div>
-            <span class="approach-num">02</span>
-            <h3>Automation-First Engineering</h3>
-            <p>If it can be automated, it should be. We eliminate manual processes across infrastructure, testing, deployment, and operations.</p>
           </div>
-          <div class="approach-item reveal reveal-delay-3">
-            <div class="approach-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <div class="process-step reveal reveal-delay-2" style="border-color: var(--border-light);">
+            <span class="process-step-num">03</span>
+            <div>
+              <h3 style="color: var(--text-primary);">Cloud-native platforms</h3>
+              <p style="color: var(--text-secondary);">Kubernetes, GitOps, IaC, and observability—designed for scale, security, and developer velocity.</p>
             </div>
-            <span class="approach-num">03</span>
-            <h3>Production-Grade Systems</h3>
-            <p>We build for production—with monitoring, evaluation, governance, and the operational rigor that prototypes and POCs lack.</p>
           </div>
-          <div class="approach-item reveal reveal-delay-4">
-            <div class="approach-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="process-step reveal reveal-delay-3" style="border-color: var(--border-light);">
+            <span class="process-step-num">04</span>
+            <div>
+              <h3 style="color: var(--text-primary);">Measurable engineering outcomes</h3>
+              <p style="color: var(--text-secondary);">Every engagement is tied to deployment velocity, reliability, cost reduction, and time to production.</p>
             </div>
-            <span class="approach-num">04</span>
-            <h3>Security, Governance & Measurable Outcomes</h3>
-            <p>Security and compliance are built in from day one. Every engagement is tied to concrete, measurable engineering outcomes.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════ ENGAGEMENTS ═══════ -->
-    <section id="engagements" class="section">
+  <!-- ═══════ Engagements Preview ═══════ -->
+  <section class="section section-dark">
+    <div class="container">
       <div class="section-header reveal">
-        <span class="section-num">05</span>
-        <div class="section-line"></div>
-        <h2 class="section-title">Example Engagements</h2>
+        <div class="eyebrow eyebrow-accent"><span class="eyebrow-dot"></span> Example Engagements</div>
+        <h2>From concept to<br>production systems</h2>
+        <p class="lead text-secondary-dark">Representative examples of the work we do. Each engagement delivers working systems, not just recommendations.</p>
       </div>
 
-      <div class="statement reveal reveal-delay-1" style="margin-bottom: var(--space-xl);">
-        <p class="statement-sub">Representative examples of the work we do. Each engagement delivers working systems, not just recommendations.</p>
-      </div>
-
-      <div class="engagement reveal">
-        <div class="eng-desc">
-          <h3 class="eng-title">Building an Enterprise AI Platform</h3>
-          <p>Design and implementation of a scalable enterprise AI platform—moving from scattered AI experiments to a centralized, governed capability.</p>
-          <ul class="eng-details">
-            <li>LLM integration and orchestration</li>
-            <li>Retrieval Augmented Generation (RAG) pipelines</li>
-            <li>Enterprise knowledge indexing</li>
-            <li>AI copilots for internal teams</li>
-            <li>Governance and monitoring frameworks</li>
-          </ul>
+      <div class="grid-2" style="gap: var(--space-xl);">
+        <div class="engagement-card reveal">
+          <div class="engagement-card-header">
+            <div class="tags" style="margin-bottom: 0.75rem;">
+              <span class="tag tag-dark">AI Engineering</span>
+            </div>
+            <h3>Building an Enterprise AI Platform</h3>
+            <p>Moving from scattered experiments to a centralized, governed AI capability.</p>
+          </div>
+          <div class="engagement-card-body">
+            <div>
+              <h4>Problem</h4>
+              <p>Organizations experiment with LLMs but lack a scalable, governed platform.</p>
+            </div>
+            <div>
+              <h4>Solution</h4>
+              <p>Enterprise AI infrastructure with RAG, knowledge indexing, and governance.</p>
+            </div>
+            <div>
+              <h4>Outcome</h4>
+              <p>Teams ship AI capabilities safely and quickly.</p>
+            </div>
+          </div>
         </div>
-        <div class="eng-outcome">
-          <p class="eng-outcome-label">Outcome</p>
-          <p>A secure, centralized AI platform that enables teams to deploy AI capabilities quickly—with full governance and operational visibility.</p>
-          <div class="eng-metric">
-            <span class="eng-metric-value">10x</span>
-            <span class="eng-metric-label">faster AI capability deployment</span>
+
+        <div class="engagement-card reveal reveal-delay-1">
+          <div class="engagement-card-header">
+            <div class="tags" style="margin-bottom: 0.75rem;">
+              <span class="tag tag-dark">DevOps</span>
+            </div>
+            <h3>Kubernetes Developer Platform</h3>
+            <p>Transforming how engineering teams build, test, and deploy applications.</p>
+          </div>
+          <div class="engagement-card-body">
+            <div>
+              <h4>Problem</h4>
+              <p>Slow environments, inconsistent deployments, and fragile pipelines.</p>
+            </div>
+            <div>
+              <h4>Solution</h4>
+              <p>K8s platform with CI/CD, environment automation, and observability.</p>
+            </div>
+            <div>
+              <h4>Outcome</h4>
+              <p>Developers ship software faster with greater reliability.</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="engagement reveal">
-        <div class="eng-desc">
-          <h3 class="eng-title">Kubernetes Developer Platform</h3>
-          <p>Design and implementation of a Kubernetes-based developer platform that transforms how engineering teams build, test, and deploy.</p>
-          <ul class="eng-details">
-            <li>Automated environment provisioning</li>
-            <li>CI/CD pipeline design and automation</li>
-            <li>Infrastructure as Code (Terraform)</li>
-            <li>Full observability stack</li>
-            <li>Developer self-service workflows</li>
-          </ul>
-        </div>
-        <div class="eng-outcome">
-          <p class="eng-outcome-label">Outcome</p>
-          <p>Engineering teams deploy applications faster with improved reliability, full operational visibility, and self-service infrastructure.</p>
-          <div class="eng-metric">
-            <span class="eng-metric-value">70%</span>
-            <span class="eng-metric-label">reduction in deployment time</span>
-          </div>
-        </div>
+      <div style="text-align: center; margin-top: var(--space-2xl);" class="reveal">
+        <a href="engagements.html" class="btn btn-secondary">
+          View All Engagements
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Approach ═══════ -->
+  <section class="section section-darker">
+    <div class="container">
+      <div class="section-header section-header-centered reveal">
+        <div class="eyebrow eyebrow-accent" style="justify-content: center;"><span class="eyebrow-dot"></span> Our Approach</div>
+        <h2>How we deliver</h2>
+        <p class="lead text-secondary-dark">Every engagement starts with architecture, prioritizes automation, and delivers production-grade systems.</p>
       </div>
 
-      <div class="engagement reveal">
-        <div class="eng-desc">
-          <h3 class="eng-title">RAG-Powered Knowledge System</h3>
-          <p>Enterprise knowledge retrieval platform making internal documentation accessible through AI-powered search and natural language queries.</p>
-          <ul class="eng-details">
-            <li>Internal documentation indexing</li>
-            <li>Enterprise system integration</li>
-            <li>AI-powered question answering</li>
-            <li>Semantic search capabilities</li>
-            <li>Enterprise copilot interface</li>
-          </ul>
-        </div>
-        <div class="eng-outcome">
-          <p class="eng-outcome-label">Outcome</p>
-          <p>Organizations unlock internal knowledge and dramatically reduce time spent searching for information.</p>
-          <div class="eng-metric">
-            <span class="eng-metric-value">85%</span>
-            <span class="eng-metric-label">faster information retrieval</span>
+      <div class="grid-4">
+        <div class="card reveal reveal-delay-1" style="text-align: center;">
+          <div class="card-icon" style="margin: 0 auto var(--space-md);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
           </div>
+          <h3>Architecture-First</h3>
+          <p>We lead with architecture decisions that define scalability, security, and operations.</p>
+        </div>
+        <div class="card reveal reveal-delay-2" style="text-align: center;">
+          <div class="card-icon" style="margin: 0 auto var(--space-md); background: rgba(20,184,166,0.1); color: var(--accent-secondary);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4m0 12v4m-7.07-15.07l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3>Automation-First</h3>
+          <p>If it can be automated, it should be. We eliminate manual processes everywhere.</p>
+        </div>
+        <div class="card reveal reveal-delay-3" style="text-align: center;">
+          <div class="card-icon" style="margin: 0 auto var(--space-md); background: rgba(99,102,241,0.1); color: var(--accent-muted);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Secure by Design</h3>
+          <p>Security, governance, and compliance built in from day one—not bolted on after.</p>
+        </div>
+        <div class="card reveal reveal-delay-4" style="text-align: center;">
+          <div class="card-icon" style="margin: 0 auto var(--space-md); background: rgba(245,158,11,0.1); color: #F59E0B;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>Observable Systems</h3>
+          <p>Full operational visibility—monitoring, logging, tracing, and alerting at every layer.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="engagement reveal">
-        <div class="eng-desc">
-          <h3 class="eng-title">Multi-Cloud Infrastructure Automation</h3>
-          <p>Automated infrastructure provisioning across multiple cloud platforms, replacing manual processes with reproducible, governed automation.</p>
-          <ul class="eng-details">
-            <li>Terraform automation frameworks</li>
-            <li>GitOps infrastructure workflows</li>
-            <li>Environment provisioning pipelines</li>
-            <li>Automated compliance validation</li>
-            <li>Cost visibility and optimization</li>
-          </ul>
-        </div>
-        <div class="eng-outcome">
-          <p class="eng-outcome-label">Outcome</p>
-          <p>Infrastructure becomes reproducible, secure, and rapidly deployable—with full audit trails and cost control.</p>
-          <div class="eng-metric">
-            <span class="eng-metric-value">90%</span>
-            <span class="eng-metric-label">reduction in provisioning time</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ SOLUTIONS ═══════ -->
-    <section class="section">
+  <!-- ═══════ Live Solutions ═══════ -->
+  <section class="section section-dark">
+    <div class="container">
       <div class="section-header reveal">
-        <span class="section-num">06</span>
-        <div class="section-line"></div>
-        <h2 class="section-title">Live Solutions</h2>
+        <div class="eyebrow eyebrow-accent"><span class="eyebrow-dot"></span> Live Solutions</div>
+        <h2>Platforms we've built</h2>
+        <p class="lead text-secondary-dark">Public products powered by Ciracon engineering.</p>
       </div>
 
-      <div class="statement reveal reveal-delay-1">
-        <p class="statement-sub">Public platforms built and powered by Ciracon engineering.</p>
-      </div>
-
-      <div class="solutions-grid">
-        <a href="https://candidatescore.ai/" class="solution-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer">
+      <div class="grid-2">
+        <a href="https://candidatescore.ai/" class="solution-card reveal" target="_blank" rel="noopener noreferrer">
           <h3>
             CandidateScore.ai
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            <svg class="external-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
           </h3>
           <p>AI-powered candidate evaluation platform—intelligent screening and scoring for modern recruiting workflows.</p>
         </a>
-        <a href="https://www.wovser.ai/" class="solution-card reveal reveal-delay-2" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.wovser.ai/" class="solution-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer">
           <h3>
             Wovser.ai
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            <svg class="external-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
           </h3>
           <p>AI-native technical assessment platform—live coding challenges, multiplayer quizzes, video assessments, and AI-powered evaluation in one unified system for hiring and training teams.</p>
         </a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ═══════ WHO WE WORK WITH ═══════ -->
-    <section id="clients" class="section-full">
-      <div class="section-full-inner">
-        <div class="section-header reveal">
-          <span class="section-num">07</span>
-          <div class="section-line"></div>
-          <h2 class="section-title">Who We Work With</h2>
-        </div>
-
-        <div class="statement reveal reveal-delay-1" style="margin-bottom: var(--space-xl);">
-          <p class="statement-sub">Whether you're exploring what's possible or ready to build—we meet you where you are and help you move forward with confidence.</p>
-        </div>
-
-        <div class="clients-grid">
-          <div class="client-card reveal reveal-delay-1">
-            <div class="client-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a4 4 0 014 4c0 1.5-.8 2.8-2 3.5v1h-4v-1A4 4 0 0112 2z"/><path d="M10 14v1a2 2 0 104 0v-1"/></svg>
-            </div>
-            <h3>Enterprises Adopting AI</h3>
-            <p>Moving beyond experimentation into governed, production-grade AI systems.</p>
-          </div>
-          <div class="client-card reveal reveal-delay-2">
-            <div class="client-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-            </div>
-            <h3>AI-Powered Product Teams</h3>
-            <p>Integrating LLMs, RAG, and semantic search into customer-facing applications.</p>
-          </div>
-          <div class="client-card reveal reveal-delay-3">
-            <div class="client-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/><path d="M5.5 5.5L9.5 9.5M14.5 9.5l4-4"/></svg>
-            </div>
-            <h3>DevOps Modernization</h3>
-            <p>Rethinking developer platforms, CI/CD, and operational workflows for scale.</p>
-          </div>
-          <div class="client-card reveal reveal-delay-1">
-            <div class="client-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2"/><path d="M22 2L13 11"/><path d="M16 2h6v6"/></svg>
-            </div>
-            <h3>Kubernetes at Scale</h3>
-            <p>Building secure, observable, developer-friendly Kubernetes infrastructure.</p>
-          </div>
-          <div class="client-card reveal reveal-delay-2">
-            <div class="client-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4m0 12v4m-7.07-15.07l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4"/><circle cx="12" cy="12" r="3"/></svg>
-            </div>
-            <h3>Enterprise Automation</h3>
-            <p>Reducing operational toil through infrastructure and compliance automation.</p>
-          </div>
-          <div class="client-card reveal reveal-delay-3">
-            <div class="client-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-            </div>
-            <h3>AI Strategy for Leaders</h3>
-            <p>CTOs and architects who need practical AI roadmaps grounded in technical reality.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ CTA ═══════ -->
-    <section class="cta-section">
-      <h2 class="reveal">Partner with Ciracon to build what's next.</h2>
-      <p class="reveal reveal-delay-1">
-        Whether you're building an enterprise AI platform, transforming DevOps, modernizing cloud infrastructure, or implementing automation at scale—we bring the engineering depth to make it work.
-      </p>
-      <a href="mailto:info@ciracon.com" class="cta-btn reveal reveal-delay-2">
+  <!-- ═══════ CTA Banner ═══════ -->
+  <section class="cta-banner section-dark">
+    <h2 class="reveal">Build the next generation of<br>AI and engineering platforms.</h2>
+    <p class="reveal reveal-delay-1">
+      Whether you're building an enterprise AI platform, transforming DevOps, or modernizing cloud infrastructure—we bring the engineering depth to make it work.
+    </p>
+    <div class="btn-group reveal reveal-delay-2">
+      <a href="contact.html" class="btn btn-primary">
         Start a Conversation
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <span class="cta-email reveal reveal-delay-3">info@ciracon.com</span>
-      <div class="cta-areas reveal reveal-delay-4">
-        <span>AI Platform Strategy</span>
-        <span>DevOps Transformation</span>
-        <span>Cloud Modernization</span>
-        <span>Enterprise AI</span>
-        <span>Automation</span>
-      </div>
-    </section>
+      <a href="services.html" class="btn btn-secondary">Explore Services</a>
+    </div>
+    <a href="mailto:info@ciracon.com" class="cta-contact reveal reveal-delay-3">info@ciracon.com</a>
+  </section>
 
-  </main>
-
+  <!-- ═══════ Footer ═══════ -->
   <footer class="footer">
-    <div class="footer-inner">
-      <span class="footer-logo">Ciracon</span>
-      <span class="footer-copy">&copy; <script>document.write(new Date().getFullYear())</script> Ciracon. All rights reserved.</span>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first AI and DevOps consulting. We design, build, and operate the platforms that power your business.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="devops-platform-engineering.html">DevOps & Platform Engineering</a>
+          <a href="cloud-automation.html">Cloud & Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering · DevOps · Cloud</span>
     </div>
   </footer>
 
-  <script>
-    // Scroll reveal
-    var revealObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
-  </script>
+  <script src="js/main.js"></script>
 </body>
 </html>

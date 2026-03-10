@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps & Platform Engineering | Ciracon – Kubernetes, CI/CD, GitOps</title>
+  <meta name="description" content="Ciracon builds Kubernetes platforms, CI/CD automation, GitOps workflows, observability stacks, and developer self-service portals. Engineering velocity through platform engineering.">
+  <meta name="keywords" content="DevOps consulting, Kubernetes consulting, platform engineering, CI/CD automation, GitOps, observability, developer portal, infrastructure automation">
+  <link rel="canonical" href="https://www.ciracon.com/devops-platform-engineering.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html" class="nav-cta">Schedule a Consultation</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> DevOps & Platform Engineering</div>
+      <h1 class="reveal reveal-delay-1">Platforms that accelerate<br>engineering teams</h1>
+      <p class="lead reveal reveal-delay-2">We design and build Kubernetes platforms, CI/CD automation, and developer self-service systems that transform how engineering teams ship software.</p>
+    </div>
+  </header>
+
+  <!-- Core Capabilities -->
+  <section class="section section-darker">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="eyebrow eyebrow-accent"><span class="eyebrow-dot"></span> Capabilities</div>
+        <h2>What we build</h2>
+      </div>
+
+      <div class="grid-2" style="gap: var(--space-xl);">
+        <div class="card reveal">
+          <div class="card-icon" style="background: rgba(20,184,166,0.1); color: var(--accent-secondary);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="20" r="2"/><path d="M5.5 5.5L9.5 9.5M14.5 9.5l4-4M9.5 14.5l-4 4M14.5 14.5l4 4"/></svg>
+          </div>
+          <h3>Kubernetes Platform Design</h3>
+          <p>Production Kubernetes platforms with multi-tenancy, network policies, RBAC, ingress management, and cluster operations—on-prem or cloud-managed (EKS, AKS, GKE).</p>
+        </div>
+
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>CI/CD & GitOps Automation</h3>
+          <p>Automated build, test, and deployment pipelines using GitOps workflows. ArgoCD, Flux, GitHub Actions, and custom pipeline orchestration.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-2">
+          <div class="card-icon" style="background: rgba(99,102,241,0.1); color: var(--accent-muted);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>Observability & Monitoring</h3>
+          <p>Full-stack observability with metrics, logging, and distributed tracing. Prometheus, Grafana, OpenTelemetry, and custom alerting pipelines.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon" style="background: rgba(245,158,11,0.1); color: #F59E0B;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h2M7 12h4"/></svg>
+          </div>
+          <h3>Developer Self-Service</h3>
+          <p>Internal developer portals and self-service tooling that let teams provision environments, deploy services, and manage resources without waiting on ops.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DevOps Pipeline Diagram -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-header section-header-centered reveal">
+        <div class="eyebrow eyebrow-accent" style="justify-content: center;"><span class="eyebrow-dot"></span> Reference Architecture</div>
+        <h2>Platform engineering stack</h2>
+        <p class="lead text-secondary-dark">A representative view of a modern Kubernetes developer platform.</p>
+      </div>
+
+      <div class="arch-diagram reveal">
+        <div class="arch-layers">
+          <div class="arch-layer" data-color="teal">
+            <span class="arch-layer-label">Developer</span>
+            <div class="arch-layer-items">
+              <span data-tip="Self-service portal for teams">Dev Portal</span>
+              <span data-tip="Service catalog and templates">Scaffolding</span>
+              <span data-tip="Local dev and testing">Inner Loop</span>
+              <span data-tip="Pull request automation">PR Automation</span>
+            </div>
+          </div>
+          <div class="arch-connector"></div>
+          <div class="arch-layer" data-color="blue">
+            <span class="arch-layer-label">CI/CD</span>
+            <div class="arch-layer-items">
+              <span data-tip="Automated build pipelines">Build</span>
+              <span data-tip="Unit, integration, and e2e testing">Test</span>
+              <span data-tip="Container image scanning">Scan</span>
+              <span data-tip="OCI image management">Registry</span>
+              <span data-tip="GitOps deployment sync">Deploy</span>
+            </div>
+          </div>
+          <div class="arch-connector"></div>
+          <div class="arch-layer" data-color="purple">
+            <span class="arch-layer-label">Platform</span>
+            <div class="arch-layer-items">
+              <span data-tip="Container orchestration">Kubernetes</span>
+              <span data-tip="Service mesh and traffic">Networking</span>
+              <span data-tip="Secrets and certificates">Security</span>
+              <span data-tip="Persistent and ephemeral storage">Storage</span>
+            </div>
+          </div>
+          <div class="arch-connector"></div>
+          <div class="arch-layer" data-color="amber">
+            <span class="arch-layer-label">Observability</span>
+            <div class="arch-layer-items">
+              <span data-tip="Time-series metrics">Metrics</span>
+              <span data-tip="Centralized log aggregation">Logs</span>
+              <span data-tip="Distributed request tracing">Traces</span>
+              <span data-tip="Incident detection and routing">Alerts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Process</div>
+        <h2 style="color: var(--text-primary);">How we deliver platform engineering</h2>
+      </div>
+
+      <div>
+        <div class="process-step reveal" style="border-color: var(--border-light);">
+          <span class="process-step-num">01</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Platform Assessment</h3>
+            <p style="color: var(--text-secondary);">We evaluate your current development workflow, infrastructure, and deployment practices to identify bottlenecks and opportunities.</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-1" style="border-color: var(--border-light);">
+          <span class="process-step-num">02</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Architecture & Design</h3>
+            <p style="color: var(--text-secondary);">We design the target platform architecture—Kubernetes topology, CI/CD workflows, GitOps structure, and observability stack.</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-2" style="border-color: var(--border-light);">
+          <span class="process-step-num">03</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Build & Migrate</h3>
+            <p style="color: var(--text-secondary);">We build the platform infrastructure, onboard teams, migrate workloads, and establish operational runbooks.</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-3" style="border-color: var(--border-light);">
+          <span class="process-step-num">04</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Operate & Optimize</h3>
+            <p style="color: var(--text-secondary);">Continuous platform optimization—capacity planning, cost management, security updates, and feature development for the developer experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-darker">
+    <div class="container container-narrow">
+      <div class="section-header section-header-centered reveal">
+        <div class="eyebrow eyebrow-accent" style="justify-content: center;"><span class="eyebrow-dot"></span> FAQ</div>
+        <h2>Common questions</h2>
+      </div>
+
+      <div class="reveal">
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Do you work with managed Kubernetes or self-hosted?
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Both. We design platforms on EKS, AKS, GKE, and self-managed clusters. We recommend managed Kubernetes for most organizations, but we architect self-hosted solutions when regulatory or network requirements demand it.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            What CI/CD tools do you work with?
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              We work with GitHub Actions, GitLab CI, Azure DevOps, Jenkins, ArgoCD, Flux, Tekton, and custom pipeline orchestration. Tool selection is driven by your existing ecosystem and requirements.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            How do you measure platform engineering success?
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              We track DORA metrics (deployment frequency, lead time, change failure rate, MTTR), developer satisfaction, environment provisioning time, and infrastructure cost per workload.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner section-dark">
+    <h2 class="reveal">Ready to accelerate<br>engineering velocity?</h2>
+    <p class="reveal reveal-delay-1">
+      Let's talk about how a modern developer platform can transform how your teams build and ship software.
+    </p>
+    <div class="btn-group reveal reveal-delay-2">
+      <a href="contact.html" class="btn btn-primary">
+        Start a Conversation
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="engagements.html" class="btn btn-secondary">See Example Engagements</a>
+    </div>
+    <a href="mailto:info@ciracon.com" class="cta-contact reveal reveal-delay-3">info@ciracon.com</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first AI and DevOps consulting. We design, build, and operate the platforms that power your business.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="devops-platform-engineering.html">DevOps & Platform Engineering</a>
+          <a href="cloud-automation.html">Cloud & Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering · DevOps · Cloud</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

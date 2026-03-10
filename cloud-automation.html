@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Architecture & Automation | Ciracon – AWS, Azure, IaC</title>
+  <meta name="description" content="Ciracon designs cloud-native architecture on AWS and Azure with Infrastructure as Code, FinOps cost optimization, compliance automation, and multi-cloud strategy.">
+  <meta name="keywords" content="cloud architecture consulting, AWS consulting, Azure consulting, Infrastructure as Code, Terraform consulting, FinOps, cloud cost optimization, compliance automation, multi-cloud">
+  <link rel="canonical" href="https://www.ciracon.com/cloud-automation.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html" class="nav-cta">Schedule a Consultation</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> Cloud Architecture & Automation</div>
+      <h1 class="reveal reveal-delay-1">Cloud infrastructure<br>that scales</h1>
+      <p class="lead reveal reveal-delay-2">We design and automate cloud-native infrastructure on AWS and Azure—eliminating manual provisioning, optimizing costs, and building resilient systems from the ground up.</p>
+    </div>
+  </header>
+
+  <!-- Core Capabilities -->
+  <section class="section section-darker">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="eyebrow eyebrow-accent"><span class="eyebrow-dot"></span> Capabilities</div>
+        <h2>What we build</h2>
+      </div>
+
+      <div class="grid-2" style="gap: var(--space-xl);">
+        <div class="card reveal">
+          <div class="card-icon" style="background: rgba(99,102,241,0.1); color: var(--accent-muted);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2"/><path d="M22 2L13 11"/><path d="M16 2h6v6"/></svg>
+          </div>
+          <h3>Multi-Cloud Architecture</h3>
+          <p>Cloud-native architecture designed for AWS, Azure, or hybrid environments. Landing zones, network topology, identity federation, and account/subscription strategy.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-1">
+          <div class="card-icon" style="background: rgba(20,184,166,0.1); color: var(--accent-secondary);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+          </div>
+          <h3>Infrastructure as Code</h3>
+          <p>Everything defined in code—Terraform, Pulumi, CloudFormation. Version-controlled, tested, and deployed through automated pipelines with drift detection.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-2">
+          <div class="card-icon" style="background: rgba(245,158,11,0.1); color: #F59E0B;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          </div>
+          <h3>FinOps & Cost Optimization</h3>
+          <p>Cloud cost visibility, allocation tagging, right-sizing recommendations, reserved capacity planning, and automated cost alerting across accounts and teams.</p>
+        </div>
+
+        <div class="card reveal reveal-delay-3">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Security & Compliance Automation</h3>
+          <p>Automated compliance checks, policy-as-code enforcement, security scanning, and audit trail generation for regulated environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Diagram -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-header section-header-centered reveal">
+        <div class="eyebrow eyebrow-accent" style="justify-content: center;"><span class="eyebrow-dot"></span> Reference Architecture</div>
+        <h2>Cloud automation stack</h2>
+        <p class="lead text-secondary-dark">A representative view of automated cloud infrastructure management.</p>
+      </div>
+
+      <div class="arch-diagram reveal">
+        <div class="arch-layers">
+          <div class="arch-layer" data-color="purple">
+            <span class="arch-layer-label">Governance</span>
+            <div class="arch-layer-items">
+              <span data-tip="Organization account strategy">Account Structure</span>
+              <span data-tip="Automated compliance verification">Policy Checks</span>
+              <span data-tip="Cost allocation and tagging">FinOps</span>
+              <span data-tip="Identity and access management">IAM</span>
+            </div>
+          </div>
+          <div class="arch-connector"></div>
+          <div class="arch-layer" data-color="blue">
+            <span class="arch-layer-label">Automation</span>
+            <div class="arch-layer-items">
+              <span data-tip="Infrastructure defined as code">Terraform / Pulumi</span>
+              <span data-tip="IaC deployment automation">CI/CD Pipelines</span>
+              <span data-tip="Configuration drift monitoring">Drift Detection</span>
+              <span data-tip="Self-service resource provisioning">Provisioning API</span>
+            </div>
+          </div>
+          <div class="arch-connector"></div>
+          <div class="arch-layer" data-color="teal">
+            <span class="arch-layer-label">Infrastructure</span>
+            <div class="arch-layer-items">
+              <span data-tip="Virtual networking and connectivity">Networking</span>
+              <span data-tip="Compute instances and serverless">Compute</span>
+              <span data-tip="Databases and object storage">Storage</span>
+              <span data-tip="TLS, WAF, and endpoint protection">Security</span>
+            </div>
+          </div>
+          <div class="arch-connector"></div>
+          <div class="arch-layer" data-color="amber">
+            <span class="arch-layer-label">Operations</span>
+            <div class="arch-layer-items">
+              <span data-tip="Infrastructure health metrics">Monitoring</span>
+              <span data-tip="Centralized log management">Logging</span>
+              <span data-tip="Automated incident response">Alerting</span>
+              <span data-tip="Backup and restoration automation">DR</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> Process</div>
+        <h2 style="color: var(--text-primary);">How we deliver cloud automation</h2>
+      </div>
+
+      <div>
+        <div class="process-step reveal" style="border-color: var(--border-light);">
+          <span class="process-step-num">01</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Cloud Assessment</h3>
+            <p style="color: var(--text-secondary);">We audit your current cloud environment—architecture, security posture, cost structure, and operational practices—to identify gaps and opportunities.</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-1" style="border-color: var(--border-light);">
+          <span class="process-step-num">02</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Landing Zone Design</h3>
+            <p style="color: var(--text-secondary);">We design the foundational cloud architecture—account structure, networking, identity, security baselines, and governance guardrails.</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-2" style="border-color: var(--border-light);">
+          <span class="process-step-num">03</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Automation Build-Out</h3>
+            <p style="color: var(--text-secondary);">We implement Infrastructure as Code, CI/CD for infrastructure, compliance automation, and cost management tooling.</p>
+          </div>
+        </div>
+        <div class="process-step reveal reveal-delay-3" style="border-color: var(--border-light);">
+          <span class="process-step-num">04</span>
+          <div>
+            <h3 style="color: var(--text-primary);">Optimize & Scale</h3>
+            <p style="color: var(--text-secondary);">Ongoing cost optimization, security hardening, capacity planning, and expansion of automation coverage across teams and environments.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-darker">
+    <div class="container container-narrow">
+      <div class="section-header section-header-centered reveal">
+        <div class="eyebrow eyebrow-accent" style="justify-content: center;"><span class="eyebrow-dot"></span> FAQ</div>
+        <h2>Common questions</h2>
+      </div>
+
+      <div class="reveal">
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Which cloud providers do you work with?
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              We specialize in AWS and Azure, and design multi-cloud architectures when organizations operate across both. Our IaC approach uses Terraform or Pulumi for cloud-agnostic automation where appropriate.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            What IaC tools do you recommend?
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Terraform is our default for multi-cloud and mature ecosystems. We use Pulumi when teams prefer programming languages over HCL, and CloudFormation/Bicep when deep native integration is a priority.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn">
+            Can you help reduce our cloud spend?
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="accordion-content-inner">
+              Yes. FinOps is built into every cloud engagement. We implement cost allocation tagging, right-sizing automation, reserved capacity planning, and real-time spend alerting. Most engagements identify 20–40% cost reduction opportunities.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner section-dark">
+    <h2 class="reveal">Ready to modernize your<br>cloud infrastructure?</h2>
+    <p class="reveal reveal-delay-1">
+      Whether you're migrating to the cloud, optimizing costs, or building automated infrastructure, we bring the engineering depth to make it work.
+    </p>
+    <div class="btn-group reveal reveal-delay-2">
+      <a href="contact.html" class="btn btn-primary">
+        Start a Conversation
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="engagements.html" class="btn btn-secondary">See Example Engagements</a>
+    </div>
+    <a href="mailto:info@ciracon.com" class="cta-contact reveal reveal-delay-3">info@ciracon.com</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first AI and DevOps consulting. We design, build, and operate the platforms that power your business.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="devops-platform-engineering.html">DevOps & Platform Engineering</a>
+          <a href="cloud-automation.html">Cloud & Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering · DevOps · Cloud</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
