@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.classList.add('is-loading');
       if (btnText) btnText.hidden = true;
       if (btnLoading) btnLoading.hidden = false;
-      if (formError) formError.hidden = true;
+      if (formError) formError.classList.remove('is-visible');
 
       // Get reCAPTCHA v3 token before submitting
       grecaptcha.ready(function () {
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(function () {
         // Error: show inline error message, reset button
-        if (formError) formError.hidden = false;
+        if (formError) formError.classList.add('is-visible');
         submitBtn.disabled = false;
         submitBtn.classList.remove('is-loading');
         if (btnText) btnText.hidden = false;
