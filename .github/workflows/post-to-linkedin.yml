@@ -2,7 +2,7 @@ name: Post to LinkedIn
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - 'insights/insight-*.html'
 
