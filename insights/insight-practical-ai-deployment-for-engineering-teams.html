@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practical AI Deployment for Engineering Teams | Ciracon</title>
+  <meta name="description" content="A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.">
+  <link rel="canonical" href="https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../services.html">Services</a>
+        <a href="../engagements.html">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../insights.html" class="active">Insights</a>
+        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let’s Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header page-header-compact">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
+      <h1 class="reveal reveal-delay-1">Practical AI Deployment for Engineering Teams</h1>
+      <p class="lead reveal reveal-delay-2">A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="../insights.html" class="article-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta">
+        <span>AI Engineering</span>
+        <span>7 min read</span>
+      </div>
+
+      <div>
+        <p>Shipping an AI model is mostly an infrastructure problem with a few ML-specific traps. The hard parts are not just loading weights and exposing an HTTP endpoint. It’s packaging the runtime, controlling latency, handling GPU scheduling, versioning prompts or models, and keeping enough telemetry to know when the system quietly degrades.</p>
+
+<p>For most teams, “AI deployment” really means building a repeatable path from trained artifact to production service. That path usually touches a model registry, a container build, a serving layer, a feature or retrieval dependency, and a rollback plan. If any one of those is ad hoc, production gets messy fast.</p>
+
+<div class="diagram">
+  <div class="diagram-title">Typical AI Deployment Flow</div>
+  <div class="diagram-flow">
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Package</span>
+        <span class="node-sub">Model + runtime</span>
+        <span class="node-tooltip">Build an immutable artifact with pinned dependencies, model version, and startup configuration.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Serve</span>
+        <span class="node-sub">API or batch job</span>
+        <span class="node-tooltip">Deploy behind a predictable interface with health checks, autoscaling, and resource isolation.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">3</span>
+      <span class="node-label">Observe</span>
+      <span class="node-sub">Metrics + rollback</span>
+      <span class="node-tooltip">Track latency, cost, output quality, and drift so you can detect regressions and revert quickly.</span>
+    </div>
+  </div>
+  <div class="diagram-hint">Hover over each step for details</div>
+</div>
+
+<h2>Pick the deployment shape before you pick the tools</h2>
+
+<p>There are three common shapes, and they need different infrastructure.</p>
+
+<ul>
+  <li><strong>Online inference:</strong> synchronous request-response APIs for chat, classification, ranking, or embeddings.</li>
+  <li><strong>Async inference:</strong> queue-backed jobs for document extraction, long-running generation, or large batch requests.</li>
+  <li><strong>Batch scoring:</strong> scheduled jobs over datasets, usually with Spark, Ray, Airflow, or plain Kubernetes Jobs.</li>
+</ul>
+
+<p>Teams get into trouble when they deploy all three with the same assumptions. A FastAPI app behind a load balancer is fine for low-latency inference, but it’s a bad fit for 20-minute OCR jobs. Likewise, a queue-based worker setup adds unnecessary complexity for a simple text classifier that needs 50 ms p95.</p>
+
+<p>Start from the SLOs:</p>
+
+<ul>
+  <li>Latency target: p50, p95, timeout budget.</li>
+  <li>Throughput target: requests per second or jobs per hour.</li>
+  <li>Cost target: per request, per token, per GPU hour.</li>
+  <li>Failure mode: retry, partial response, fallback model, or hard fail.</li>
+</ul>
+
+<p>Those four numbers drive almost every later decision.</p>
+
+<h2>Package the model as an immutable artifact</h2>
+
+<p>The deployment unit should be reproducible. That usually means a container image plus explicit references to model weights and configuration. Avoid “latest” tags, mutable S3 paths, or startup scripts that pull whatever is current from a bucket.</p>
+
+<p>A practical pattern looks like this:</p>
+
+<ul>
+  <li>Store model metadata in <code>MLflow</code>, <code>Weights &amp; Biases</code>, or a plain internal registry.</li>
+  <li>Build images with <code>Docker</code> or <code>BuildKit</code>.</li>
+  <li>Pin Python and CUDA dependencies exactly.</li>
+  <li>Reference model artifacts by digest or immutable object version.</li>
+  <li>Inject runtime config through environment variables or a config file, not by editing the image.</li>
+</ul>
+
+<p>For Python inference services, keep the image boring. A thin <code>python:3.11-slim</code> base for CPU or an <code>nvidia/cuda</code> runtime base for GPU is usually enough. If you need PyTorch with CUDA 12.1, pin it. If you need <code>transformers</code> 4.39 and <code>vllm</code> 0.4.x, pin those too. Most “works on one node but not another” issues come from dependency drift.</p>
+
+<p>Also separate code version from model version. You want to know whether a regression came from application logic, tokenizer changes, quantization settings, or new weights.</p>
+
+<h2> Choose the serving layer based on model behavior</h2>
+
+<p>Not every model should be served the same way.</p>
+
+<p>For classic ML models, a small API service using <code>FastAPI</code>, <code>scikit-learn</code>, and <code>uvicorn</code> is often enough. For PyTorch or TensorFlow models, use a dedicated server if it buys you batching or runtime optimizations. <code>Triton Inference Server</code> is still a solid choice for mixed model types and GPU workloads. For LLMs, <code>vLLM</code> and <code>Text Generation Inference</code> are the common practical options.</p>
+
+<p>What matters in production:</p>
+
+<ul>
+  <li><strong>Dynamic batching:</strong> improves GPU utilization, but increases tail latency if misconfigured.</li>
+  <li><strong>Concurrency control:</strong> cap in-flight requests to avoid OOM and cascading failures.</li>
+  <li><strong>Warm starts:</strong> pre-load weights before putting pods in rotation.</li>
+  <li><strong>Health checks:</strong> readiness should verify model load, not just process start.</li>
+</ul>
+
+<p>A common mistake is using CPU-style autoscaling rules for GPU-backed services. GPU inference often has long initialization times and poor scale-up behavior under sudden spikes. Horizontal Pod Autoscaler on CPU percentage won’t help much if the actual bottleneck is VRAM or token generation throughput. Custom metrics work better: queue depth, tokens/sec, active sequences, or request wait time.</p>
+
+<h2> Kubernetes works, but only if you respect GPU realities</h2>
+
+<p>Most teams land on Kubernetes, and that’s fine. Use it for scheduling, rollouts, secrets, and service discovery. But GPU workloads need a few extra controls.</p>
+
+<ul>
+  <li>Install the <code>NVIDIA Kubernetes device plugin</code>.</li>
+  <li>Use node pools dedicated to GPU instance types.</li>
+  <li>Apply taints and tolerations so general workloads do not land there.</li>
+  <li>Use <code>topologySpreadConstraints</code> or anti-affinity for availability.</li>
+  <li>Set realistic resource requests, especially memory and ephemeral storage.</li>
+</ul>
+
+<p>If model weights are large, startup time becomes an operational issue. Pulling 20 GB of weights from object storage on every pod restart is painful. Better options:</p>
+
+<ul>
+  <li>Bake frequently used weights into the image if the release cadence is low.</li>
+  <li>Use a node-local cache on NVMe.</li>
+  <li>Mount from a high-throughput shared filesystem like <code>FSx for Lustre</code> or similar, if your cloud supports it.</li>
+  <li>Pre-stage artifacts with an init container.</li>
+</ul>
+
+<p>For smaller teams, managed platforms like <code>SageMaker</code>, <code>Vertex AI</code>, or <code>Azure ML</code> can remove some control-plane work. The trade-off is less runtime flexibility and harder debugging when you hit edge cases. If you need custom CUDA stacks, specialized routers, or tight integration with your platform, plain Kubernetes is often simpler in the long run.</p>
+
+<h2> Treat prompts, retrieval, and feature dependencies as deployable components</h2>
+
+<p>Many AI systems fail because the model service is versioned, but everything around it is not.</p>
+
+<p>If you run an LLM application, the real deployed unit may include:</p>
+
+<ul>
+  <li>Prompt templates</li>
+  <li>System instructions</li>
+  <li>Tool definitions</li>
+  <li>Vector index versions</li>
+  <li>Embedding model versions</li>
+  <li>Feature transformations</li>
+</ul>
+
+<p>Version those explicitly. Store prompt templates in Git. Tag vector indexes with build IDs. Keep embedding migrations reversible. If you change chunking strategy in retrieval, that is a production change and should go through the same review path as code.</p>
+
+<p>One practical pattern is to define a deployment manifest that includes both infrastructure and AI-specific references:</p>
+
+<p><code>model_version=llama3-8b-q4</code><br/>
+<code>prompt_version=2026-03-01.2</code><br/>
+<code>embedding_version=bge-large-en-v1.5</code><br/>
+<code>index_snapshot=s3://indexes/legal-search/sha256:...</code></p>
+
+<p>That makes rollback possible. Without it, you end up guessing which moving part caused the drop in answer quality.</p>
+
+<h2> Observability needs model metrics, not just service metrics</h2>
+
+<p>CPU, memory, request count, and HTTP 500s are necessary but not enough. AI systems often fail while all traditional infrastructure dashboards stay green.</p>
+
+<p>Track at least these:</p>
+
+<ul>
+  <li><strong>Inference latency:</strong> queue time, preprocessing time, model time, postprocessing time.</li>
+  <li><strong>Throughput:</strong> requests/sec, tokens/sec, batch size, GPU utilization.</li>
+  <li><strong>Cost:</strong> token usage, GPU hours, external API spend.</li>
+  <li><strong>Quality proxies:</strong> fallback rate, abstain rate, retrieval hit rate, tool-call success rate.</li>
+  <li><strong>Data drift:</strong> input length, language distribution, feature null rate, embedding distance shifts.</li>
+</ul>
+
+<p><code>Prometheus</code> and <code>Grafana</code> are enough for infrastructure and serving metrics. For tracing, <code>OpenTelemetry</code> works well if you annotate stages like retrieval, prompt assembly, model invocation, and post-processing. For request replay and offline evaluation, log structured inputs and outputs carefully, with PII controls.</p>
+
+<p>The common mistake here is logging too little for debugging or too much for compliance. Redact aggressively. Keep sampled payloads. Store evaluation datasets separately from raw production traffic.</p>
+
+<h2> Rollouts should be boring and reversible</h2>
+
+<p>Blue-green and canary deployments work for AI services too, but the success criteria need to include output behavior, not just uptime.</p>
+
+<p>A sane rollout process:</p>
+
+<ol>
+  <li>Run offline evaluation against a fixed regression set.</li>
+  <li>Deploy to staging with production-like traffic shape.</li>
+  <li>Canary 1-5% of live traffic.</li>
+  <li>Compare latency, error rate, and quality proxies against baseline.</li>
+  <li>Promote gradually or roll back automatically.</li>
+</ol>
+
+<p>If you use <code>Argo Rollouts</code> or <code>Flagger</code>, wire them to metrics that matter. For an LLM service, that might be timeout rate, answer truncation rate, or judge-model score on sampled outputs. For a ranking model, maybe click-through delta or NDCG on shadow traffic.</p>
+
+<p>Shadow deployments are especially useful when outputs are hard to compare online. Send a copy of production requests to the candidate model, store outputs, and evaluate later. This catches bad regressions before users see them.</p>
+
+<h2> Common deployment mistakes we keep seeing</h2>
+
+<ul>
+  <li><strong>No separation between training and serving environments.</strong> Training images are huge and messy. Serving images should be smaller and predictable.</li>
+  <li><strong>Autoscaling on the wrong signal.</strong> CPU is often irrelevant for GPU-heavy inference.</li>
+  <li><strong>No backpressure.</strong> Without queue limits and request caps, overload turns into OOM and pod churn.</li>
+  <li><strong>Unversioned prompts or indexes.</strong> You cannot debug what you cannot reproduce.</li>
+  <li><strong>No cold-start plan.</strong> Large models need prewarming, staged rollouts, or always-on capacity.</li>
+  <li><strong>Ignoring cost telemetry.</strong> Teams notice cloud spend long after the architecture is hard to change.</li>
+</ul>
+
+<h2> What to implement first</h2>
+
+<p>If your deployment process is still manual, don’t start with a giant platform rewrite. Start with a narrow, repeatable path:</p>
+
+<ol>
+  <li>Create an immutable build for one model service.</li>
+  <li>Deploy it on Kubernetes with proper readiness checks and resource limits.</li>
+  <li>Add Prometheus metrics for latency, queue depth, and model-specific throughput.</li>
+  <li>Version prompts, indexes, and model artifacts together in one manifest.</li>
+  <li>Set up canary rollout plus a one-click rollback.</li>
+</ol>
+
+<p>Once that works for one service, standardize the pattern. Most AI deployment problems are not unique. They’re the usual platform engineering problems, just with bigger artifacts, slower startup, more expensive compute, and fuzzier failure modes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="../ai-engineering.html">AI Engineering</a>
+          <a href="../platform-engineering.html">Platform Engineering</a>
+          <a href="../devops-automation.html">DevOps Automation</a>
+          <a href="../cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="../about.html">About</a>
+          <a href="../engagements.html">Engagements</a>
+          <a href="../insights.html">Insights</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="../contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
