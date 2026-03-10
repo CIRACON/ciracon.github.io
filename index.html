@@ -106,9 +106,6 @@
     .hero-cta:hover svg { transform: translate(3px, -3px); }
     .hero-experience { margin-top: var(--space-lg); font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; }
     .hero-experience strong { color: var(--text-dim); font-weight: 500; }
-    .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: var(--font-mono); color: var(--text-muted); font-size: 0.5625rem; letter-spacing: 0.2em; text-transform: uppercase; }
-    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gray-500), transparent); animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
 
     /* ── Main ── */
     .main-content { position: relative; background: var(--bg); z-index: 20; }
@@ -396,11 +393,6 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
       <p class="hero-experience"><strong>25+ years</strong> of engineering across AI, cloud, and enterprise systems</p>
-    </div>
-
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
     </div>
   </section>
 
