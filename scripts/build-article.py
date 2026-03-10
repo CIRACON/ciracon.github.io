@@ -84,7 +84,7 @@ def build_article_page(meta: dict, body: str) -> str:
         <a href="../engagements.html">Work</a>
         <a href="../about.html">About</a>
         <a href="../insights.html" class="active">Insights</a>
-        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let\\u2019s Talk</a>
+        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let\u2019s Talk</a>
       </div>
     </div>
   </nav>
