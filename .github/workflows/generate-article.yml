@@ -1,0 +1,68 @@
+name: Generate Insight Article
+
+on:
+  schedule:
+    # Runs Tuesday and Thursday at 9:00 AM UTC
+    - cron: '0 9 * * 2,4'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Discover topic and generate article
+        id: generate
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/generate-article.py
+
+      - name: Build article HTML page
+        id: build
+        run: python scripts/build-article.py "${{ steps.generate.outputs.article_path }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: article/${{ steps.generate.outputs.article_slug }}
+          delete-branch: true
+          commit-message: "Add insight: ${{ steps.generate.outputs.article_title }}"
+          title: "New Insight: ${{ steps.generate.outputs.article_title }}"
+          body: |
+            ## Auto-generated insight article
+
+            **Topic:** ${{ steps.generate.outputs.article_title }}
+            **Category:** ${{ steps.generate.outputs.article_category }}
+
+            ### What to review
+            - [ ] Read the article for accuracy and tone
+            - [ ] Check that the insight card was added to `insights.html`
+            - [ ] Verify the article page renders correctly
+
+            ### Files changed
+            - `${{ steps.generate.outputs.article_path }}` — source Markdown
+            - `${{ steps.build.outputs.page_path }}` — generated HTML article
+            - `insights.html` — new card added to the grid
+
+            ---
+            *Generated automatically from trending topics via Google Trends + OpenAI.*
+            *Review, edit, and merge when ready to publish.*
+          labels: |
+            insight
+            auto-generated
