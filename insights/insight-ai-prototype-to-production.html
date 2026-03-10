@@ -69,13 +69,59 @@
         <div class="diagram">
           <div class="diagram-title">From notebook to production</div>
           <div class="diagram-flow">
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Notebook<small>Experiment</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Container<small>Package</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">CI / CD<small>Test &amp; Build</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Registry<small>Version</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Deploy<small>Serve</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-node">Monitor<small>Observe</small></div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">1</span>
+                <span class="node-label">Notebook</span>
+                <span class="node-sub">Experiment</span>
+                <span class="node-tooltip">Jupyter or Colab notebooks for rapid experimentation, data exploration, and model prototyping.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">2</span>
+                <span class="node-label">Container</span>
+                <span class="node-sub">Package</span>
+                <span class="node-tooltip">Dockerize the model and its dependencies into a reproducible, portable image.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">3</span>
+                <span class="node-label">CI / CD</span>
+                <span class="node-sub">Test &amp; Build</span>
+                <span class="node-tooltip">Automated pipelines run unit tests, integration checks, and build artifacts on every commit.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">4</span>
+                <span class="node-label">Registry</span>
+                <span class="node-sub">Version</span>
+                <span class="node-tooltip">Store versioned model artifacts and container images in a central registry for traceability.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">5</span>
+                <span class="node-label">Deploy</span>
+                <span class="node-sub">Serve</span>
+                <span class="node-tooltip">Serve the model behind an API with autoscaling, canary rollouts, and traffic management.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-node">
+              <span class="node-num">6</span>
+              <span class="node-label">Monitor</span>
+              <span class="node-sub">Observe</span>
+              <span class="node-tooltip">Track latency, accuracy, and data drift in production to catch model degradation early.</span>
+            </div>
           </div>
+          <div class="diagram-hint">Hover over each step for details</div>
         </div>
 
         <p>Through building these systems, we've found a consistent set of capabilities that separate working AI deployments from science projects:</p>

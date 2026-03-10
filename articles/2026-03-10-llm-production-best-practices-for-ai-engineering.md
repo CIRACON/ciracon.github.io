@@ -12,12 +12,50 @@ slug: "llm-production-best-practices-for-ai-engineering"
 <div class="diagram">
   <div class="diagram-title">Typical LLM Production Request Path</div>
   <div class="diagram-flow">
-    <div class="diagram-flow-step"><div class="diagram-flow-node">Client Request<small>chat, search, agent task</small></div><div class="diagram-flow-arrow">→</div></div>
-    <div class="diagram-flow-step"><div class="diagram-flow-node">Gateway<small>auth, quotas, routing</small></div><div class="diagram-flow-arrow">→</div></div>
-    <div class="diagram-flow-step"><div class="diagram-flow-node">Orchestrator<small>prompting, tools, retries</small></div><div class="diagram-flow-arrow">→</div></div>
-    <div class="diagram-flow-step"><div class="diagram-flow-node">Context Layer<small>cache, vector DB, feature data</small></div><div class="diagram-flow-arrow">→</div></div>
-    <div class="diagram-flow-node">Model Inference<small>hosted API or self-hosted GPU</small></div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Client Request</span>
+        <span class="node-sub">chat, search, agent task</span>
+        <span class="node-tooltip">An incoming API call — chat completion, search query, or autonomous agent task — enters the system.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Gateway</span>
+        <span class="node-sub">auth, quotas, routing</span>
+        <span class="node-tooltip">Handles authentication, rate limiting, and routes requests to the appropriate model or version.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">3</span>
+        <span class="node-label">Orchestrator</span>
+        <span class="node-sub">prompting, tools, retries</span>
+        <span class="node-tooltip">Constructs prompts, manages tool calls and function routing, and handles retries on failures.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">4</span>
+        <span class="node-label">Context Layer</span>
+        <span class="node-sub">cache, vector DB, feature data</span>
+        <span class="node-tooltip">Enriches the prompt with cached results, vector-retrieved context, and real-time feature data.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">5</span>
+      <span class="node-label">Model Inference</span>
+      <span class="node-sub">hosted API or self-hosted GPU</span>
+      <span class="node-tooltip">The final LLM call — either a hosted API or self-hosted GPU endpoint — generates the response.</span>
+    </div>
   </div>
+  <div class="diagram-hint">Hover over each step for details</div>
 </div>
 
 <h2>Start with the service boundary, not the model</h2>

@@ -61,13 +61,59 @@
         <div class="diagram">
           <div class="diagram-title">RAG pipeline overview</div>
           <div class="diagram-flow">
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Query<small>User input</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Rewrite<small>Expand query</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Embed<small>Vectorize</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Retrieve<small>Top-K chunks</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Re-rank<small>Cross-encoder</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-node">Generate<small>LLM + context</small></div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">1</span>
+                <span class="node-label">Query</span>
+                <span class="node-sub">User input</span>
+                <span class="node-tooltip">The raw question or prompt from the user that kicks off the retrieval pipeline.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">2</span>
+                <span class="node-label">Rewrite</span>
+                <span class="node-sub">Expand query</span>
+                <span class="node-tooltip">Rephrase or expand the query using HyDE or multi-query techniques for better recall.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">3</span>
+                <span class="node-label">Embed</span>
+                <span class="node-sub">Vectorize</span>
+                <span class="node-tooltip">Convert the rewritten query into a dense vector using the same embedding model as your corpus.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">4</span>
+                <span class="node-label">Retrieve</span>
+                <span class="node-sub">Top-K chunks</span>
+                <span class="node-tooltip">Search the vector store for the most semantically similar document chunks using ANN.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">5</span>
+                <span class="node-label">Re-rank</span>
+                <span class="node-sub">Cross-encoder</span>
+                <span class="node-tooltip">Score each retrieved chunk with a cross-encoder to reorder by true relevance to the query.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-node">
+              <span class="node-num">6</span>
+              <span class="node-label">Generate</span>
+              <span class="node-sub">LLM + context</span>
+              <span class="node-tooltip">Feed top-ranked chunks into the LLM prompt to produce a grounded, accurate response.</span>
+            </div>
           </div>
+          <div class="diagram-hint">Hover over each step for details</div>
         </div>
 
         <h2>Chunking strategy matters more than you think</h2>

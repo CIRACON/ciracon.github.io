@@ -64,24 +64,30 @@
             <div class="diagram-stack-layer">
               <span class="diagram-stack-label">Policy</span>
               <div class="diagram-stack-items"><span>OPA / Sentinel</span><span>Compliance checks</span><span>Cost controls</span></div>
+              <span class="node-tooltip">Enforce guardrails before apply — budget limits, naming conventions, and regulatory compliance as code.</span>
             </div>
             <div class="diagram-stack-layer">
               <span class="diagram-stack-label">CI / CD</span>
               <div class="diagram-stack-items"><span>Plan on PR</span><span>Approval gates</span><span>Apply on merge</span></div>
+              <span class="node-tooltip">Every infra change runs plan on PR, requires peer approval, and applies automatically on merge.</span>
             </div>
             <div class="diagram-stack-layer">
               <span class="diagram-stack-label">Testing</span>
               <div class="diagram-stack-items"><span>tflint</span><span>checkov</span><span>Terratest</span><span>Drift detection</span></div>
+              <span class="node-tooltip">Lint, security scan, integration test, and drift detection — catch issues before they reach production.</span>
             </div>
             <div class="diagram-stack-layer">
               <span class="diagram-stack-label">Modules</span>
               <div class="diagram-stack-items"><span>Versioned</span><span>Small interface</span><span>Single concern</span></div>
+              <span class="node-tooltip">Composable, versioned modules with minimal inputs — each module owns one logical resource group.</span>
             </div>
             <div class="diagram-stack-layer">
               <span class="diagram-stack-label">State</span>
               <div class="diagram-stack-items"><span>Remote backend</span><span>Per-component split</span><span>Locking</span></div>
+              <span class="node-tooltip">Remote state with locking prevents conflicts. Split state per component to limit blast radius.</span>
             </div>
           </div>
+          <div class="diagram-hint">Hover over each layer for details</div>
         </div>
 
         <h2>State management is the first real challenge</h2>

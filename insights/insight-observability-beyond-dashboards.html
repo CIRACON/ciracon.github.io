@@ -61,16 +61,43 @@
         <div class="diagram">
           <div class="diagram-title">Observability signal flow</div>
           <div class="diagram-flow">
-            <div class="diagram-flow-step"><div class="diagram-flow-node">Logs<small>Structured events</small></div><div class="diagram-flow-arrow">→</div></div>
-            <div class="diagram-flow-step"><div class="diagram-flow-node" style="border-color: var(--accent);">Correlate<small>Trace ID + context</small></div><div class="diagram-flow-arrow">←</div></div>
-            <div class="diagram-flow-node">Metrics<small>High cardinality</small></div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">1</span>
+                <span class="node-label">Logs</span>
+                <span class="node-sub">Structured events</span>
+                <span class="node-tooltip">Structured JSON logs with consistent fields — timestamp, service, trace ID — for machine-parseable querying.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-step">
+              <div class="diagram-flow-node">
+                <span class="node-num">2</span>
+                <span class="node-label">Correlate</span>
+                <span class="node-sub">Trace ID + context</span>
+                <span class="node-tooltip">Join logs, metrics, and traces using shared trace IDs and context propagation across services.</span>
+              </div>
+              <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-flow-node">
+              <span class="node-num">3</span>
+              <span class="node-label">Metrics</span>
+              <span class="node-sub">High cardinality</span>
+              <span class="node-tooltip">High-cardinality metrics (per-endpoint, per-tenant) give granular signal beyond aggregate dashboards.</span>
+            </div>
           </div>
           <div style="text-align: center; padding: 0.5rem 0;">
-            <span class="diagram-flow-arrow">↑</span>
+            <svg width="12" height="24" viewBox="0 0 12 24"><line x1="6" y1="24" x2="6" y2="6" stroke="rgba(59,130,246,0.4)" stroke-width="1.5"/><polygon points="2,6 6,0 10,6" fill="rgba(59,130,246,0.5)"/></svg>
           </div>
           <div class="diagram-flow" style="justify-content: center;">
-            <div class="diagram-flow-node">Traces<small>Distributed spans</small></div>
+            <div class="diagram-flow-node">
+              <span class="node-num">4</span>
+              <span class="node-label">Traces</span>
+              <span class="node-sub">Distributed spans</span>
+              <span class="node-tooltip">Distributed traces show the full request path across services, revealing latency bottlenecks.</span>
+            </div>
           </div>
+          <div class="diagram-hint">Hover over each signal for details</div>
         </div>
 
         <h2>The three pillars are a starting point, not a destination</h2>

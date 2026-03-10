@@ -137,10 +137,32 @@ Flow diagram (for pipelines, sequences):
 <div class="diagram">
   <div class="diagram-title">LABEL HERE</div>
   <div class="diagram-flow">
-    <div class="diagram-flow-step"><div class="diagram-flow-node">Step 1<small>Detail</small></div><div class="diagram-flow-arrow">→</div></div>
-    <div class="diagram-flow-step"><div class="diagram-flow-node">Step 2<small>Detail</small></div><div class="diagram-flow-arrow">→</div></div>
-    <div class="diagram-flow-node">Final Step<small>Detail</small></div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Step 1</span>
+        <span class="node-sub">Subtitle</span>
+        <span class="node-tooltip">One-sentence explanation of this step shown on hover.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Step 2</span>
+        <span class="node-sub">Subtitle</span>
+        <span class="node-tooltip">One-sentence explanation of this step shown on hover.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">3</span>
+      <span class="node-label">Final Step</span>
+      <span class="node-sub">Subtitle</span>
+      <span class="node-tooltip">One-sentence explanation of this step shown on hover.</span>
+    </div>
   </div>
+  <div class="diagram-hint">Hover over each step for details</div>
 </div>
 
 Stack diagram (for layers, maturity models):
@@ -150,9 +172,11 @@ Stack diagram (for layers, maturity models):
     <div class="diagram-stack-layer">
       <span class="diagram-stack-label">LAYER</span>
       <div class="diagram-stack-items"><span>Item 1</span><span>Item 2</span></div>
+      <span class="node-tooltip">One-sentence explanation of this layer shown on hover.</span>
     </div>
     <!-- repeat per layer, top-down order -->
   </div>
+  <div class="diagram-hint">Hover over each layer for details</div>
 </div>
 
 Comparison diagram (for vs, before/after):
@@ -161,11 +185,11 @@ Comparison diagram (for vs, before/after):
   <div class="diagram-compare">
     <div class="diagram-compare-col diagram-col-muted">
       <h4>Option A</h4>
-      <ul><li>Point 1</li><li>Point 2</li></ul>
+      <ul><li><span class="cmp-icon">&ndash;</span> Point 1</li><li><span class="cmp-icon">&ndash;</span> Point 2</li></ul>
     </div>
     <div class="diagram-compare-col diagram-col-accent">
       <h4>Option B</h4>
-      <ul><li>Point 1</li><li>Point 2</li></ul>
+      <ul><li><span class="cmp-icon">&check;</span> Point 1</li><li><span class="cmp-icon">&check;</span> Point 2</li></ul>
     </div>
   </div>
 </div>
@@ -174,10 +198,17 @@ Cycle diagram (for iterative processes):
 <div class="diagram">
   <div class="diagram-title">LABEL HERE</div>
   <div class="diagram-cycle">
-    <div class="diagram-cycle-step"><div class="diagram-cycle-node">Step 1</div><div class="diagram-cycle-arrow">→</div></div>
-    <div class="diagram-cycle-step"><div class="diagram-cycle-node">Step 2</div><div class="diagram-cycle-arrow">→</div></div>
-    <div class="diagram-cycle-node">Step 1</div>
+    <div class="diagram-cycle-step">
+      <div class="diagram-cycle-node">Step 1<span class="node-tooltip">One-sentence explanation of this phase shown on hover.</span></div>
+      <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-cycle-step">
+      <div class="diagram-cycle-node">Step 2<span class="node-tooltip">One-sentence explanation of this phase shown on hover.</span></div>
+      <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-cycle-node">Step 1<span class="node-tooltip">The cycle repeats from here.</span></div>
   </div>
+  <div class="diagram-hint">Hover over each phase for details</div>
 </div>
 
 Output format: Return ONLY the article body in HTML (using <p>, <h2>, <h3>, <ul>, <ol>,

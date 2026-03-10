@@ -61,13 +61,29 @@
         <div class="diagram">
           <div class="diagram-title">AI governance lifecycle</div>
           <div class="diagram-cycle">
-            <div class="diagram-cycle-step"><div class="diagram-cycle-node">Evaluate</div><div class="diagram-cycle-arrow">→</div></div>
-            <div class="diagram-cycle-step"><div class="diagram-cycle-node">Guardrails</div><div class="diagram-cycle-arrow">→</div></div>
-            <div class="diagram-cycle-step"><div class="diagram-cycle-node">Ship</div><div class="diagram-cycle-arrow">→</div></div>
-            <div class="diagram-cycle-step"><div class="diagram-cycle-node">Audit</div><div class="diagram-cycle-arrow">→</div></div>
-            <div class="diagram-cycle-step"><div class="diagram-cycle-node">Monitor</div><div class="diagram-cycle-arrow">→</div></div>
-            <div class="diagram-cycle-node">Evaluate</div>
+            <div class="diagram-cycle-step">
+              <div class="diagram-cycle-node">Evaluate<span class="node-tooltip">Assess new models and use cases against risk criteria, bias benchmarks, and business requirements.</span></div>
+              <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-cycle-step">
+              <div class="diagram-cycle-node">Guardrails<span class="node-tooltip">Define input/output filters, content policies, and safety boundaries before deployment.</span></div>
+              <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-cycle-step">
+              <div class="diagram-cycle-node">Ship<span class="node-tooltip">Deploy with feature flags, canary rollouts, and rollback plans in place.</span></div>
+              <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-cycle-step">
+              <div class="diagram-cycle-node">Audit<span class="node-tooltip">Review decision logs, flagged outputs, and compliance reports on a regular cadence.</span></div>
+              <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-cycle-step">
+              <div class="diagram-cycle-node">Monitor<span class="node-tooltip">Track model drift, output quality, and safety violations in real-time production telemetry.</span></div>
+              <div class="diagram-cycle-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+            </div>
+            <div class="diagram-cycle-node">Evaluate<span class="node-tooltip">The cycle repeats — re-evaluate as models evolve, data shifts, and requirements change.</span></div>
           </div>
+          <div class="diagram-hint">Hover over each phase for details</div>
         </div>
 
         <h2>The problem with "just ship it"</h2>
