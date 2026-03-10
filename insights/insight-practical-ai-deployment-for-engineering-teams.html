@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Practical AI Deployment for Engineering Teams | Ciracon</title>
   <meta name="description" content="A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -254,7 +255,11 @@
   <li>Version prompts, indexes, and model artifacts together in one manifest.</li>
   <li>Set up canary rollout plus a one-click rollback.</li>
 </ol>
+<h2>What usually goes wrong</h2>
 
+<p>The biggest deployment failure we see: teams that treat model serving like a regular microservice. Models have fundamentally different resource profiles — GPU memory constraints, long cold-start times, variable inference latency. Rolling updates that work fine for a REST API can cause cascading failures when the new model pod takes 3 minutes to load weights while the old one is already terminated.</p>
+
+<p>Canary deployments are non-negotiable for AI services. You need traffic splitting, not just health checks. A model can be "healthy" (serving requests, returning 200s) while producing garbage outputs because of a data drift issue. Your canary criteria should include output quality metrics, not just latency and error rates.</p>
 <p>Once that works for one service, standardize the pattern. Most AI deployment problems are not unique. They’re the usual platform engineering problems, just with bigger artifacts, slower startup, more expensive compute, and fuzzier failure modes.</p>
       </div>
     </div>

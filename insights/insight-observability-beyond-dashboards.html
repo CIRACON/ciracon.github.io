@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Observability Beyond Dashboards | Ciracon</title>
   <meta name="description" content="Dashboards show you what you already know to look for. Real observability means being able to ask new questions about your system without deploying new code.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-observability-beyond-dashboards.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,6 +158,12 @@
           <li>Incidents start with data, not guesses. The first step in debugging is querying the observability system, not reading code or restarting services.</li>
           <li>After every incident, the team asks: "Could we have diagnosed this faster with better instrumentation?" If yes, adding that instrumentation is part of the remediation.</li>
         </ul>
+
+        <h2>What typically goes wrong</h2>
+
+        <p>The most expensive observability mistake: collecting everything and querying nothing. Teams ingest terabytes of logs and traces, pay enormous storage bills, and still can't answer "why is this endpoint slow" during an incident. High-cardinality data is only valuable if you've built the queries and alerts that use it. Start with the questions you need to answer, then instrument for those questions.</p>
+
+        <p>Another failure mode: treating observability as a tooling problem instead of a practice. Buying Datadog or Grafana Cloud doesn't give you observability. Training your engineers to add meaningful spans, write useful structured log messages, and include correlation IDs in every request — that gives you observability. The tool is just the storage layer.</p>
 
         <p>Observability is a practice, not a product. You can buy tools that make it easier, but the real work is building the habit of asking questions your system can answer, and extending instrumentation when it can't.</p>
       </div>

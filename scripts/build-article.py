@@ -63,6 +63,7 @@ def build_article_page(meta: dict, body: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} | Ciracon</title>
   <meta name="description" content="{description}">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-{slug}.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

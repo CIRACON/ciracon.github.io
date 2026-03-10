@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infrastructure as Code: Beyond the Basics | Ciracon</title>
   <meta name="description" content="Writing Terraform is the easy part. The hard problems are module architecture, state management, testing, and making IaC work at scale across teams.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-infrastructure-as-code.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,6 +140,12 @@
         <p>The hardest IaC problems aren't technical — they're organizational. Who can modify what? How do you enforce standards without blocking teams? How do you handle the team that refuses to use the shared modules?</p>
 
         <p>There's no single right answer, but a few things help: define clear ownership boundaries (this team owns this state), use policy-as-code tools like OPA or Sentinel to enforce guardrails automatically, and make the right thing the easy thing. If your shared modules are harder to use than writing raw Terraform, people will write raw Terraform.</p>
+
+        <h2>Lessons learned the hard way</h2>
+
+        <p>The IaC mistake that causes the most damage: mixing application config and infrastructure config in the same repository and pipeline. When a bad Terraform plan can block your application deployments, you've coupled things that should be independent. Separate the lifecycles. Infrastructure changes are slower, riskier, and need different approval workflows than application changes.</p>
+
+        <p>State file management is where most teams' IaC journey almost derails. We've seen production outages caused by concurrent state modifications, lost state files, and state that drifted so far from reality that a plan showed 200 resources to destroy. Use remote state with locking from day one. Split state files by blast radius — networking, compute, and application infrastructure should be separate state files so a mistake in one doesn't affect the others.</p>
 
         <p>IaC at scale is an organizational design problem as much as a technical one. The teams that do it well treat their infrastructure codebase with the same rigor — reviews, testing, versioning, documentation — as their application codebase.</p>
       </div>

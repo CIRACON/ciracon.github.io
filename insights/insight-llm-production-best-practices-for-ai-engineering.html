@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LLM Production Best Practices for AI Engineering | Ciracon</title>
   <meta name="description" content="A practical guide to deploying, monitoring, and scaling large language models in production AI engineering systems.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-llm-production-best-practices-for-ai-engineering.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -256,6 +257,14 @@
   <li>Canary releases for prompt and model changes</li>
   <li>Schema validation around all structured outputs</li>
 </ul>
+<h2>Common failure modes we keep seeing</h2>
+
+<p>The number one mistake: skipping the gateway. Teams call model APIs directly from application code, then six months later can't answer basic questions — which team is spending the most, what's our p99 latency, can we switch providers without a code change. A gateway is boring infrastructure, but it's the difference between operating an LLM system and just running one.</p>
+
+<p>Second: treating prompt engineering as a one-time activity. Prompts degrade as models get updated. The prompt that worked perfectly on GPT-4-0613 may behave differently on the next version. If you're not running regression evals on prompt changes, you're flying blind.</p>
+
+<p>Third: ignoring cost until the invoice arrives. Token-level attribution is not optional at scale. We've seen teams discover that a single poorly-written system prompt was responsible for 40% of their total spend. You can't optimize what you don't measure.</p>
+
 <p>Next steps are straightforward. Map one production use case end to end. Define latency, token, and cost budgets. Put a gateway in front of model access. Version prompts and retrieval configs. Add traces around every step. Build a small eval set from real traffic before you tune anything else. That will get you farther than debating model benchmarks in a slide deck.</p>
       </div>
     </div>

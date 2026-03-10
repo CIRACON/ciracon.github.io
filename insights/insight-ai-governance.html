@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Governance for Engineering Teams | Ciracon</title>
   <meta name="description" content="Evaluation frameworks, guardrails, and audit trails that make AI systems safe to operate in production — written for engineers, not compliance officers.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-ai-governance.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -161,6 +162,12 @@
           <li>Add one guardrail: output format validation or a basic grounding check.</li>
           <li>Set up a weekly review of sampled production interactions.</li>
         </ol>
+
+        <h2>What governance failures actually look like</h2>
+
+        <p>The scariest governance failure isn't a dramatic AI incident — it's the slow drift nobody notices. A prompt gets edited in production to handle a new edge case. Then another edit. Six months later, the system behaves completely differently from what was reviewed and approved, and nobody can explain why. Version control for prompts isn't bureaucracy. It's the minimum viable safety net.</p>
+
+        <p>Another pattern: teams that build elaborate governance frameworks on paper but don't automate enforcement. If your guardrails require a human to review every interaction or manually check compliance, they'll be bypassed within weeks. The only governance that works at scale is automated governance — input validation, output filtering, and automated eval scoring running in the request path, not in a review meeting.</p>
 
         <p>That's four things. Each one takes a day or less. Together, they give you dramatically more confidence in what your AI system is actually doing. You can layer on more sophisticated evaluation, automated red-teaming, and policy enforcement later. But start with the basics and build from there.</p>
       </div>

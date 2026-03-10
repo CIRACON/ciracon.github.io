@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Network Observability in DevOps Automation | Ciracon</title>
   <meta name="description" content="Learn how network observability improves monitoring, troubleshooting, and performance across automated DevOps environments.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-network-observability-in-devops-automation.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -239,6 +240,12 @@
 <p>Fourth, correlate telemetry with deploys and infrastructure changes. Even a simple Grafana annotation from your CI/CD pipeline helps.</p>
 
 <p>Finally, run a game day. Simulate DNS slowness, packet loss on one node pool, and a failing egress path. If your team cannot identify the fault domain in a few minutes, your observability still has gaps.</p>
+
+<h2>Lessons from real incidents</h2>
+
+<p>The observability gap that bites teams hardest: east-west traffic between services. Everyone monitors north-south (ingress to service), but the failures that take the longest to diagnose are service-to-service communication issues — retries amplifying load, connection pool exhaustion, DNS resolution delays. If you're not tracking inter-service latency distributions, you're missing the most common source of cascading failures.</p>
+
+<p>Another pattern we see repeatedly: teams that collect network metrics but never build runbooks around them. When the incident happens at 2 AM, having a Grafana dashboard with 200 panels doesn't help if nobody knows which panel to look at. Curate your dashboards ruthlessly. Five panels, one per critical path, with clear thresholds and linked alerts.</p>
 
 <p>That is the test that matters: not whether you have network data, but whether you can use it under pressure.</p>
       </div>

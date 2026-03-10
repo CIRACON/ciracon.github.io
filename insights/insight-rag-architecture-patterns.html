@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAG Architecture Patterns That Work | Ciracon</title>
   <meta name="description" content="Practical patterns for building production RAG systems — indexing strategies, retrieval approaches, context management, and evaluation methods that hold up under real workloads.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-rag-architecture-patterns.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -190,6 +191,14 @@
           <li><strong>Cost.</strong> LLM API costs scale with token volume. Large contexts mean higher per-query costs. Monitor token usage per query and set alerts for anomalies.</li>
           <li><strong>Guardrails.</strong> The model can still hallucinate even with retrieved context. Add post-processing to check that the answer is grounded in the provided context. Citation extraction helps users verify answers and builds trust.</li>
         </ul>
+
+        <h2>Lessons learned from production RAG</h2>
+
+        <p>Most production RAG systems fail because teams optimize retrieval before they build evaluation loops. You end up tuning chunk sizes and embedding models with no way to measure whether the changes helped. Build the eval pipeline first, even if it's just 50 hand-labeled question-answer pairs.</p>
+
+        <p>Another common failure: treating the vector database as a black box. Teams load documents, run similarity search, and wonder why results are bad. The problem is usually in the chunking — splitting on token count instead of semantic boundaries, losing context that the LLM needs. We've seen teams get a 30% relevance improvement just by switching from fixed-size chunks to paragraph-aware splitting.</p>
+
+        <p>The re-ranking step is consistently undervalued. Teams skip it to reduce latency, but a cross-encoder re-ranker typically improves answer quality more than any embedding model upgrade. If you're optimizing the wrong layer, you're wasting engineering time.</p>
 
         <p>RAG is a good pattern, but it's not magic. The systems that work well are the ones built with the same rigor as any other production software: tested, monitored, and iterated on based on real usage data.</p>
       </div>

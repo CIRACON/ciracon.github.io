@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moving AI from Prototype to Production | Ciracon</title>
   <meta name="description" content="Why most AI projects stall between demo and deployment, and what it actually takes to build the platform layer that gets models into production.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-ai-prototype-to-production.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,6 +158,12 @@
           <li>Deploy to your existing infrastructure. Kubernetes, ECS, Cloud Run — whatever your team already knows.</li>
           <li>Then and only then, start layering on the ML-specific tooling: model registry, feature store, automated retraining.</li>
         </ol>
+
+        <h2>Architecture mistakes we see repeatedly</h2>
+
+        <p>The number one architecture mistake: embedding the model directly into the application. Data scientists build a Flask app that loads the model into memory and serves predictions. It works in development. Then in production, you can't scale the model independently from the application, you can't A/B test model versions, and deploying a new model requires redeploying the entire application. Separate the model serving layer from the application layer from the start.</p>
+
+        <p>Second: skipping the evaluation pipeline because "we'll add it later." You won't. Once the model is in production and stakeholders are happy, nobody allocates time for evaluation infrastructure. Build it alongside the model, even if it's just a script that runs your test cases and logs accuracy metrics. Without it, you have no way to know if a model update improved things or made them worse.</p>
 
         <p>The goal isn't to build a perfect platform. It's to start treating models like software and iterating from there.</p>
       </div>

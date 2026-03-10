@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enhancing Efficiency with Internal Developer Portals | Ciracon</title>
   <meta name="description" content="Explore how internal developer portals streamline workflows and boost productivity in platform engineering teams.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-enhancing-efficiency-with-internal-developer-portals.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,6 +113,14 @@
 
 <h3>Security and Compliance</h3>
 <p>Implement role-based access control (RBAC) to ensure secure access to resources. Regularly audit the IDP to comply with organizational security policies.</p>
+
+<h2>Where IDP initiatives typically fail</h2>
+
+<p>The most common failure mode: building the portal before solving the underlying problem. If your CI/CD is a mess, wrapping it in a Backstage plugin doesn't make it less of a mess — it just gives it a nicer UI. Fix the platform primitives first, then build the portal on top.</p>
+
+<p>Second mistake: building for completeness instead of adoption. Teams spend months integrating every tool and data source into the portal, then launch to developers who don't use it because the three things they actually need aren't there yet. Start with the top pain point. If "where is my deployment" is the number one question in Slack, make that the first thing the portal answers.</p>
+
+<p>Third: treating the IDP as a project instead of a product. Internal platforms need product management — user research, feedback loops, iteration. The teams that assign a PM or a platform product owner to their IDP consistently get better adoption than teams that treat it as a one-time engineering effort.</p>
 
 <h2>Next Steps</h2>
 <p>Evaluate your current toolchain. Identify gaps that an IDP can fill. Engage with your team to gather requirements and define MVP features. Choose a starting point, preferably with open-source solutions, and begin building your IDP. Monitor usage and feedback to guide future development.</p>

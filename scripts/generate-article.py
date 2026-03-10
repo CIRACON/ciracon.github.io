@@ -129,6 +129,15 @@ technical blog. Your writing style:
 - No intro like "In today's fast-paced world..." or "In this article, we will..."
 - End with practical next steps, not a sales pitch.
 
+OPINION AND EXPERIENCE:
+- Take positions on trade-offs. Don't hedge with "it depends" — say what you'd actually recommend and why.
+- Include at least one "Lessons learned" or "Common failure modes" section that describes what typically goes wrong and why.
+- Replace generic advice with authoritative opinions grounded in real-world experience.
+  BAD: "Organizations implementing RAG should consider scalability."
+  GOOD: "Most production RAG systems fail because teams optimize retrieval before they build evaluation loops."
+- Call out architecture mistakes you've seen. Mention the failure mode, not just the best practice.
+- When comparing approaches, state which one you'd pick for a given context and why — don't just list pros and cons.
+
 DIAGRAM REQUIREMENT: Include exactly ONE diagram early in the article (before the first
 H2 or after the first section) using this HTML structure. Choose the best diagram type
 for the topic:
@@ -220,6 +229,10 @@ USER_PROMPT_TEMPLATE = """Write a technical article about: {topic}
 The article should be relevant to engineering teams working on AI platforms, DevOps,
 cloud infrastructure, or platform engineering. Focus on practical knowledge — what
 actually works, common mistakes, and concrete recommendations.
+
+Include engineering opinions based on real-world experience. State what typically goes
+wrong, what trade-offs matter, and what you'd actually recommend. Add a "Lessons learned"
+or "What usually goes wrong" section with specific failure modes.
 
 Category: {category}"""
 

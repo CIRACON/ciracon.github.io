@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Platform Engineering vs. Traditional DevOps | Ciracon</title>
   <meta name="description" content="Platform engineering isn't DevOps rebranded. It's a fundamentally different approach: building internal products instead of managing infrastructure for other teams.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-platform-engineering-vs-devops.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,6 +132,12 @@
         <h2>Starting small</h2>
 
         <p>You don't need to build Backstage on day one. Start with the most painful bottleneck. If every team spends a week setting up CI/CD, build golden pipeline templates. If environment provisioning takes days, build a self-service Terraform wrapper. If developers keep misconfiguring Kubernetes manifests, build a simplified deployment interface.</p>
+
+        <h2>Common mistakes when making the shift</h2>
+
+        <p>The biggest mistake: rebranding the DevOps team as a "platform team" without changing what they do. If the same people are still handling tickets and doing deployments for product teams, you haven't adopted platform engineering — you've just renamed your ops team. The shift requires building self-service interfaces, not just changing titles.</p>
+
+        <p>Second: building a platform nobody asked for. We've seen teams spend six months building a beautiful internal developer portal that duplicates functionality developers already have in their IDE and CLI. Talk to your developers first. Watch how they work. Build for the friction that actually exists, not the friction you assume exists.</p>
 
         <p>Solve one problem well. Get adoption. Then solve the next one. A platform is built incrementally, not designed in a committee.</p>
       </div>
