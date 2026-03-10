@@ -2,8 +2,8 @@ name: Generate Insight Article
 
 on:
   schedule:
-    # Runs Tuesday and Thursday at 9:00 AM UTC
-    - cron: '0 9 * * 2,4'
+    # Runs Tuesday and Thursday at 9:00 AM Pacific (17:00 UTC)
+    - cron: '0 17 * * 2,4'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
