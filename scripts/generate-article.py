@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Discover trending topics via Google Trends and generate an article draft
-using OpenAI. Outputs a Markdown file in articles/ with YAML frontmatter.
+Discover trending topics via SerpAPI Google Trends and generate an article
+draft using OpenAI. Outputs a Markdown file in articles/ with YAML frontmatter.
 
 Requires:
   - OPENAI_API_KEY environment variable
+  - SERPAPI_KEY environment variable
 """
 
 import os
@@ -12,9 +13,10 @@ import sys
 import json
 import random
 import re
+import time
 from datetime import datetime
 
-from pytrends.request import TrendReq
+import serpapi
 from openai import OpenAI
 
 # ---------------------------------------------------------------------------
@@ -61,33 +63,39 @@ CATEGORIES = {
 ARTICLES_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "articles")
 
 # ---------------------------------------------------------------------------
-# Topic discovery via Google Trends
+# Topic discovery via SerpAPI Google Trends
 # ---------------------------------------------------------------------------
 
 
 def discover_topics() -> list[str]:
-    """Fetch rising/top related queries from Google Trends for seed keywords."""
-    pytrends = TrendReq(hl="en-US", tz=360)
+    """Fetch related queries from Google Trends via SerpAPI for seed keywords."""
+    api_key = os.environ.get("SERPAPI_KEY", "")
+    if not api_key:
+        print("Warning: SERPAPI_KEY not set, using seed keywords.", file=sys.stderr)
+        return list(SEED_KEYWORDS)
+
     topics = set()
 
-    # Query in batches of 5 (pytrends limit)
-    for i in range(0, len(SEED_KEYWORDS), 5):
-        batch = SEED_KEYWORDS[i : i + 5]
+    for keyword in SEED_KEYWORDS:
         try:
-            pytrends.build_payload(batch, timeframe="today 3-m")
-            related = pytrends.related_queries()
-            for kw in batch:
-                if kw in related and related[kw]["rising"] is not None:
-                    for _, row in related[kw]["rising"].head(5).iterrows():
-                        topics.add(row["query"])
-                if kw in related and related[kw]["top"] is not None:
-                    for _, row in related[kw]["top"].head(3).iterrows():
-                        topics.add(row["query"])
+            results = serpapi.search({
+                "engine": "google_trends",
+                "q": keyword,
+                "data_type": "RELATED_QUERIES",
+                "api_key": api_key,
+            })
+            for group in results.get("related_queries", {}).get("rising", []):
+                topics.add(group.get("query", ""))
+            for group in results.get("related_queries", {}).get("top", []):
+                topics.add(group.get("query", ""))
         except Exception as e:
-            print(f"Warning: pytrends query failed for {batch}: {e}", file=sys.stderr)
+            print(f"Warning: SerpAPI query failed for '{keyword}': {e}", file=sys.stderr)
             continue
+        time.sleep(1)  # pace requests
 
-    # Fallback: if pytrends returned nothing, use seed keywords directly
+    topics.discard("")
+
+    # Fallback: if nothing found, use seed keywords directly
     if not topics:
         print("Warning: No trending topics found, using seed keywords.", file=sys.stderr)
         topics = set(SEED_KEYWORDS)
