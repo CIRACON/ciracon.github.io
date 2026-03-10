@@ -121,9 +121,60 @@ technical blog. Your writing style:
 - No intro like "In today's fast-paced world..." or "In this article, we will..."
 - End with practical next steps, not a sales pitch.
 
+DIAGRAM REQUIREMENT: Include exactly ONE diagram early in the article (before the first
+H2 or after the first section) using this HTML structure. Choose the best diagram type
+for the topic:
+
+Flow diagram (for pipelines, sequences):
+<div class="diagram">
+  <div class="diagram-title">LABEL HERE</div>
+  <div class="diagram-flow">
+    <div class="diagram-flow-step"><div class="diagram-flow-node">Step 1<small>Detail</small></div><div class="diagram-flow-arrow">→</div></div>
+    <div class="diagram-flow-step"><div class="diagram-flow-node">Step 2<small>Detail</small></div><div class="diagram-flow-arrow">→</div></div>
+    <div class="diagram-flow-node">Final Step<small>Detail</small></div>
+  </div>
+</div>
+
+Stack diagram (for layers, maturity models):
+<div class="diagram">
+  <div class="diagram-title">LABEL HERE</div>
+  <div class="diagram-stack">
+    <div class="diagram-stack-layer">
+      <span class="diagram-stack-label">LAYER</span>
+      <div class="diagram-stack-items"><span>Item 1</span><span>Item 2</span></div>
+    </div>
+    <!-- repeat per layer, top-down order -->
+  </div>
+</div>
+
+Comparison diagram (for vs, before/after):
+<div class="diagram">
+  <div class="diagram-title">LABEL HERE</div>
+  <div class="diagram-compare">
+    <div class="diagram-compare-col diagram-col-muted">
+      <h4>Option A</h4>
+      <ul><li>Point 1</li><li>Point 2</li></ul>
+    </div>
+    <div class="diagram-compare-col diagram-col-accent">
+      <h4>Option B</h4>
+      <ul><li>Point 1</li><li>Point 2</li></ul>
+    </div>
+  </div>
+</div>
+
+Cycle diagram (for iterative processes):
+<div class="diagram">
+  <div class="diagram-title">LABEL HERE</div>
+  <div class="diagram-cycle">
+    <div class="diagram-cycle-step"><div class="diagram-cycle-node">Step 1</div><div class="diagram-cycle-arrow">→</div></div>
+    <div class="diagram-cycle-step"><div class="diagram-cycle-node">Step 2</div><div class="diagram-cycle-arrow">→</div></div>
+    <div class="diagram-cycle-node">Step 1</div>
+  </div>
+</div>
+
 Output format: Return ONLY the article body in HTML (using <p>, <h2>, <h3>, <ul>, <ol>,
-<li>, <strong>, <em>, <code> tags). Do NOT include a title or any wrapping elements.
-The article should be 800-1200 words."""
+<li>, <strong>, <em>, <code> tags, and one diagram). Do NOT include a title or any
+wrapping elements. The article should be 800-1200 words."""
 
 USER_PROMPT_TEMPLATE = """Write a technical article about: {topic}
 

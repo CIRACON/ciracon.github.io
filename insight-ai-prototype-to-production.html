@@ -32,7 +32,7 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="page-header">
+  <header class="page-header page-header-compact">
     <div class="container">
       <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
       <h1 class="reveal reveal-delay-1">Moving AI from Prototype to Production</h1>
@@ -43,17 +43,17 @@
   <!-- Article Content -->
   <section class="section section-darker">
     <div class="article-content">
-      <a href="insights.html" class="article-back reveal">
+      <a href="insights.html" class="article-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         All insights
       </a>
 
-      <div class="article-meta reveal">
+      <div class="article-meta">
         <span>AI Engineering</span>
         <span>8 min read</span>
       </div>
 
-      <div class="reveal reveal-delay-1">
+      <div>
         <p>It usually starts the same way. A data science team builds a model in a notebook. It works well on test data. Someone gives a demo. Leadership gets excited. Then six months later, the model is still running on a laptop somewhere, or it's been deployed once and nobody can update it without breaking something.</p>
 
         <p>This is the most common failure mode in enterprise AI, and it has almost nothing to do with model quality.</p>
@@ -65,6 +65,18 @@
         <p>The prototype-to-production gap is really an infrastructure gap. To close it, you need to treat model deployment the same way you'd treat any other software deployment: with CI/CD, version control, automated testing, and observability.</p>
 
         <h2>What a production AI platform actually needs</h2>
+
+        <div class="diagram">
+          <div class="diagram-title">From notebook to production</div>
+          <div class="diagram-flow">
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Notebook<small>Experiment</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Container<small>Package</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">CI / CD<small>Test &amp; Build</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Registry<small>Version</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Deploy<small>Serve</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-node">Monitor<small>Observe</small></div>
+          </div>
+        </div>
 
         <p>Through building these systems, we've found a consistent set of capabilities that separate working AI deployments from science projects:</p>
 

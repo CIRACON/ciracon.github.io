@@ -90,7 +90,7 @@ def build_article_page(meta: dict, body: str) -> str:
   </nav>
 
   <!-- Page Header -->
-  <header class="page-header">
+  <header class="page-header page-header-compact">
     <div class="container">
       <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> {category}</div>
       <h1 class="reveal reveal-delay-1">{title}</h1>
@@ -101,17 +101,17 @@ def build_article_page(meta: dict, body: str) -> str:
   <!-- Article Content -->
   <section class="section section-darker">
     <div class="article-content">
-      <a href="insights.html" class="article-back reveal">
+      <a href="insights.html" class="article-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         All insights
       </a>
 
-      <div class="article-meta reveal">
+      <div class="article-meta">
         <span>{category}</span>
         <span>{read_time} min read</span>
       </div>
 
-      <div class="reveal reveal-delay-1">
+      <div>
         {body}
       </div>
     </div>

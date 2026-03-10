@@ -32,7 +32,7 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="page-header">
+  <header class="page-header page-header-compact">
     <div class="container">
       <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
       <h1 class="reveal reveal-delay-1">RAG Architecture Patterns That Work</h1>
@@ -43,20 +43,32 @@
   <!-- Article Content -->
   <section class="section section-darker">
     <div class="article-content">
-      <a href="insights.html" class="article-back reveal">
+      <a href="insights.html" class="article-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         All insights
       </a>
 
-      <div class="article-meta reveal">
+      <div class="article-meta">
         <span>AI Engineering</span>
         <span>10 min read</span>
       </div>
 
-      <div class="reveal reveal-delay-1">
+      <div>
         <p>Retrieval-Augmented Generation has become the default architecture for building AI applications over private data. The idea is simple: instead of fine-tuning a model on your data, you retrieve relevant context at query time and pass it to the model alongside the user's question. Most teams can get a basic RAG prototype working in a day or two.</p>
 
         <p>Getting it to work reliably in production is a different story. The gap between a demo that impresses in a meeting and a system that handles thousands of queries a day without hallucinating or returning irrelevant answers — that gap is where the real engineering happens.</p>
+
+        <div class="diagram">
+          <div class="diagram-title">RAG pipeline overview</div>
+          <div class="diagram-flow">
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Query<small>User input</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Rewrite<small>Expand query</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Embed<small>Vectorize</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Retrieve<small>Top-K chunks</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-step"><div class="diagram-flow-node">Re-rank<small>Cross-encoder</small></div><div class="diagram-flow-arrow">→</div></div>
+            <div class="diagram-flow-node">Generate<small>LLM + context</small></div>
+          </div>
+        </div>
 
         <h2>Chunking strategy matters more than you think</h2>
 

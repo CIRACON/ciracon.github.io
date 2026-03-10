@@ -32,7 +32,7 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="page-header">
+  <header class="page-header page-header-compact">
     <div class="container">
       <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> Cloud Automation</div>
       <h1 class="reveal reveal-delay-1">Infrastructure as Code: Beyond the Basics</h1>
@@ -43,20 +43,46 @@
   <!-- Article Content -->
   <section class="section section-darker">
     <div class="article-content">
-      <a href="insights.html" class="article-back reveal">
+      <a href="insights.html" class="article-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         All insights
       </a>
 
-      <div class="article-meta reveal">
+      <div class="article-meta">
         <span>Cloud Automation</span>
         <span>9 min read</span>
       </div>
 
-      <div class="reveal reveal-delay-1">
+      <div>
         <p>Most teams get the basics of Infrastructure as Code pretty quickly. You write some Terraform, you run <code>terraform apply</code>, your cloud resources appear. Maybe you check it into Git. That part is well-documented and there are tutorials everywhere.</p>
 
         <p>The hard problems show up later, usually when you're managing more than a handful of environments or when more than one team is writing infrastructure code. That's when the architecture decisions you made early on start to either save you or haunt you.</p>
+
+        <div class="diagram">
+          <div class="diagram-title">IaC maturity layers</div>
+          <div class="diagram-stack">
+            <div class="diagram-stack-layer">
+              <span class="diagram-stack-label">Policy</span>
+              <div class="diagram-stack-items"><span>OPA / Sentinel</span><span>Compliance checks</span><span>Cost controls</span></div>
+            </div>
+            <div class="diagram-stack-layer">
+              <span class="diagram-stack-label">CI / CD</span>
+              <div class="diagram-stack-items"><span>Plan on PR</span><span>Approval gates</span><span>Apply on merge</span></div>
+            </div>
+            <div class="diagram-stack-layer">
+              <span class="diagram-stack-label">Testing</span>
+              <div class="diagram-stack-items"><span>tflint</span><span>checkov</span><span>Terratest</span><span>Drift detection</span></div>
+            </div>
+            <div class="diagram-stack-layer">
+              <span class="diagram-stack-label">Modules</span>
+              <div class="diagram-stack-items"><span>Versioned</span><span>Small interface</span><span>Single concern</span></div>
+            </div>
+            <div class="diagram-stack-layer">
+              <span class="diagram-stack-label">State</span>
+              <div class="diagram-stack-items"><span>Remote backend</span><span>Per-component split</span><span>Locking</span></div>
+            </div>
+          </div>
+        </div>
 
         <h2>State management is the first real challenge</h2>
 
