@@ -16,7 +16,7 @@ import re
 import time
 from datetime import datetime
 
-import serpapi
+from serpapi import GoogleSearch
 from openai import OpenAI
 
 # ---------------------------------------------------------------------------
@@ -78,12 +78,12 @@ def discover_topics() -> list[str]:
 
     for keyword in SEED_KEYWORDS:
         try:
-            results = serpapi.search({
+            results = GoogleSearch({
                 "engine": "google_trends",
                 "q": keyword,
                 "data_type": "RELATED_QUERIES",
                 "api_key": api_key,
-            })
+            }).get_dict()
             for group in results.get("related_queries", {}).get("rising", []):
                 topics.add(group.get("query", ""))
             for group in results.get("related_queries", {}).get("top", []):
