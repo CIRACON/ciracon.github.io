@@ -95,4 +95,73 @@ document.addEventListener('DOMContentLoaded', function () {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  /* ── Nav Scroll Effect ── */
+  var nav = document.querySelector('.nav');
+  if (nav) {
+    var onScroll = function () {
+      if (window.scrollY > 50) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ── Async Contact Form (StaticForms) ──
+     Progressive enhancement: form works via normal POST;
+     this JS intercepts to provide inline success/error states
+     without a page reload. */
+  var contactForm = document.getElementById('contact-form');
+  var formSuccess = document.getElementById('form-success');
+  var formError = document.getElementById('form-error');
+  var submitBtn = document.getElementById('submit-btn');
+
+  if (contactForm && formSuccess) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Validate required fields before sending
+      if (!contactForm.checkValidity()) {
+        contactForm.reportValidity();
+        return;
+      }
+
+      // Set loading state
+      var btnText = submitBtn.querySelector('.btn-text');
+      var btnLoading = submitBtn.querySelector('.btn-loading');
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+      if (btnText) btnText.hidden = true;
+      if (btnLoading) btnLoading.hidden = false;
+      if (formError) formError.hidden = true;
+
+      var formData = new FormData(contactForm);
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: formData
+      })
+      .then(function (response) {
+        if (response.ok || response.status === 200) {
+          // Success: hide form, show thank-you panel
+          contactForm.hidden = true;
+          formSuccess.hidden = false;
+          formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error('Submission failed');
+        }
+      })
+      .catch(function () {
+        // Error: show inline error message, reset button
+        if (formError) formError.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+        if (btnText) btnText.hidden = false;
+        if (btnLoading) btnLoading.hidden = true;
+      });
+    });
+  }
+
 });

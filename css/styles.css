@@ -97,11 +97,18 @@ button { font: inherit; cursor: pointer; }
   right: 0;
   z-index: 1000;
   padding: 1rem 2rem;
-  background: rgba(11, 15, 20, 0.9);
+  background: rgba(11, 15, 20, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-dark);
-  transition: background 0.3s ease;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+}
+
+.nav.nav-scrolled {
+  background: rgba(11, 15, 20, 0.95);
+  border-bottom-color: var(--border-dark);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .nav-inner {
@@ -1129,6 +1136,176 @@ h4, .h4 {
   opacity: 0.6;
 }
 
+.form-required {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted-light);
+}
+
+/* ── Interest Selector (segmented button group) ── */
+.interest-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.interest-option {
+  cursor: pointer;
+}
+
+.interest-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.interest-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted-light);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.interest-label:hover {
+  border-color: var(--accent);
+  color: var(--text-light);
+}
+
+.interest-option input[type="radio"]:focus-visible + .interest-label {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.interest-option input[type="radio"]:checked + .interest-label {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.interest-label svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity var(--transition);
+}
+
+.interest-option input[type="radio"]:checked + .interest-label svg {
+  opacity: 1;
+}
+
+/* ── Form Messages ── */
+.form-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.form-message-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #FCA5A5;
+}
+
+.form-message-error svg {
+  flex-shrink: 0;
+  color: #EF4444;
+  margin-top: 1px;
+}
+
+.form-message-error a {
+  color: #FCA5A5;
+  text-decoration: underline;
+}
+
+/* ── Submit Button States ── */
+.btn .btn-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn .btn-loading[hidden],
+.btn .btn-text[hidden] {
+  display: none;
+}
+
+.btn.is-loading .btn-arrow {
+  display: none;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Form Success Panel ── */
+.form-success {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-lg, 12px);
+  background: var(--bg-secondary);
+}
+
+.form-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent);
+  margin-bottom: var(--space-lg);
+}
+
+.form-success h3 {
+  font-size: 1.375rem;
+  color: var(--text-light);
+  margin-bottom: var(--space-sm);
+}
+
+.form-success p {
+  color: var(--text-muted-light);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-success-secondary {
+  margin-top: var(--space-lg) !important;
+  font-size: 0.875rem;
+}
+
+.form-success-secondary a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-success-secondary a:hover {
+  text-decoration: underline;
+}
+
 /* Light form variant */
 .form-light .form-input,
 .form-light .form-textarea {
@@ -1326,6 +1503,142 @@ h4, .h4 {
 
 
 /* ═══════════════════════════════════════════════════════
+   Capability Strip (under hero)
+   ═══════════════════════════════════════════════════════ */
+
+.capability-strip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: var(--space-lg) var(--space-lg);
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.capability-strip-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0 var(--space-xl);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted-light);
+  transition: color 0.3s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.capability-strip-item:hover {
+  color: var(--accent);
+}
+
+.capability-strip-item svg {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.capability-strip-item:hover svg {
+  opacity: 1;
+}
+
+.capability-strip-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-dark);
+  flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Platform Showcase (elevated solution cards)
+   ═══════════════════════════════════════════════════════ */
+
+.platform-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  transition: all 0.3s ease;
+  background: var(--bg-card-dark);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.platform-card:hover {
+  border-color: rgba(59,130,246,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3), var(--shadow-glow);
+}
+
+.platform-card:hover::before {
+  opacity: 1;
+}
+
+.platform-card-name {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-heading-dark);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.platform-card-name .external-icon {
+  opacity: 0.3;
+  transition: opacity var(--transition);
+}
+
+.platform-card:hover .platform-card-name .external-icon {
+  opacity: 1;
+}
+
+.platform-card-desc {
+  color: var(--text-muted-light);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
+  flex: 1;
+}
+
+.platform-card-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.platform-card-tech span {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  background: rgba(59,130,246,0.08);
+  color: var(--accent);
+  border: 1px solid rgba(59,130,246,0.12);
+  letter-spacing: 0.03em;
+}
+
+
+/* ═══════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════ */
 
@@ -1334,6 +1647,9 @@ h4, .h4 {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .capability-strip { flex-wrap: wrap; gap: var(--space-sm); }
+  .capability-strip-divider { display: none; }
+  .capability-strip-item { padding: 0.5rem var(--space-md); }
 }
 
 @media (max-width: 768px) {
@@ -1348,6 +1664,8 @@ h4, .h4 {
   .stats-row { grid-template-columns: 1fr 1fr; }
   .section { padding: var(--space-3xl) var(--space-md); }
   .page-header { padding: 6rem var(--space-md) var(--space-xl); }
+  .capability-strip { padding: var(--space-md); }
+  .capability-strip-item { font-size: 0.75rem; padding: 0.375rem var(--space-sm); }
 }
 
 @media (max-width: 640px) {
@@ -1373,4 +1691,9 @@ h4, .h4 {
   .btn-group .btn { justify-content: center; }
   .arch-layer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   .arch-layer-label { width: auto; }
+  .capability-strip { flex-direction: column; gap: 0; }
+  .capability-strip-item { padding: 0.5rem 0; justify-content: center; }
+  .platform-card { padding: var(--space-xl); }
+  .interest-group { flex-direction: column; }
+  .interest-label { justify-content: center; }
 }
