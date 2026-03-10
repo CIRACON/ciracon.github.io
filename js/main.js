@@ -137,9 +137,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (btnLoading) btnLoading.hidden = false;
       if (formError) formError.hidden = true;
 
-      // Get reCAPTCHA Enterprise token before submitting
-      grecaptcha.enterprise.ready(function () {
-        grecaptcha.enterprise.execute('6Ld5U4UsAAAAAAEZFfvgKsBnEeTmI22psxSOiLcYi', { action: 'SUBMIT' }).then(function (token) {
+      // Get reCAPTCHA v3 token before submitting
+      grecaptcha.ready(function () {
+        grecaptcha.execute('6Lc5aIUsAAAAAESKs8pfD4SpGebtwBaHNEYFxsA3', { action: 'submit' }).then(function (token) {
           var recaptchaField = document.getElementById('g-recaptcha-response');
           if (recaptchaField) recaptchaField.value = token;
 
