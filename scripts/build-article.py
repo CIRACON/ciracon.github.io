@@ -63,28 +63,28 @@ def build_article_page(meta: dict, body: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} | Ciracon</title>
   <meta name="description" content="{description}">
-  <link rel="canonical" href="https://www.ciracon.com/insight-{slug}.html">
+  <link rel="canonical" href="https://www.ciracon.com/insights/insight-{slug}.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="engagements.html">Work</a>
-        <a href="about.html">About</a>
-        <a href="insights.html" class="active">Insights</a>
-        <a href="contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let\\u2019s Talk</a>
+        <a href="../index.html">Home</a>
+        <a href="../services.html">Services</a>
+        <a href="../engagements.html">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../insights.html" class="active">Insights</a>
+        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let\\u2019s Talk</a>
       </div>
     </div>
   </nav>
@@ -101,7 +101,7 @@ def build_article_page(meta: dict, body: str) -> str:
   <!-- Article Content -->
   <section class="section section-darker">
     <div class="article-content">
-      <a href="insights.html" class="article-back">
+      <a href="../insights.html" class="article-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         All insights
       </a>
@@ -127,26 +127,26 @@ def build_article_page(meta: dict, body: str) -> str:
       <div>
         <h4>Services</h4>
         <div class="footer-links">
-          <a href="ai-engineering.html">AI Engineering</a>
-          <a href="platform-engineering.html">Platform Engineering</a>
-          <a href="devops-automation.html">DevOps Automation</a>
-          <a href="cloud-automation.html">Cloud &amp; Automation</a>
+          <a href="../ai-engineering.html">AI Engineering</a>
+          <a href="../platform-engineering.html">Platform Engineering</a>
+          <a href="../devops-automation.html">DevOps Automation</a>
+          <a href="../cloud-automation.html">Cloud &amp; Automation</a>
         </div>
       </div>
       <div>
         <h4>Company</h4>
         <div class="footer-links">
-          <a href="about.html">About</a>
-          <a href="engagements.html">Engagements</a>
-          <a href="insights.html">Insights</a>
-          <a href="contact.html">Contact</a>
+          <a href="../about.html">About</a>
+          <a href="../engagements.html">Engagements</a>
+          <a href="../insights.html">Insights</a>
+          <a href="../contact.html">Contact</a>
         </div>
       </div>
       <div>
         <h4>Connect</h4>
         <div class="footer-links">
           <a href="mailto:info@ciracon.com">info@ciracon.com</a>
-          <a href="contact.html">Schedule a Consultation</a>
+          <a href="../contact.html">Schedule a Consultation</a>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@ def build_article_page(meta: dict, body: str) -> str:
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>"""
 
@@ -188,7 +188,7 @@ def add_card_to_insights(meta: dict, body: str):
 
     # Build the new card HTML
     card = (
-        f'\n        <a href="insight-{slug}.html" class="insight-card reveal">\n'
+        f'\n        <a href="insights/insight-{slug}.html" class="insight-card reveal">\n'
         f'          <div class="insight-category">{category}</div>\n'
         f"          <h3>{title}</h3>\n"
         f"          <p>{summary}</p>\n"
@@ -225,7 +225,9 @@ def main():
 
     # Build HTML page
     page_html = build_article_page(meta, body)
-    output_path = os.path.join(REPO_ROOT, f"insight-{slug}.html")
+    insights_dir = os.path.join(REPO_ROOT, "insights")
+    os.makedirs(insights_dir, exist_ok=True)
+    output_path = os.path.join(insights_dir, f"insight-{slug}.html")
 
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(page_html)
@@ -238,7 +240,7 @@ def main():
     github_output = os.environ.get("GITHUB_OUTPUT")
     if github_output:
         with open(github_output, "a") as f:
-            f.write(f"page_path=insight-{slug}.html\n")
+            f.write(f"page_path=insights/insight-{slug}.html\n")
 
 
 if __name__ == "__main__":

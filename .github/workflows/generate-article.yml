@@ -2,7 +2,9 @@ name: Generate Insight Article
 
 on:
   schedule:
-    # Runs Tuesday and Thursday at 9:00 AM Pacific (17:00 UTC)
+    # Runs Tuesday and Thursday at 9:00 AM Pacific
+    # 16:00 UTC = 9am PDT (Mar-Nov), 17:00 UTC = 9am PST (Nov-Mar)
+    - cron: '0 16 * * 2,4'
     - cron: '0 17 * * 2,4'
   workflow_dispatch:  # Allow manual trigger
 

@@ -191,7 +191,7 @@ def generate_article(topic: str, category: str) -> dict:
 
     # Step 1: Generate title and description
     meta_response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.4",
         messages=[
             {
                 "role": "system",
@@ -215,7 +215,7 @@ def generate_article(topic: str, category: str) -> dict:
 
     # Step 2: Generate article body
     body_response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.4",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {
