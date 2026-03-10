@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moving AI from Prototype to Production | Ciracon</title>
+  <meta name="description" content="Why most AI projects stall between demo and deployment, and what it actually takes to build the platform layer that gets models into production.">
+  <link rel="canonical" href="https://www.ciracon.com/insight-ai-prototype-to-production.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html" class="active">Insights</a>
+        <a href="contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
+      <h1 class="reveal reveal-delay-1">Moving AI from Prototype to Production</h1>
+      <p class="lead reveal reveal-delay-2">Most AI projects stall between demo and production. The gap isn't the model — it's the platform.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="insights.html" class="article-back reveal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta reveal">
+        <span>AI Engineering</span>
+        <span>8 min read</span>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <p>It usually starts the same way. A data science team builds a model in a notebook. It works well on test data. Someone gives a demo. Leadership gets excited. Then six months later, the model is still running on a laptop somewhere, or it's been deployed once and nobody can update it without breaking something.</p>
+
+        <p>This is the most common failure mode in enterprise AI, and it has almost nothing to do with model quality.</p>
+
+        <h2>The gap is infrastructure, not intelligence</h2>
+
+        <p>When a team trains a model in a Jupyter notebook, they're working in a completely different environment than production. The data comes from a different place. The compute is different. The dependencies are pinned differently (or not at all). There's no monitoring. There's no rollback. There's no way to tell if the model is degrading over time.</p>
+
+        <p>The prototype-to-production gap is really an infrastructure gap. To close it, you need to treat model deployment the same way you'd treat any other software deployment: with CI/CD, version control, automated testing, and observability.</p>
+
+        <h2>What a production AI platform actually needs</h2>
+
+        <p>Through building these systems, we've found a consistent set of capabilities that separate working AI deployments from science projects:</p>
+
+        <ul>
+          <li><strong>Model registry and versioning.</strong> You need to track which model version is running where, what data it was trained on, and what its evaluation metrics looked like at training time. MLflow or a similar registry is table stakes.</li>
+          <li><strong>Feature infrastructure.</strong> Production models need to consume features the same way they were computed during training. Feature stores (even simple ones) prevent the training/serving skew that silently kills model accuracy.</li>
+          <li><strong>Serving infrastructure.</strong> Whether you're doing real-time inference or batch predictions, you need a deployment target that handles scaling, health checks, and canary rollouts. Kubernetes with KServe or Seldon works. A raw Docker container on a VM works too, as long as you have the automation around it.</li>
+          <li><strong>Monitoring and evaluation.</strong> This is where most teams drop the ball hardest. You need to track prediction distributions over time, flag data drift, and have automated evaluation against ground truth when it becomes available.</li>
+          <li><strong>Reproducible pipelines.</strong> Training can't be a manual process. If a model needs retraining, someone should be able to trigger a pipeline that pulls fresh data, trains, evaluates, and promotes to staging — all without SSH-ing into a notebook server.</li>
+        </ul>
+
+        <h2>You don't need all of it on day one</h2>
+
+        <p>One mistake teams make is trying to build the full MLOps stack before shipping anything. That's the wrong approach. Start with the minimum: containerize the model, set up a basic CI/CD pipeline, add health checks and a few key metrics. Ship it. Then iterate.</p>
+
+        <p>The second deployment is where you add the model registry. The third is where you build the feature pipeline. By the fifth, you have a real platform.</p>
+
+        <h2>Why this keeps happening</h2>
+
+        <p>The root cause is organizational. Data science teams are hired to build models. Platform and DevOps teams are hired to run infrastructure. Nobody owns the middle ground — the serving layer, the feature pipelines, the evaluation framework. That middle ground is where AI projects go to die.</p>
+
+        <p>The teams that succeed are the ones that recognize this gap early and either build a dedicated ML platform team or bring in help to bootstrap the infrastructure. The model is rarely the bottleneck. The platform is.</p>
+
+        <h2>Where to start</h2>
+
+        <p>If you have a model that works in a notebook and you want it running in production, start here:</p>
+
+        <ol>
+          <li>Containerize the inference code. Get it running outside the notebook.</li>
+          <li>Set up a basic deployment pipeline — even a simple GitHub Actions workflow that builds and pushes to a container registry.</li>
+          <li>Add a health endpoint and basic metrics (latency, error rate, prediction distribution).</li>
+          <li>Deploy to your existing infrastructure. Kubernetes, ECS, Cloud Run — whatever your team already knows.</li>
+          <li>Then and only then, start layering on the ML-specific tooling: model registry, feature store, automated retraining.</li>
+        </ol>
+
+        <p>The goal isn't to build a perfect platform. It's to start treating models like software and iterating from there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="platform-engineering.html">Platform Engineering</a>
+          <a href="devops-automation.html">DevOps Automation</a>
+          <a href="cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

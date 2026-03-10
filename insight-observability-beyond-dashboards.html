@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observability Beyond Dashboards | Ciracon</title>
+  <meta name="description" content="Dashboards show you what you already know to look for. Real observability means being able to ask new questions about your system without deploying new code.">
+  <link rel="canonical" href="https://www.ciracon.com/insight-observability-beyond-dashboards.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html" class="active">Insights</a>
+        <a href="contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> DevOps Automation</div>
+      <h1 class="reveal reveal-delay-1">Observability Beyond Dashboards</h1>
+      <p class="lead reveal reveal-delay-2">Real observability means answering novel questions about system behavior without deploying new instrumentation.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="insights.html" class="article-back reveal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta reveal">
+        <span>DevOps Automation</span>
+        <span>8 min read</span>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <p>Most teams think they have observability because they have dashboards. They have Grafana panels showing CPU usage, request rates, maybe some error counts. They get paged when a metric crosses a threshold. This is monitoring, and it's necessary. But it's not observability.</p>
+
+        <p>The difference matters when something goes wrong that you didn't predict. A dashboard tells you about the things you already knew to watch. Observability is the ability to understand what's happening inside your system by examining its outputs — even when you encounter a failure mode you've never seen before.</p>
+
+        <h2>The three pillars are a starting point, not a destination</h2>
+
+        <p>You've heard "logs, metrics, traces" repeated enough that it sounds like a complete answer. It's not. These are data types, not capabilities. Having all three doesn't mean you have observability — it means you have the raw materials.</p>
+
+        <p>The gap is in how these signals connect. When a user reports that the app is slow, you need to go from that symptom to a root cause. With disconnected tools, the investigation looks like this: check the dashboard for latency spikes, grep through logs for errors around that time, hope a trace ID was logged somewhere, open a different tool to look at traces, try to correlate timestamps between systems.</p>
+
+        <p>This works for simple problems. It completely falls apart for complex distributed systems where the issue crosses multiple services.</p>
+
+        <h2>Structured events over raw logs</h2>
+
+        <p>The single most impactful change a team can make to their observability is moving from unstructured log lines to structured events. A log line like <code>Processing order 12345 for user 67890</code> is human-readable but machine-hostile. You can grep for it, but you can't aggregate, filter, or join on it without writing fragile regex patterns.</p>
+
+        <p>A structured event for the same operation:</p>
+
+        <ul>
+          <li><code>service: order-processor</code></li>
+          <li><code>event: order.processed</code></li>
+          <li><code>order_id: 12345</code></li>
+          <li><code>user_id: 67890</code></li>
+          <li><code>duration_ms: 47</code></li>
+          <li><code>item_count: 3</code></li>
+          <li><code>payment_method: credit_card</code></li>
+          <li><code>trace_id: abc-123-def</code></li>
+        </ul>
+
+        <p>With structured events, you can answer questions you didn't anticipate: "What's the p99 latency for orders with more than 10 items?" "Are credit card orders slower than PayPal orders?" "Which users are experiencing errors most frequently?" You don't need to deploy new instrumentation to answer these — the data is already there.</p>
+
+        <h2>High-cardinality data is the key</h2>
+
+        <p>Traditional metrics work well for low-cardinality dimensions: status codes (200, 404, 500), HTTP methods (GET, POST), service names. They break down when you need high-cardinality dimensions: user IDs, request IDs, order IDs, tenant IDs.</p>
+
+        <p>But high-cardinality dimensions are exactly what you need during an investigation. "Which specific users are affected?" "Is this happening for a specific tenant?" "Is it correlated with a specific deployment version?" These questions require data dimensions that traditional metrics systems can't handle without combinatorial explosion.</p>
+
+        <p>This is where tools like Honeycomb, or structured event stores that support high-cardinality queries, earn their cost. They let you slice and dice by arbitrary dimensions without pre-defining what you'll need. The trade-off is cost — storing and querying high-cardinality data is more expensive than aggregated metrics. But the time saved during incidents often justifies it.</p>
+
+        <h2>Distributed tracing done right</h2>
+
+        <p>Tracing is the pillar that teams struggle with most. The instrumentation is more invasive, context propagation breaks in surprising places, and sampling decisions are non-trivial.</p>
+
+        <p>A few things that make tracing actually useful:</p>
+
+        <ul>
+          <li><strong>Instrument at the boundaries.</strong> Don't trace every function call. Trace service-to-service calls, database queries, cache lookups, and external API calls. These are where latency hides and errors propagate.</li>
+          <li><strong>Add business context to spans.</strong> A span that says "HTTP POST /api/orders 200 47ms" is less useful than one that also includes the order ID, user tier, and item count. The business context is what lets you answer "why is this specific request slow?"</li>
+          <li><strong>Head-based sampling is usually wrong.</strong> Deciding at the start of a request whether to trace it means you'll sample out the interesting requests (errors, high-latency outliers). Tail-based sampling — making the decision after the request completes — captures the requests that matter. It's harder to implement but worth it.</li>
+          <li><strong>Use OpenTelemetry.</strong> Seriously. It's the standard. Vendor-specific instrumentation locks you in and makes it harder to switch tools later. OTel gives you collector-level flexibility to route data wherever you need it.</li>
+        </ul>
+
+        <h2>The cultural shift</h2>
+
+        <p>Tools don't create observability. Habits do. The teams with the best observability practices share a few traits:</p>
+
+        <ul>
+          <li>Developers instrument their own code. It's not something that happens after deployment — it's part of the development process. If you add a new endpoint, you add instrumentation with it.</li>
+          <li>Incidents start with data, not guesses. The first step in debugging is querying the observability system, not reading code or restarting services.</li>
+          <li>After every incident, the team asks: "Could we have diagnosed this faster with better instrumentation?" If yes, adding that instrumentation is part of the remediation.</li>
+        </ul>
+
+        <p>Observability is a practice, not a product. You can buy tools that make it easier, but the real work is building the habit of asking questions your system can answer, and extending instrumentation when it can't.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="platform-engineering.html">Platform Engineering</a>
+          <a href="devops-automation.html">DevOps Automation</a>
+          <a href="cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

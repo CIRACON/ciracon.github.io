@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Governance for Engineering Teams | Ciracon</title>
+  <meta name="description" content="Evaluation frameworks, guardrails, and audit trails that make AI systems safe to operate in production — written for engineers, not compliance officers.">
+  <link rel="canonical" href="https://www.ciracon.com/insight-ai-governance.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html" class="active">Insights</a>
+        <a href="contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
+      <h1 class="reveal reveal-delay-1">AI Governance for Engineering Teams</h1>
+      <p class="lead reveal reveal-delay-2">Evaluation frameworks, guardrails, and audit trails that make AI safe to run in production.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="insights.html" class="article-back reveal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta reveal">
+        <span>AI Engineering</span>
+        <span>8 min read</span>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <p>"AI governance" usually triggers one of two reactions from engineers. Either it sounds like a compliance checkbox that has nothing to do with actual engineering, or it sounds like someone trying to slow down shipping. Both reactions are understandable, and both miss the point.</p>
+
+        <p>Governance for AI systems is about answering a practical question: how do you know this thing is safe to put in front of users? Not in a theoretical, risk-assessment-matrix way. In a "what happens when the model says something wrong and a customer acts on it" way.</p>
+
+        <h2>The problem with "just ship it"</h2>
+
+        <p>With traditional software, the behavior is deterministic. Given the same input, you get the same output. You can write tests that verify this. You can review code and reason about edge cases. If something goes wrong, you can reproduce it, fix it, and write a regression test.</p>
+
+        <p>AI systems don't work like that. The same prompt can produce different outputs. The model might work perfectly on your test cases and fail on inputs you didn't consider. Behavior changes when you swap models, update prompts, or change the retrieval pipeline. And failure modes are often embarrassing or harmful in ways that a 500 error isn't.</p>
+
+        <p>This doesn't mean you can't ship AI systems. It means you need different tools for verifying they work correctly. That's what engineering-focused governance actually is: the evaluation and safety infrastructure that lets you ship with confidence.</p>
+
+        <h2>Evaluation as a first-class concern</h2>
+
+        <p>Every AI system in production needs an evaluation framework. Not a one-time test before launch — an ongoing, automated evaluation that runs with every change and continuously monitors production behavior.</p>
+
+        <p>What this looks like in practice:</p>
+
+        <ul>
+          <li><strong>A curated test set.</strong> Start with 50-100 representative inputs covering the range of expected use cases. Include inputs where the correct behavior is to refuse or say "I don't know." Include adversarial inputs that try to make the model misbehave. Grow this set over time as you discover new failure modes.</li>
+          <li><strong>Automated scoring.</strong> For each test input, define what a good response looks like. This can be exact-match for factual questions, rubric-based scoring for open-ended responses, or LLM-as-judge evaluation where another model rates the output. None of these are perfect, but automated scoring lets you run evaluations frequently.</li>
+          <li><strong>Regression testing.</strong> Run the evaluation suite whenever you change the prompt, swap models, update the retrieval pipeline, or modify any component. If the score drops, investigate before shipping.</li>
+          <li><strong>Production sampling.</strong> Log a sample of real queries and responses. Review them regularly — weekly at first, then monthly as the system stabilizes. This catches failure modes that your test set doesn't cover.</li>
+        </ul>
+
+        <h2>Guardrails that actually work</h2>
+
+        <p>Guardrails are runtime checks that catch problematic outputs before they reach users. The goal isn't to make the model perfect — it's to bound the failure modes.</p>
+
+        <p>Some guardrails are simple and high-value:</p>
+
+        <ul>
+          <li><strong>Output format validation.</strong> If the model should return JSON, validate the JSON. If it should include citations, check that citations exist in the provided context. These are deterministic checks that catch a surprising number of failures.</li>
+          <li><strong>Topic boundaries.</strong> If your AI assistant is supposed to answer questions about your product, it shouldn't be giving medical advice or writing poetry. A classifier (even a simple keyword-based one) that detects off-topic queries and returns a standard redirect response handles this.</li>
+          <li><strong>Grounding checks.</strong> For RAG systems, verify that the model's answer is actually supported by the retrieved context. This can be a separate LLM call that checks for hallucination, or a simpler entailment check. It adds latency but prevents the most damaging failure mode.</li>
+          <li><strong>PII detection.</strong> Scan model outputs for personally identifiable information — email addresses, phone numbers, SSNs — before returning them to the user. The model might surface PII from its training data or from retrieved documents. A regex-based detector catches the obvious cases; a dedicated PII model catches more.</li>
+        </ul>
+
+        <h2>Audit trails are non-negotiable</h2>
+
+        <p>When something goes wrong with an AI system — and it will — you need to be able to reconstruct what happened. This means logging:</p>
+
+        <ul>
+          <li>The user's input (with appropriate privacy controls)</li>
+          <li>The prompt sent to the model (including system prompt and retrieved context)</li>
+          <li>The model's response</li>
+          <li>Which model version was used</li>
+          <li>Which prompt version was used</li>
+          <li>Results of any guardrail checks</li>
+          <li>Timestamp and request metadata</li>
+        </ul>
+
+        <p>This isn't about compliance paperwork. It's about debugging. When a customer reports that your AI gave them wrong information, you need to pull up that exact interaction and understand why. Without logs, you're guessing. With them, you can identify the failure, fix the root cause, and add a test case to prevent recurrence.</p>
+
+        <h2>Prompt management needs version control</h2>
+
+        <p>Prompts are a critical part of your AI system's behavior, but they're often treated as strings in a config file. This causes problems because prompt changes can have significant behavioral effects, and without versioning, you can't roll back or correlate a change to a behavioral shift.</p>
+
+        <p>Treat prompts the way you treat code:</p>
+
+        <ul>
+          <li>Store them in version control.</li>
+          <li>Review prompt changes the way you review code changes.</li>
+          <li>Run the evaluation suite against prompt changes before deploying.</li>
+          <li>Tag production deployments so you know which prompt version is running.</li>
+        </ul>
+
+        <p>Some teams use dedicated prompt management tools (LangSmith, Braintrust, etc.). Others just put prompts in a YAML file in their repo and use their existing CI/CD pipeline. Either works. What doesn't work is editing prompts in production without any review or tracking.</p>
+
+        <h2>Start with the basics</h2>
+
+        <p>If you're running an AI system in production with no governance infrastructure, start here:</p>
+
+        <ol>
+          <li>Build an evaluation set of 50 test cases. Run it manually if you have to.</li>
+          <li>Add logging for all model interactions — input, output, model version.</li>
+          <li>Add one guardrail: output format validation or a basic grounding check.</li>
+          <li>Set up a weekly review of sampled production interactions.</li>
+        </ol>
+
+        <p>That's four things. Each one takes a day or less. Together, they give you dramatically more confidence in what your AI system is actually doing. You can layer on more sophisticated evaluation, automated red-teaming, and policy enforcement later. But start with the basics and build from there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="platform-engineering.html">Platform Engineering</a>
+          <a href="devops-automation.html">DevOps Automation</a>
+          <a href="cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

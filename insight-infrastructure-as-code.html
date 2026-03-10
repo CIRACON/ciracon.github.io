@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infrastructure as Code: Beyond the Basics | Ciracon</title>
+  <meta name="description" content="Writing Terraform is the easy part. The hard problems are module architecture, state management, testing, and making IaC work at scale across teams.">
+  <link rel="canonical" href="https://www.ciracon.com/insight-infrastructure-as-code.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="insights.html" class="active">Insights</a>
+        <a href="contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> Cloud Automation</div>
+      <h1 class="reveal reveal-delay-1">Infrastructure as Code: Beyond the Basics</h1>
+      <p class="lead reveal reveal-delay-2">Writing Terraform is the easy part. The hard part is module architecture, state management, and CI/CD at scale.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="insights.html" class="article-back reveal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta reveal">
+        <span>Cloud Automation</span>
+        <span>9 min read</span>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <p>Most teams get the basics of Infrastructure as Code pretty quickly. You write some Terraform, you run <code>terraform apply</code>, your cloud resources appear. Maybe you check it into Git. That part is well-documented and there are tutorials everywhere.</p>
+
+        <p>The hard problems show up later, usually when you're managing more than a handful of environments or when more than one team is writing infrastructure code. That's when the architecture decisions you made early on start to either save you or haunt you.</p>
+
+        <h2>State management is the first real challenge</h2>
+
+        <p>Terraform state is a serialized representation of what Terraform thinks exists in the real world. When it works, you don't think about it. When it breaks, everything stops.</p>
+
+        <p>The beginner mistake is local state files. The next mistake is a single remote state file for everything. Both fail for different reasons: local state can't be shared, and monolithic state files become slow, fragile, and create merge conflicts when multiple people work on infrastructure concurrently.</p>
+
+        <p>What works is splitting state by logical boundary. Each major component gets its own state file: networking, compute, databases, monitoring. Each environment (dev, staging, prod) gets its own state. Teams that manage their own infrastructure get their own state. The boundaries should mirror ownership boundaries.</p>
+
+        <p>State locking (via DynamoDB for AWS, or blob leases for Azure) is non-negotiable once more than one person can run <code>terraform apply</code>. Without it, two concurrent applies can corrupt your state, and recovery is painful manual work.</p>
+
+        <h2>Module architecture determines your ceiling</h2>
+
+        <p>Terraform modules are how you create reusable infrastructure components. Good module architecture makes it easy to spin up new environments and enforce consistency. Bad module architecture creates a tangled web where changing one thing breaks three other things.</p>
+
+        <p>A few principles that hold up:</p>
+
+        <ul>
+          <li><strong>Modules should do one thing.</strong> A "VPC module" that also creates subnets, NAT gateways, route tables, and security groups is fine — that's one conceptual thing. A module that creates a VPC and also sets up an EKS cluster is doing too much.</li>
+          <li><strong>Keep the interface small.</strong> A module with forty input variables is hard to use and hard to maintain. Use sensible defaults. Expose only what actually varies between deployments.</li>
+          <li><strong>Version your modules.</strong> When multiple teams consume a shared module, you need versioning so that an update for one team doesn't break another. Git tags work. A private module registry works. What doesn't work is pointing everyone at <code>main</code>.</li>
+          <li><strong>Don't abstract too early.</strong> If you've only deployed one environment, you don't know enough about what varies to build a good module. Deploy it inline first. Extract the module after the second or third deployment, when the patterns are clear.</li>
+        </ul>
+
+        <h2>Testing infrastructure code</h2>
+
+        <p>This is where most teams do nothing, and it shows. Infrastructure code is code. It has bugs. The cost of those bugs — misconfigured security groups, missing backup policies, incorrect DNS records — is often higher than application bugs.</p>
+
+        <p>There are a few layers of testing that work in practice:</p>
+
+        <ul>
+          <li><strong>Static analysis.</strong> <code>terraform validate</code>, <code>tflint</code>, and <code>checkov</code> (or equivalent policy tools) catch syntax errors, deprecated features, and security misconfigurations before anything touches a cloud provider. These should run in CI on every pull request.</li>
+          <li><strong>Plan review.</strong> <code>terraform plan</code> output should be posted as a PR comment. Reviewers should look at what's being created, destroyed, or modified. Automated checks can flag dangerous operations (destroying databases, modifying security groups).</li>
+          <li><strong>Integration tests.</strong> For critical modules, use Terratest or a similar framework to actually deploy the infrastructure, verify it works, and tear it down. This is slow and costs money, so reserve it for shared modules that many teams rely on.</li>
+          <li><strong>Drift detection.</strong> Run <code>terraform plan</code> on a schedule against production. If someone made a manual change, you want to know about it before it causes a problem.</li>
+        </ul>
+
+        <h2>CI/CD for infrastructure</h2>
+
+        <p>Running <code>terraform apply</code> from a laptop should be impossible in production. Full stop. All production changes should flow through a pipeline with plan review, approval gates, and audit logging.</p>
+
+        <p>The pipeline doesn't need to be complicated. A GitHub Actions workflow that runs <code>plan</code> on pull request, posts the output as a comment, requires approval, and runs <code>apply</code> on merge is enough to start. You can add policy checks, Slack notifications, and automatic drift detection as you grow.</p>
+
+        <p>One thing that trips teams up: the pipeline runner needs cloud credentials, and those credentials need to be scoped tightly. Use OIDC federation where possible so you're not storing long-lived secrets. Scope the IAM role to only the permissions the pipeline actually needs. Rotate credentials regularly. The pipeline is a high-value target — treat its security accordingly.</p>
+
+        <h2>The organizational layer</h2>
+
+        <p>The hardest IaC problems aren't technical — they're organizational. Who can modify what? How do you enforce standards without blocking teams? How do you handle the team that refuses to use the shared modules?</p>
+
+        <p>There's no single right answer, but a few things help: define clear ownership boundaries (this team owns this state), use policy-as-code tools like OPA or Sentinel to enforce guardrails automatically, and make the right thing the easy thing. If your shared modules are harder to use than writing raw Terraform, people will write raw Terraform.</p>
+
+        <p>IaC at scale is an organizational design problem as much as a technical one. The teams that do it well treat their infrastructure codebase with the same rigor — reviews, testing, versioning, documentation — as their application codebase.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="ai-engineering.html">AI Engineering</a>
+          <a href="platform-engineering.html">Platform Engineering</a>
+          <a href="devops-automation.html">DevOps Automation</a>
+          <a href="cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="engagements.html">Engagements</a>
+          <a href="insights.html">Insights</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
