@@ -1,0 +1,163 @@
+---
+title: "GitHub and Kubernetes for DevOps Automation"
+category: "DevOps Automation"
+description: "Learn how GitHub integrates with Kubernetes to streamline deployments, automate workflows, and improve DevOps operations."
+date: "2026-03-17"
+slug: "github-and-kubernetes-for-devops-automation"
+---
+
+<p>GitHub and Kubernetes fit together well, but most teams make the integration harder than it needs to be. For AI platforms and internal developer platforms, the useful pattern is simple: keep source, CI, and deployment intent in GitHub; let Kubernetes run workloads; and use GitOps or tightly scoped CI deploy jobs to move changes into clusters. The bad pattern is treating GitHub Actions as a long-lived control plane for Kubernetes. It is not. Use it to build, test, sign, and publish artifacts. Let Argo CD or Flux handle steady-state reconciliation inside the cluster.</p>
+
+<div class="diagram">
+  <div class="diagram-title">GitHub to Kubernetes Delivery Flow</div>
+  <div class="diagram-flow">
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Commit</span>
+        <span class="node-sub">Code and manifests</span>
+        <span class="node-tooltip">Developers push application code, Helm charts, or Kustomize overlays into GitHub.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Actions</span>
+        <span class="node-sub">Build, scan, publish</span>
+        <span class="node-tooltip">GitHub Actions builds containers, runs tests, scans dependencies, and publishes signed images.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">3</span>
+      <span class="node-label">Cluster Sync</span>
+      <span class="node-sub">Argo CD or Flux</span>
+      <span class="node-tooltip">A GitOps controller in Kubernetes pulls the desired state and reconciles it continuously.</span>
+    </div>
+  </div>
+  <div class="diagram-hint">Hover over each step for details</div>
+</div>
+
+<h2>Use GitHub for delivery orchestration, not cluster babysitting</h2>
+
+<p>If you are deploying to Kubernetes from GitHub, we recommend one of two models.</p>
+
+<ul>
+  <li><strong>Preferred for most platform teams:</strong> GitHub Actions builds artifacts, then updates a deployment repo or environment branch. Argo CD or Flux applies changes in-cluster.</li>
+  <li><strong>Acceptable for smaller teams:</strong> GitHub Actions runs <code>kubectl</code> or <code>helm upgrade</code> directly against the cluster.</li>
+</ul>
+
+<p>For production AI platforms, pick the first model unless you have a very small footprint. GitOps gives you drift detection, better rollback behavior, and a cleaner audit trail. It also separates CI credentials from runtime credentials. That matters once you have multiple clusters, regulated environments, or workloads with GPU nodes and expensive capacity.</p>
+
+<p>Direct deploy from Actions looks simpler on day one. By month six, it usually turns into a pile of brittle workflow YAML, hidden cluster state, and over-privileged service accounts.</p>
+
+<h2>How we structure repos and environments</h2>
+
+<p>The repo layout matters more than teams expect. If you mix app code, Terraform, Helm charts, and raw Kubernetes YAML in one repo without clear ownership, every deployment becomes a coordination problem.</p>
+
+<p>A practical setup looks like this:</p>
+
+<ul>
+  <li><strong>Application repo:</strong> source code, Dockerfile, tests, and maybe a Helm chart if the app owns it.</li>
+  <li><strong>Platform repo:</strong> ingress controllers, cert-manager, external-dns, GPU device plugins, monitoring stack, cluster policies.</li>
+  <li><strong>Environment repo:</strong> per-cluster or per-environment manifests, usually with Kustomize overlays or Helm values files.</li>
+</ul>
+
+<p>For AI workloads, keep model-serving config close to the application repo, but keep cluster-wide infra separate. We have seen teams put NVIDIA device plugin config, KServe, app manifests, and team-specific secrets in one repo. That usually ends in accidental blast radius and unclear ownership.</p>
+
+<p>If you use Argo CD, the environment repo becomes the source of truth for what runs in each cluster. A GitHub Action can update an image tag in a Kustomize patch or Helm values file after a successful build.</p>
+
+<h2>Authentication from GitHub to cloud and Kubernetes</h2>
+
+<p>Do not store long-lived cloud keys or kubeconfigs in GitHub secrets if you can avoid it. Use GitHub OIDC federation with your cloud provider.</p>
+
+<ul>
+  <li><strong>AWS:</strong> GitHub OIDC to assume an IAM role, then push to ECR or update EKS-related resources.</li>
+  <li><strong>GCP:</strong> Workload Identity Federation to access GCR or GKE.</li>
+  <li><strong>Azure:</strong> Federated credentials with Entra ID for AKS and ACR access.</li>
+</ul>
+
+<p>This is one of the clearest upgrades you can make. It removes static credentials from repo settings and gives you short-lived tokens with auditable trust relationships.</p>
+
+<p>If you still deploy directly from Actions, bind the Kubernetes service account or cloud role to the narrowest scope possible. Most teams get this wrong by giving CI cluster-admin because it is fast. Then a compromised workflow can rewrite ingress, secrets, network policies, and admission controls. For production, that is unacceptable.</p>
+
+<h2>A GitHub Actions pipeline that actually works</h2>
+
+<p>The pipeline should do a few things well, not many things poorly:</p>
+
+<ol>
+  <li>Run unit and integration tests.</li>
+  <li>Build the container image with <code>docker buildx</code>.</li>
+  <li>Scan dependencies and images with <code>Trivy</code> or <code>Grype</code>.</li>
+  <li>Sign the image with <code>cosign</code>.</li>
+  <li>Push to a registry like ECR, GCR, or GHCR.</li>
+  <li>Update deployment manifests in a GitOps repo.</li>
+</ol>
+
+<p>For Kubernetes manifests, pick one templating tool and stick with it. We prefer <code>Kustomize</code> for simple environment overlays and <code>Helm</code> when you need reusable packaging or third-party charts. Do not combine raw YAML, Helm, and Kustomize in the same service unless there is a very good reason. That creates debugging debt.</p>
+
+<p>For AI services, also add checks for:</p>
+
+<ul>
+  <li>GPU resource requests and limits are set correctly.</li>
+  <li>Node selectors and tolerations match your GPU node pools.</li>
+  <li>Model artifact URIs are versioned and immutable.</li>
+  <li>Readiness probes reflect model load time, not just HTTP port availability.</li>
+</ul>
+
+<p>A lot of “Kubernetes problems” in AI platforms are really bad pod specs. The cluster is fine. The deployment contract is wrong.</p>
+
+<h2>What we recommend for AI platform workloads</h2>
+
+<p>AI workloads stress Kubernetes in ways normal stateless services do not. GitHub automation should reflect that.</p>
+
+<p>For online inference, use separate deployment paths for API code and model artifacts. If every model update requires a full container rebuild, your delivery cycle gets slow and expensive. We prefer immutable model versions in object storage and a deployment manifest that references them explicitly. The app image changes when code changes. The manifest changes when the model version changes.</p>
+
+<p>For batch jobs and training jobs, use Kubernetes-native controllers like <code>Job</code>, <code>CronJob</code>, Ray on Kubernetes, or Kubeflow components where they make sense. Triggering these from GitHub Actions is fine for scheduled automation, but the cluster should own execution and retries. GitHub should not be your job scheduler for long-running ML work.</p>
+
+<p>For secrets, use External Secrets Operator or the Secrets Store CSI Driver with AWS Secrets Manager, GCP Secret Manager, or Azure Key Vault. Avoid encrypted secret blobs committed all over app repos unless your team has strong discipline around key rotation and review.</p>
+
+<h2>What usually goes wrong</h2>
+
+<p>Most failures are not exotic. They are boring and repeated.</p>
+
+<ul>
+  <li><strong>CI has too much access.</strong> Teams give GitHub Actions broad cluster credentials. One bad workflow change or leaked token becomes a cluster-wide incident.</li>
+  <li><strong>No separation between build and deploy.</strong> A successful image build immediately mutates production. There is no promotion step, no environment-specific review, and no clean rollback path.</li>
+  <li><strong>Manifest drift.</strong> Engineers hotfix resources with <code>kubectl edit</code>. The cluster diverges from Git. The next sync overwrites the fix, or worse, preserves unknown state.</li>
+  <li><strong>Readiness and liveness probes are wrong.</strong> This is common with model servers. Containers restart during model warm-up, then everyone blames Kubernetes.</li>
+  <li><strong>Workflow YAML becomes the platform.</strong> Business logic, deployment rules, and environment branching all get buried in GitHub Actions. Nobody can reason about it safely.</li>
+  <li><strong>One cluster for everything.</strong> Dev, staging, training, and production inference share the same cluster. Resource contention and noisy neighbors become constant.</li>
+</ul>
+
+<p>The pattern behind these failures is simple: teams optimize for fewer files and fewer repos early, then pay for it with unclear boundaries later.</p>
+
+<h2>Lessons learned from running this in production</h2>
+
+<p>First, GitOps is worth the extra repo. We resisted this on smaller teams because it looked like process overhead. In practice, it reduced deployment debugging time. When something broke, we could inspect desired state, live state, and sync history in one place.</p>
+
+<p>Second, self-hosted GitHub runners need the same care as any other compute tier. If you run runners inside Kubernetes, isolate them. Use ephemeral runners, lock down egress, and avoid sharing runner pools between trusted and untrusted repos. We have seen teams accidentally create a lateral movement path from CI into internal services because runner pods had broad network access.</p>
+
+<p>Third, policy checks belong before the cluster. Use <code>conftest</code>, OPA, or Kyverno policies in CI to catch bad manifests early. Then enforce the same class of rules in-cluster. Relying only on admission policies slows feedback and frustrates developers.</p>
+
+<p>Fourth, image tags should be immutable. Use commit SHAs, not <code>latest</code>. This sounds obvious, but mutable tags still cause too many rollback and provenance problems.</p>
+
+<h2>Concrete recommendations</h2>
+
+<ul>
+  <li>Use GitHub Actions for build, test, scan, sign, and publish.</li>
+  <li>Use Argo CD or Flux for production Kubernetes reconciliation.</li>
+  <li>Use GitHub OIDC instead of static cloud credentials.</li>
+  <li>Split app, platform, and environment ownership into separate repos or clearly separated directories with enforced CODEOWNERS.</li>
+  <li>Use Kustomize for straightforward overlays; use Helm when packaging complexity justifies it.</li>
+  <li>Adopt External Secrets Operator or CSI-based secret integration early.</li>
+  <li>For AI workloads, validate GPU scheduling, probe timing, and model version references in CI.</li>
+  <li>Run policy checks in CI and enforce them again at admission time.</li>
+</ul>
+
+<h2>Next steps</h2>
+
+<p>If your current setup deploys directly from GitHub into Kubernetes, start by removing static credentials and switching to OIDC. Then separate build from deploy: publish signed images first, and update manifests in Git as a second step. After that, add Argo CD or Flux to one non-production cluster and prove out the workflow before migrating production.</p>
+
+<p>If you already use GitOps, focus next on runner isolation, policy enforcement, and environment repo hygiene. Those three changes prevent most of the operational pain we see in GitHub-to-Kubernetes pipelines.</p>
