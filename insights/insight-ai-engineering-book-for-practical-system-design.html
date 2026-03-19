@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Engineering Book for Practical System Design | Ciracon</title>
+  <meta name="description" content="A technical guide to AI engineering concepts, architectures, and best practices for building reliable production systems.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://www.ciracon.com/insights/insight-ai-engineering-book-for-practical-system-design.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../services.html">Services</a>
+        <a href="../engagements.html">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../insights.html" class="active">Insights</a>
+        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let’s Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header page-header-compact">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
+      <h1 class="reveal reveal-delay-1">AI Engineering Book for Practical System Design</h1>
+      <p class="lead reveal reveal-delay-2">A technical guide to AI engineering concepts, architectures, and best practices for building reliable production systems.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="../insights.html" class="article-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta">
+        <span>AI Engineering</span>
+        <span>7 min read</span>
+      </div>
+
+      <div>
+        <p>If you're looking for an <strong>AI engineering book</strong> for a team building real systems, not demos, I'd stop treating the book as a reading exercise and use it as an operating manual. The useful books are the ones that help you answer boring but expensive questions: how you evaluate model changes, how you deploy safely, how you manage prompts and datasets, and how you keep costs from drifting out of control.</p>
+
+<p>For platform teams, the right book is rarely the one with the deepest transformer math. It's the one that helps you design a system where application engineers, ML engineers, and infrastructure teams can ship changes without breaking each other. That's the gap most teams hit in production.</p>
+
+<div class="diagram">
+  <div class="diagram-title">How to Use an AI Engineering Book in a Real Platform Team</div>
+  <div class="diagram-flow">
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Read for architecture</span>
+        <span class="node-sub">Map concepts to systems</span>
+        <span class="node-tooltip">Translate book concepts into services, pipelines, eval jobs, and deployment boundaries.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Build one workflow</span>
+        <span class="node-sub">Eval, deploy, observe</span>
+        <span class="node-tooltip">Pick one AI use case and implement the full lifecycle before scaling the platform.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">3</span>
+      <span class="node-label">Standardize the platform</span>
+      <span class="node-sub">Templates and guardrails</span>
+      <span class="node-tooltip">Turn what worked into reusable CI/CD, observability, and governance patterns for other teams.</span>
+    </div>
+  </div>
+  <div class="diagram-hint">Hover over each step for details</div>
+</div>
+
+<h2>What an AI engineering book should actually teach</h2>
+
+<p>A good AI engineering book should cover four things well.</p>
+
+<ul>
+  <li><strong>Evaluation before deployment.</strong> If a book spends more time on model selection than on evaluation design, it's incomplete for production work.</li>
+  <li><strong>System boundaries.</strong> You need clear separation between model gateway, retrieval layer, feature or context assembly, and application logic.</li>
+  <li><strong>Operational controls.</strong> Rate limits, retries, caching, budget controls, audit logs, and rollback paths matter more than another chapter on embeddings.</li>
+  <li><strong>Change management.</strong> Prompt changes, model version changes, and retrieval changes all need release discipline.</li>
+</ul>
+
+<p>That's what engineering teams need. We already have enough material explaining what an LLM is. The hard part is operating one safely and predictably inside a product or internal platform.</p>
+
+<h2>The chapters that matter most for AI platform teams</h2>
+
+<p>If you're reading with a platform engineering lens, prioritize chapters or sections on evaluation, orchestration, observability, and deployment. Those map directly to platform responsibilities.</p>
+
+<h3>Evaluation and test design</h3>
+
+<p>This is the first section I'd look for. Most production AI failures are not model failures. They're <em>measurement failures</em>. Teams ship a prompt or retrieval change because it looked better in five hand-picked examples, then spend the next month debugging regressions they could have caught with a basic eval set.</p>
+
+<p>What works is simple:</p>
+
+<ul>
+  <li>Store representative inputs and expected outcomes in Git or a versioned dataset store.</li>
+  <li>Run offline evals in CI for every prompt, model, or retrieval change.</li>
+  <li>Track task-specific metrics, not just generic quality scores.</li>
+  <li>Use human review only for edge cases and calibration, not as your primary release gate.</li>
+</ul>
+
+<p>In practice, we've had better results with lightweight eval pipelines built around <code>pytest</code>, <code>LangSmith</code>, <code>Weights &amp; Biases</code>, or custom batch runners than with heavyweight evaluation frameworks introduced too early. Start with a JSONL dataset and deterministic checks where possible.</p>
+
+<h3>Inference architecture</h3>
+
+<p>A useful book should push you toward a clean inference boundary. I recommend a dedicated model gateway service instead of letting every application call OpenAI, Anthropic, or a self-hosted vLLM endpoint directly.</p>
+
+<p>The gateway should handle:</p>
+
+<ul>
+  <li>provider routing</li>
+  <li>request shaping</li>
+  <li>timeouts and retries</li>
+  <li>cost attribution</li>
+  <li>response logging with redaction</li>
+  <li>fallback policies</li>
+</ul>
+
+<p>We've seen teams skip this because direct SDK calls are faster to ship. That's fine for a prototype. It's a mistake for a shared platform. Once five teams hardcode provider-specific behavior into services, every migration becomes painful.</p>
+
+<h3>Retrieval and context assembly</h3>
+
+<p>Books love to simplify RAG. Real systems are messier. Chunking, metadata quality, document freshness, access control, and query rewriting matter more than the vector database brand.</p>
+
+<p>If I had to recommend a default stack today, I'd pick:</p>
+
+<ul>
+  <li><code>pgvector</code> on Postgres for small to medium workloads where operational simplicity matters</li>
+  <li>OpenSearch or Elasticsearch when you need hybrid retrieval and mature filtering</li>
+  <li>a separate ingestion pipeline with idempotent document processing</li>
+</ul>
+
+<p>I would <strong>not</strong> start with a specialized vector database unless retrieval is already a proven bottleneck. Most teams are nowhere near that point. They need better chunking and metadata, not another datastore.</p>
+
+<h2>How to turn book knowledge into platform standards</h2>
+
+<p>The mistake is reading an AI engineering book like reference material and leaving the architecture untouched. The better approach is to convert each major concept into a reusable platform capability.</p>
+
+<p>For example:</p>
+
+<ul>
+  <li>A chapter on evaluation becomes a CI job template that runs offline evals on pull requests.</li>
+  <li>A chapter on observability becomes OpenTelemetry instrumentation plus prompt, model, latency, token, and error dashboards.</li>
+  <li>A chapter on model deployment becomes a canary release pattern with traffic splitting and rollback.</li>
+  <li>A chapter on data pipelines becomes an ingestion service with dead-letter queues and replay support.</li>
+</ul>
+
+<p>On Kubernetes, that usually means a few concrete building blocks:</p>
+
+<ul>
+  <li><code>Argo Workflows</code> or <code>Dagster</code> for batch eval and ingestion jobs</li>
+  <li><code>FastAPI</code> or <code>Go</code> services for model gateway APIs</li>
+  <li><code>Redis</code> for short-lived semantic or response caching</li>
+  <li><code>Prometheus</code> and <code>Grafana</code> for latency, throughput, and token cost dashboards</li>
+  <li><code>OpenTelemetry</code> traces tied to request IDs across retrieval and inference hops</li>
+  <li><code>Terraform</code> for provider credentials, secrets paths, and environment-level policy</li>
+</ul>
+
+<p>This is where the reading pays off. Not in better notes. In fewer one-off implementations.</p>
+
+<h2>What usually goes wrong</h2>
+
+<p>Most AI platform efforts fail in familiar ways.</p>
+
+<h3>They optimize model choice before they build evals</h3>
+
+<p>This is the biggest one. Teams debate GPT-4.1 versus Claude versus a local Llama variant before they can measure answer quality, latency, or business impact consistently. That's backwards. Build the eval harness first. Then compare models.</p>
+
+<h3>They let prompts live outside version control</h3>
+
+<p>If prompts are edited in a UI with no review path, you've created an untracked production dependency. Prompt templates, system messages, and retrieval parameters should be versioned like code. Same for tool schemas and output contracts.</p>
+
+<h3>They ignore cost until finance asks questions</h3>
+
+<p>Token costs drift quietly. A retrieval tweak adds 30% more context. A fallback path doubles requests. A batch job accidentally runs against the most expensive model. Without per-team and per-endpoint cost attribution, you won't catch this early.</p>
+
+<p>At minimum, log model, input tokens, output tokens, cache hit rate, and request owner. Put a budget alert on top of that.</p>
+
+<h3>They build a platform before proving one use case</h3>
+
+<p>This is a classic platform engineering mistake. A team designs abstractions for agents, memory, tools, and multi-model routing before one production workflow is stable. Don't do that. Pick a narrow use case, build the full path, and standardize only what survives contact with reality.</p>
+
+<h2>Lessons learned from real deployments</h2>
+
+<p>A few opinions I'd hold pretty strongly.</p>
+
+<ul>
+  <li><strong>Use hosted foundation models first.</strong> Self-hosting with <code>vLLM</code>, <code>TGI</code>, or <code>TensorRT-LLM</code> makes sense only when you have stable traffic, clear cost pressure, or data residency requirements. Most teams move too early and inherit GPU scheduling, model loading, and throughput tuning problems they didn't need.</li>
+  <li><strong>Prefer boring infrastructure.</strong> Postgres, S3, Redis, and Kubernetes solve more AI platform problems than most specialized AI tools.</li>
+  <li><strong>Treat prompts as application code.</strong> Review them, test them, version them, and roll them back.</li>
+  <li><strong>Build observability around user-facing tasks.</strong> Generic model metrics are not enough. Track whether the system answered the support question, extracted the right field, or generated valid SQL.</li>
+</ul>
+
+<p>The best AI engineering books reinforce these habits. The weak ones stay at the conceptual layer and never force you to think about release engineering, failure domains, or operational ownership.</p>
+
+<h2>How I'd recommend teams use an AI engineering book</h2>
+
+<p>Don't assign the whole book and hope for alignment. That's not how engineering teams learn.</p>
+
+<ol>
+  <li>Pick one production use case, like support answer drafting or internal document search.</li>
+  <li>Read only the sections tied to that workflow: eval, retrieval, inference, and monitoring.</li>
+  <li>Implement a minimal end-to-end system with CI evals, tracing, and rollback.</li>
+  <li>Write down the platform patterns that were actually useful.</li>
+  <li>Turn those into templates, libraries, and policy checks.</li>
+</ol>
+
+<p>If the book doesn't help you do that, it's probably a good ML book but not a strong AI engineering book.</p>
+
+<h2>Practical next steps</h2>
+
+<p>Take the AI engineering book your team is already reading and audit it against your platform gaps.</p>
+
+<ul>
+  <li>Do you have versioned eval datasets?</li>
+  <li>Do you have a model gateway instead of direct provider calls?</li>
+  <li>Do you have per-request cost and latency visibility?</li>
+  <li>Do you have a rollback path for prompt and retrieval changes?</li>
+  <li>Do you have one proven production workflow before building shared abstractions?</li>
+</ul>
+
+<p>If the answer is no to most of those, don't read another chapter yet. Build those pieces first. That's where AI engineering stops being interesting on slides and starts working in production.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="../ai-engineering.html">AI Engineering</a>
+          <a href="../platform-engineering.html">Platform Engineering</a>
+          <a href="../devops-automation.html">DevOps Automation</a>
+          <a href="../cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="../about.html">About</a>
+          <a href="../engagements.html">Engagements</a>
+          <a href="../insights.html">Insights</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="../contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
