@@ -57,13 +57,27 @@
       <div>
         <p>Backstage is one of the few platform engineering tools that actually earns its keep once your internal estate gets messy. If you run AI workloads, Kubernetes clusters, CI/CD pipelines, model services, feature stores, data jobs, and three generations of internal tooling, you need a control plane for humans. That is what Backstage does well.</p>
 
+<h2>What is Backstage?</h2>
+
+<p><a href="https://backstage.io/docs/overview/what-is-backstage" target="_blank" rel="noopener noreferrer">Backstage</a> is an open source framework originally created by Spotify and now a <a href="https://www.cncf.io/" target="_blank" rel="noopener noreferrer">Cloud Native Computing Foundation (CNCF)</a> incubating project. It is used by thousands of organisations to build internal developer portals that centralise their entire engineering ecosystem in one place.</p>
+
+<p>At its core, Backstage is built around three main capabilities:</p>
+
+<ul>
+  <li><strong>Software Catalog</strong> — a centralised system of record for all services, libraries, data pipelines, ML models, APIs, and infrastructure components. Every entity is described by a <code>catalog-info.yaml</code> file stored in source control and ingested by the portal automatically.</li>
+  <li><strong>Software Templates (Scaffolder)</strong> — golden-path templates that create repositories, configure CI pipelines, register Backstage entities, and enforce organisational standards from day one. Instead of copying starter repos, teams get scaffolding that wires up the entire stack correctly from the start.</li>
+  <li><strong>TechDocs</strong> — a docs-as-code approach that generates and publishes documentation directly from Markdown files stored alongside your code, so docs stay current as the code evolves.</li>
+</ul>
+
+<p>From an <a href="https://backstage.io/docs/overview/architecture-overview" target="_blank" rel="noopener noreferrer">architecture perspective</a>, Backstage is a web application with a React-based frontend and a Node.js backend. The <a href="https://backstage.io/docs/overview/technical-overview" target="_blank" rel="noopener noreferrer">technical design</a> is intentionally modular and plugin-driven: the Core provides the framework primitives, the App is your organisation's customised deployment, and Plugins add features and integrations specific to your platform. Official plugins already cover Kubernetes, GitHub, GitLab, PagerDuty, Argo CD, Grafana, and dozens more. The backend connects to your existing systems and serves the catalog and plugin data; the database (typically PostgreSQL) stores the catalog state persistently.</p>
+
 <p>We should be clear about what it is not. Backstage is not your deployment system. It is not your service mesh. It is not your observability backend. It is not an MLOps platform by itself. It is the developer portal and software catalog that ties those systems together so engineers can find things, understand ownership, and trigger standard workflows without spelunking through wikis and shell scripts.</p>
 
 <div class="diagram">
   <div class="diagram-title">Typical Backstage Flow for an AI Platform</div>
   <div class="diagram-flow">
     <div class="diagram-flow-step">
-      <div class="diagram-flow-node">
+      <div class="diagram-flow-node" tabindex="0">
         <span class="node-num">1</span>
         <span class="node-label">Register</span>
         <span class="node-sub">Catalog metadata</span>
@@ -72,7 +86,7 @@
       <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
     </div>
     <div class="diagram-flow-step">
-      <div class="diagram-flow-node">
+      <div class="diagram-flow-node" tabindex="0">
         <span class="node-num">2</span>
         <span class="node-label">Standardize</span>
         <span class="node-sub">Templates and plugins</span>
@@ -80,14 +94,14 @@
       </div>
       <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
     </div>
-    <div class="diagram-flow-node">
+    <div class="diagram-flow-node" tabindex="0">
       <span class="node-num">3</span>
       <span class="node-label">Operate</span>
       <span class="node-sub">Discover and act</span>
       <span class="node-tooltip">Engineers use one portal to find ownership, docs, health, deployments, and operational actions across the platform.</span>
     </div>
   </div>
-  <div class="diagram-hint">Hover over each step for details</div>
+  <div class="diagram-hint">Hover or focus each step for details</div>
 </div>
 
 <h2>Where Backstage fits in an AI engineering stack</h2>
