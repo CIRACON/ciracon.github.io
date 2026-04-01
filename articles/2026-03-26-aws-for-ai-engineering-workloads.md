@@ -1,61 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AWS for AI Engineering Workloads | Ciracon</title>
-  <meta name="description" content="Explore how AWS services support AI engineering with scalable infrastructure, model deployment, data pipelines, and operational tooling.">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <link rel="canonical" href="https://www.ciracon.com/insights/insight-aws-for-ai-engineering-workloads.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css">
-</head>
-<body>
+---
+title: "AWS for AI Engineering Workloads"
+category: "AI Engineering"
+description: "Explore how AWS services support AI engineering with scalable infrastructure, model deployment, data pipelines, and operational tooling."
+date: "2026-03-26"
+slug: "aws-for-ai-engineering-workloads"
+---
 
-  <!-- Navigation -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
-      <div class="nav-links">
-        <a href="../index.html">Home</a>
-        <a href="../services.html">Services</a>
-        <a href="../engagements.html">Work</a>
-        <a href="../about.html">About</a>
-        <a href="../insights.html" class="active">Insights</a>
-        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let’s Talk</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Header -->
-  <header class="page-header page-header-compact">
-    <div class="container">
-      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
-      <h1 class="reveal reveal-delay-1">AWS for AI Engineering Workloads</h1>
-      <p class="lead reveal reveal-delay-2">Explore how AWS services support AI engineering with scalable infrastructure, model deployment, data pipelines, and operational tooling.</p>
-    </div>
-  </header>
-
-  <!-- Article Content -->
-  <section class="section section-darker">
-    <div class="article-content">
-      <a href="../insights.html" class="article-back">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        All insights
-      </a>
-
-      <div class="article-meta">
-        <span>AI Engineering</span>
-        <span>7 min read</span>
-      </div>
-
-      <div>
-        <p>AWS is often the default place most teams build AI platforms because it gives you enough primitives to assemble what you need. The trap is assuming “AWS for AI” means buying into every managed AI product. In practice, the teams that move fastest keep the architecture boring: S3 for data, EKS or ECS for workloads, IAM that is actually constrained, and a small number of managed services around the edges.</p>
+<p>AWS is still the default place most teams build AI platforms, not because it is elegant, but because it gives you enough primitives to assemble what you need. The trap is assuming “AWS for AI” means buying into every managed AI product. In practice, the teams that move fastest keep the architecture boring: S3 for data, EKS or ECS for workloads, IAM that is actually constrained, and a small number of managed services around the edges.</p>
 
 <p>If you're building an internal AI platform, I would not start with a giant multi-service AWS reference architecture. I'd start with a narrow platform that handles four things well: model access, batch and online inference, data storage, and observability. Everything else can wait.</p>
 
@@ -217,49 +168,3 @@
 </ul>
 
 <p>Next steps are straightforward: map your current AI workloads into online, batch, and experimental paths; pick one runtime model for each; lock down IAM boundaries; and add evaluation and cost telemetry before you scale usage. If you do those four things, AWS becomes manageable. If you skip them, the platform will work just long enough to become expensive and hard to change.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
-        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <div class="footer-links">
-          <a href="../ai-engineering.html">AI Engineering</a>
-          <a href="../platform-engineering.html">Platform Engineering</a>
-          <a href="../devops-automation.html">DevOps Automation</a>
-          <a href="../cloud-automation.html">Cloud &amp; Automation</a>
-        </div>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <div class="footer-links">
-          <a href="../about.html">About</a>
-          <a href="../engagements.html">Engagements</a>
-          <a href="../insights.html">Insights</a>
-          <a href="../contact.html">Contact</a>
-        </div>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <div class="footer-links">
-          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
-          <a href="../contact.html">Schedule a Consultation</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
-      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
-    </div>
-  </footer>
-
-  <script src="../js/main.js"></script>
-</body>
-</html>
