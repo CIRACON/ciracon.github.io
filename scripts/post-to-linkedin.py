@@ -74,27 +74,37 @@ def build_post_text(meta: dict) -> str:
         try:
             client = OpenAI()
             response = client.chat.completions.create(
-                model="gpt-4.1-nano",
+                model="gpt-5.4",
                 messages=[
                     {
                         "role": "system",
                         "content": (
-                            "You write LinkedIn posts for a technical engineering "
-                            "consulting company. Your goal is to make engineers stop "
-                            "scrolling and click through to read the full article.\n\n"
-                            "Rules:\n"
-                            "- Open with a bold, specific claim or a surprising insight "
-                            "from the article. No generic openers.\n"
-                            "- 3-5 short paragraphs separated by blank lines.\n"
-                            "- Pull out ONE concrete takeaway or contrarian point that "
-                            "makes someone want to read more.\n"
-                            "- End with a clear call to read the article (use the exact "
-                            "URL provided). Do NOT say 'link in comments'.\n"
-                            "- Add 3-5 relevant hashtags on the last line.\n"
+                            "You write LinkedIn posts for a senior engineer at a "
+                            "technical consulting company. The post must drive "
+                            "engineers to click through and read the full article.\n\n"
+                            "STRUCTURE (follow this exactly):\n"
+                            "1. HOOK (1-2 sentences): A bold, specific, or contrarian "
+                            "claim drawn from the article. Not a question. Not generic.\n"
+                            "\n"
+                            "2. BODY (2-3 short paragraphs): Pull out 2-3 concrete "
+                            "insights, failure modes, or practical recommendations from "
+                            "the article. Use specific tool names, patterns, or numbers "
+                            "when available. Each paragraph should be 2-3 sentences max.\n"
+                            "\n"
+                            "3. CTA (1 sentence): Direct the reader to the full article "
+                            "using the exact URL provided.\n"
+                            "\n"
+                            "4. HASHTAGS (last line): 3-5 hashtags relevant to the topic. "
+                            "Always include #AIEngineering or #PlatformEngineering or "
+                            "#DevOps as appropriate. Use CamelCase for multi-word tags.\n"
+                            "\n"
+                            "RULES:\n"
+                            "- Total length: 150-250 words (NOT counting hashtags).\n"
+                            "- Separate each section with a blank line.\n"
+                            "- Write in first person ('I', 'we').\n"
                             "- No emojis. No clickbait. No 'I'm excited to share'.\n"
-                            "- Total length: 150-280 words.\n"
-                            "- Write in first person as a senior engineer sharing a "
-                            "practical perspective."
+                            "- Do NOT say 'link in comments'.\n"
+                            "- Do NOT start with a question."
                         ),
                     },
                     {
@@ -110,17 +120,25 @@ def build_post_text(meta: dict) -> str:
                     },
                 ],
                 temperature=0.7,
-                max_tokens=500,
+                max_tokens=600,
             )
             post_text = response.choices[0].message.content.strip()
+
             # Ensure the URL is in the post
             if meta["url"] not in post_text:
                 post_text += f"\n\n{meta['url']}"
+
+            # Ensure hashtags are present — append defaults if missing
+            if "#" not in post_text.split("\n")[-1]:
+                tag = meta["category"].replace(" ", "")
+                post_text += f"\n\n#{tag} #Engineering #Ciracon"
+
             return post_text
         except Exception as e:
             print(f"Warning: OpenAI post generation failed, using fallback: {e}", file=sys.stderr)
 
     # Fallback: simple template
+    category_tag = meta["category"].replace(" ", "")
     lines = [
         f"{meta['title']}",
         "",
@@ -128,7 +146,7 @@ def build_post_text(meta: dict) -> str:
         "",
         f"Read the full article: {meta['url']}",
         "",
-        f"#{meta['category'].replace(' ', '')} #Engineering #Ciracon",
+        f"#{category_tag} #Engineering #Ciracon",
     ]
     return "\n".join(lines)
 
