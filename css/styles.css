@@ -1729,11 +1729,17 @@ h4, .h4 {
   transition: all 0.25s ease;
 }
 
-.diagram-flow-node:hover {
+.diagram-flow-node:hover,
+.diagram-flow-node:focus {
   border-color: var(--accent);
   border-top-color: var(--accent);
   box-shadow: 0 0 20px rgba(59,130,246,0.15), 0 4px 12px rgba(0,0,0,0.3);
   transform: translateY(-2px);
+}
+
+.diagram-flow-node:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .diagram-flow-node .node-num {
@@ -1765,7 +1771,7 @@ h4, .h4 {
   color: var(--text-muted-light);
 }
 
-/* Tooltip on hover */
+/* Tooltip on hover or focus */
 .diagram-flow-node .node-tooltip {
   position: absolute;
   bottom: calc(100% + 10px);
@@ -1799,7 +1805,8 @@ h4, .h4 {
   border-top-color: var(--accent);
 }
 
-.diagram-flow-node:hover .node-tooltip {
+.diagram-flow-node:hover .node-tooltip,
+.diagram-flow-node:focus .node-tooltip {
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
@@ -1858,13 +1865,20 @@ h4, .h4 {
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
-.diagram-stack-layer:hover {
+.diagram-stack-layer:hover,
+.diagram-stack-layer:focus {
   background: rgba(59,130,246,0.05);
   border-color: rgba(59,130,246,0.2);
   box-shadow: 0 0 16px rgba(59,130,246,0.08);
 }
 
-.diagram-stack-layer:hover .diagram-stack-label {
+.diagram-stack-layer:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.diagram-stack-layer:hover .diagram-stack-label,
+.diagram-stack-layer:focus .diagram-stack-label {
   color: #fff;
 }
 
@@ -1896,7 +1910,8 @@ h4, .h4 {
   transition: all 0.2s ease;
 }
 
-.diagram-stack-layer:hover .diagram-stack-items span {
+.diagram-stack-layer:hover .diagram-stack-items span,
+.diagram-stack-layer:focus .diagram-stack-items span {
   background: rgba(59,130,246,0.1);
   border-color: rgba(59,130,246,0.2);
   color: var(--text-light);
@@ -1936,7 +1951,8 @@ h4, .h4 {
   border-left-color: var(--accent);
 }
 
-.diagram-stack-layer:hover .node-tooltip {
+.diagram-stack-layer:hover .node-tooltip,
+.diagram-stack-layer:focus .node-tooltip {
   opacity: 1;
   transform: translateY(-50%) scale(1);
 }
@@ -2057,11 +2073,17 @@ h4, .h4 {
   transition: all 0.25s ease;
 }
 
-.diagram-cycle-node:hover {
+.diagram-cycle-node:hover,
+.diagram-cycle-node:focus {
   border-color: var(--accent);
   border-top-color: var(--accent);
   box-shadow: 0 0 20px rgba(59,130,246,0.15), 0 4px 12px rgba(0,0,0,0.3);
   transform: translateY(-2px);
+}
+
+.diagram-cycle-node:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .diagram-cycle-node .node-tooltip {
@@ -2098,7 +2120,8 @@ h4, .h4 {
   border-top-color: var(--accent);
 }
 
-.diagram-cycle-node:hover .node-tooltip {
+.diagram-cycle-node:hover .node-tooltip,
+.diagram-cycle-node:focus .node-tooltip {
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
@@ -2148,7 +2171,9 @@ h4, .h4 {
     min-width: 160px;
   }
   .diagram-flow-node:hover .node-tooltip,
-  .diagram-cycle-node:hover .node-tooltip {
+  .diagram-flow-node:focus .node-tooltip,
+  .diagram-cycle-node:hover .node-tooltip,
+  .diagram-cycle-node:focus .node-tooltip {
     transform: translateX(0) scale(1);
   }
   .diagram-flow-node .node-tooltip::after,
@@ -2168,7 +2193,8 @@ h4, .h4 {
     top: calc(100% + 8px);
     transform: translateY(0) scale(0.95);
   }
-  .diagram-stack-layer:hover .node-tooltip {
+  .diagram-stack-layer:hover .node-tooltip,
+  .diagram-stack-layer:focus .node-tooltip {
     transform: translateY(0) scale(1);
   }
   .diagram-stack-layer .node-tooltip::after {
