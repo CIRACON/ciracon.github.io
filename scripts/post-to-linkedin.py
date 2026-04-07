@@ -8,6 +8,7 @@ Required environment variables:
     LINKEDIN_ACCESS_TOKEN  – OAuth 2.0 token with w_member_social scope
     LINKEDIN_PERSON_URN    – e.g. "urn:li:person:AbCdEf123" (your LinkedIn member ID)
     SITE_URL               – Base URL of the site (default: https://www.ciracon.com)
+    OPENAI_API_KEY         – For generating engaging post text
 """
 
 import os
@@ -16,6 +17,7 @@ import sys
 from html import unescape
 
 import requests
+from openai import OpenAI
 
 LINKEDIN_API = "https://api.linkedin.com/rest/posts"
 SITE_URL = os.environ.get("SITE_URL", "https://www.ciracon.com")
@@ -42,16 +44,83 @@ def extract_metadata(html_path: str) -> dict:
     filename = os.path.basename(html_path)
     url = f"{SITE_URL}/insights/{filename}"
 
+    # Extract article body text for post generation
+    body_match = re.search(
+        r'<div class="article-content">(.+?)</section>',
+        html,
+        re.DOTALL,
+    )
+    body_text = ""
+    if body_match:
+        body_text = re.sub(r"<[^>]+>", " ", body_match.group(1))
+        body_text = re.sub(r"\s+", " ", body_text).strip()[:3000]
+
     return {
         "title": title,
         "description": description,
         "category": category,
         "url": url,
+        "body_text": body_text,
     }
 
 
 def build_post_text(meta: dict) -> str:
-    """Build the LinkedIn post text."""
+    """Generate a compelling LinkedIn post using OpenAI.
+
+    Falls back to a simple template if the API call fails.
+    """
+    api_key = os.environ.get("OPENAI_API_KEY", "")
+    if api_key and meta.get("body_text"):
+        try:
+            client = OpenAI()
+            response = client.chat.completions.create(
+                model="gpt-4.1-nano",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You write LinkedIn posts for a technical engineering "
+                            "consulting company. Your goal is to make engineers stop "
+                            "scrolling and click through to read the full article.\n\n"
+                            "Rules:\n"
+                            "- Open with a bold, specific claim or a surprising insight "
+                            "from the article. No generic openers.\n"
+                            "- 3-5 short paragraphs separated by blank lines.\n"
+                            "- Pull out ONE concrete takeaway or contrarian point that "
+                            "makes someone want to read more.\n"
+                            "- End with a clear call to read the article (use the exact "
+                            "URL provided). Do NOT say 'link in comments'.\n"
+                            "- Add 3-5 relevant hashtags on the last line.\n"
+                            "- No emojis. No clickbait. No 'I'm excited to share'.\n"
+                            "- Total length: 150-280 words.\n"
+                            "- Write in first person as a senior engineer sharing a "
+                            "practical perspective."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": (
+                            f"Write a LinkedIn post for this article:\n\n"
+                            f"Title: {meta['title']}\n"
+                            f"Category: {meta['category']}\n"
+                            f"Description: {meta['description']}\n"
+                            f"URL: {meta['url']}\n\n"
+                            f"Article content (excerpt):\n{meta['body_text'][:2000]}"
+                        ),
+                    },
+                ],
+                temperature=0.7,
+                max_tokens=500,
+            )
+            post_text = response.choices[0].message.content.strip()
+            # Ensure the URL is in the post
+            if meta["url"] not in post_text:
+                post_text += f"\n\n{meta['url']}"
+            return post_text
+        except Exception as e:
+            print(f"Warning: OpenAI post generation failed, using fallback: {e}", file=sys.stderr)
+
+    # Fallback: simple template
     lines = [
         f"{meta['title']}",
         "",

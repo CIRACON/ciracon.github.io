@@ -95,6 +95,31 @@ document.addEventListener('DOMContentLoaded', function () {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  /* ── Insight Category Filters ── */
+  var filterBtns = document.querySelectorAll('.insight-filter-btn');
+  var insightCards = document.querySelectorAll('.insight-card[data-category]');
+
+  if (filterBtns.length > 0 && insightCards.length > 0) {
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filter = btn.getAttribute('data-filter');
+
+        // Update active button
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        // Show / hide cards
+        insightCards.forEach(function (card) {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  }
+
   /* ── Nav Scroll Effect ── */
   var nav = document.querySelector('.nav');
   if (nav) {

@@ -62,6 +62,20 @@ CATEGORIES = {
 
 ARTICLES_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "articles")
 
+# Topics containing these words are almost never relevant — reject early.
+BLOCKED_KEYWORDS = [
+    "news today", "breaking news", "news for", "latest news",
+    "business news", "tech news", "news overview", "news roundup",
+    "stock price", "stock market", "crypto", "bitcoin", "ethereum",
+    "tiktok", "instagram", "snapchat", "facebook", "twitter",
+    "apple news", "fox news", "cnn", "nfl", "nba", "mlb",
+    "movie", "trailer", "celebrity", "kardashian", "weather",
+    "horoscope", "lottery", "recipe", "diet",
+    "book review", "book for",
+]
+
+MAX_TOPIC_ATTEMPTS = 10  # how many topics to try before giving up
+
 # ---------------------------------------------------------------------------
 # Topic discovery via SerpAPI Google Trends
 # ---------------------------------------------------------------------------
@@ -110,6 +124,57 @@ def classify_category(topic: str) -> str:
         if keyword in lower:
             return category
     return "AI Engineering"  # default
+
+
+def is_blocked_topic(topic: str) -> bool:
+    """Fast check: reject topics that match known irrelevant patterns."""
+    lower = topic.lower()
+    return any(kw in lower for kw in BLOCKED_KEYWORDS)
+
+
+def is_relevant_topic(topic: str) -> bool:
+    """Use OpenAI to decide whether a trending topic is genuinely relevant
+    to infrastructure, DevOps, platform engineering, or AI engineering.
+    Returns True only for topics that can produce a substantive technical article."""
+    if is_blocked_topic(topic):
+        print(f"  Blocked by keyword filter: {topic}")
+        return False
+
+    client = OpenAI()
+    response = client.chat.completions.create(
+        model="gpt-4.1-nano",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You evaluate whether a topic is suitable for a technical "
+                    "engineering blog focused on: AI/ML engineering, platform "
+                    "engineering, DevOps, cloud infrastructure, and MLOps.\n\n"
+                    "REJECT topics that are:\n"
+                    "- General news roundups or current-events commentary\n"
+                    "- Pop culture, entertainment, sports, finance, or crypto\n"
+                    "- Product announcements with no actionable engineering depth\n"
+                    "- Broad/vague (e.g. 'Artificial Intelligence News')\n"
+                    "- Primarily about a non-engineering product even if loosely "
+                    "connected to tech (e.g. 'Adobe Creative Cloud News')\n\n"
+                    "ACCEPT topics that would let an engineer write 800+ words of "
+                    "concrete, practical technical guidance with real architecture "
+                    "patterns, tool recommendations, or failure-mode analysis.\n\n"
+                    "Return JSON: {\"relevant\": true/false, \"reason\": \"one sentence\"}"
+                ),
+            },
+            {"role": "user", "content": f"Topic: {topic}"},
+        ],
+        response_format={"type": "json_object"},
+        temperature=0,
+        max_tokens=100,
+    )
+
+    result = json.loads(response.choices[0].message.content)
+    relevant = result.get("relevant", False)
+    reason = result.get("reason", "")
+    print(f"  Relevance check: {topic} -> {'PASS' if relevant else 'REJECT'} ({reason})")
+    return relevant
 
 
 # ---------------------------------------------------------------------------
@@ -341,10 +406,22 @@ def main():
     topics = discover_topics()
     print(f"Found {len(topics)} candidate topics.")
 
-    # Pick a random topic
-    topic = random.choice(topics)
-    category = classify_category(topic)
-    print(f"Selected topic: {topic} [{category}]")
+    # Shuffle and pick the first topic that passes relevance checks
+    random.shuffle(topics)
+    topic = None
+    category = None
+    for i, candidate in enumerate(topics[:MAX_TOPIC_ATTEMPTS]):
+        print(f"Evaluating candidate {i + 1}/{min(len(topics), MAX_TOPIC_ATTEMPTS)}: {candidate}")
+        if not is_relevant_topic(candidate):
+            continue
+        topic = candidate
+        category = classify_category(topic)
+        print(f"Selected topic: {topic} [{category}]")
+        break
+
+    if topic is None:
+        print("Error: No relevant topic found after checking candidates.", file=sys.stderr)
+        sys.exit(1)
 
     print("Generating article...")
     article = generate_article(topic, category)
