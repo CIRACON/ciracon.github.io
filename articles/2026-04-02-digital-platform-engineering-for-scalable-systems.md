@@ -99,7 +99,7 @@ slug: "digital-platform-engineering-for-scalable-systems"
   <li>Use feature stores or equivalent patterns where appropriate to ensure consistency between training and inference.</li>
 </ul>
 
-<p>For inference services, standardize on one standard serving pattern. For example: containerized model server, request tracing via OpenTelemetry, canary rollout via Argo Rollouts, and latency/error SLOs in Grafana. Do not let one team use a notebook turned API, another use a custom FastAPI server with no health checks, and a third use an opaque vendor endpoint with no logs. That path leads to unpredictable cost and impossible incident response.</p>
+<p>For inference services, standardize on one serving pattern. For example: containerized model server, request tracing via OpenTelemetry, canary rollout via Argo Rollouts, and latency/error SLOs in Grafana. Do not let one team use a notebook turned API, another use a custom FastAPI server with no health checks, and a third use an opaque vendor endpoint with no logs. That path leads to unpredictable cost and impossible incident response.</p>
 
 <h2>Self-service only works when the guardrails are real</h2>
 
