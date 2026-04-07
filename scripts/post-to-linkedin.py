@@ -120,7 +120,7 @@ def build_post_text(meta: dict) -> str:
                     },
                 ],
                 temperature=0.7,
-                max_tokens=600,
+                max_completion_tokens=600,
             )
             post_text = response.choices[0].message.content.strip()
 

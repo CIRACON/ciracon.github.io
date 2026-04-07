@@ -167,7 +167,7 @@ def is_relevant_topic(topic: str) -> bool:
         ],
         response_format={"type": "json_object"},
         temperature=0,
-        max_tokens=100,
+        max_completion_tokens=100,
     )
 
     result = json.loads(response.choices[0].message.content)
