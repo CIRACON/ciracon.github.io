@@ -188,8 +188,9 @@ def add_card_to_insights(meta: dict, body: str):
     summary = meta.get("description", "") or extract_first_paragraph(body)
 
     # Build the new card HTML
+    category_slug = category.lower().replace(" ", "-")
     card = (
-        f'\n        <a href="insights/insight-{slug}.html" class="insight-card reveal">\n'
+        f'\n        <a href="insights/insight-{slug}.html" class="insight-card reveal" data-category="{category_slug}">\n'
         f'          <div class="insight-category">{category}</div>\n'
         f"          <h3>{title}</h3>\n"
         f"          <p>{summary}</p>\n"
