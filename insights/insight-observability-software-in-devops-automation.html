@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observability Software in DevOps Automation | Ciracon</title>
+  <meta name="description" content="Learn how observability software improves monitoring, troubleshooting, and performance across automated DevOps workflows.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://www.ciracon.com/insights/insight-observability-software-in-devops-automation.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../services.html">Services</a>
+        <a href="../engagements.html">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../insights.html" class="active">Insights</a>
+        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let’s Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header page-header-compact">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> DevOps Automation</div>
+      <h1 class="reveal reveal-delay-1">Observability Software in DevOps Automation</h1>
+      <p class="lead reveal reveal-delay-2">Learn how observability software improves monitoring, troubleshooting, and performance across automated DevOps workflows.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="../insights.html" class="article-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta">
+        <span>DevOps Automation</span>
+        <span>7 min read</span>
+      </div>
+
+      <div>
+        <p>Observability software for AI platforms and cloud infrastructure is not a dashboard problem. It is a control-plane problem. If you cannot trace a user request from ingress to model call to vector store to GPU worker to billing event, you do not have observability. You have screenshots.</p>
+
+<p>For platform teams, the job is simple to describe and hard to implement: collect enough signals to explain failures, latency, and cost without drowning the system in telemetry overhead. The teams that get this right treat observability as part of system design, not a sidecar they install after the incident.</p>
+
+<div class="diagram">
+  <div class="diagram-title">Practical Observability Pipeline for AI and Platform Systems</div>
+  <div class="diagram-flow">
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Instrument</span>
+        <span class="node-sub">Apps, jobs, infra</span>
+        <span class="node-tooltip">Add logs, metrics, and traces at service boundaries, queues, model calls, and storage layers.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Collect</span>
+        <span class="node-sub">OTel + agents</span>
+        <span class="node-tooltip">Use a standard collector pipeline to receive, enrich, sample, and route telemetry.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">3</span>
+      <span class="node-label">Correlate</span>
+      <span class="node-sub">Debug and alert</span>
+      <span class="node-tooltip">Join traces, logs, metrics, and cost signals so on-call engineers can explain what happened quickly.</span>
+    </div>
+  </div>
+  <div class="diagram-hint">Hover over each step for details</div>
+</div>
+
+<h2>What observability software should actually do</h2>
+
+<p>At minimum, your stack needs to answer five questions fast:</p>
+
+<ul>
+  <li>What is broken right now?</li>
+  <li>Who is affected?</li>
+  <li>Where in the request path is the failure or slowdown?</li>
+  <li>What changed?</li>
+  <li>How much is this costing us?</li>
+</ul>
+
+<p>For AI systems, add two more:</p>
+
+<ul>
+  <li>Which model, prompt, retrieval path, or feature flag produced this output?</li>
+  <li>Did quality degrade before latency or error rate made it obvious?</li>
+</ul>
+
+<p>That means the core signals are still logs, metrics, and traces, but the implementation is different from a standard CRUD app. You also need model metadata, token counts, queue depth, GPU utilization, vector database latency, cache hit rate, and often per-tenant usage. If those are not correlated by request or job ID, your incident response will be guesswork.</p>
+
+<h2>The stack I would recommend</h2>
+
+<p>If you are building or modernizing today, I would start with <strong>OpenTelemetry</strong> for instrumentation and collection. Not because it is perfect, but because proprietary agents create lock-in fast and make migrations painful. OTel gives you a sane baseline across Python, Go, Java, Node.js, Kubernetes, and most managed services.</p>
+
+<p>A practical setup looks like this:</p>
+
+<ul>
+  <li><strong>OpenTelemetry SDKs</strong> in application services</li>
+  <li><strong>OpenTelemetry Collector</strong> as the central pipeline for ingest, enrichment, batching, and sampling</li>
+  <li><strong>Prometheus</strong> for metrics scraping and alert rules if you run Kubernetes-heavy infrastructure</li>
+  <li><strong>Loki</strong> or <strong>Elasticsearch/OpenSearch</strong> for logs, depending on query needs and budget</li>
+  <li><strong>Tempo</strong> or <strong>Jaeger</strong> for traces if you want open-source tracing</li>
+  <li><strong>Grafana</strong> as the operational UI for dashboards, alerts, and cross-linking</li>
+</ul>
+
+<p>If you want a managed option, I would pick <strong>Datadog</strong> over stitching together five tools with a two-person platform team. Datadog is expensive, but fragmented observability is more expensive during outages. For larger enterprises with strong Splunk experience, Splunk still works, but I would not choose it fresh for an AI platform unless the org already knows how to run it well.</p>
+
+<p>For AI-specific telemetry, add custom spans and attributes around:</p>
+
+<ul>
+  <li><code>model.name</code>, <code>model.provider</code>, <code>model.version</code></li>
+  <li><code>llm.prompt_tokens</code>, <code>llm.completion_tokens</code>, <code>llm.cost_usd</code></li>
+  <li><code>rag.retrieved_docs</code>, <code>rag.index_name</code>, <code>rag.search_latency_ms</code></li>
+  <li><code>tenant.id</code>, <code>feature_flag</code>, <code>experiment.variant</code></li>
+</ul>
+
+<p>Without those fields, “the model is slow” tells you nothing useful.</p>
+
+<h2>How to instrument systems without making them worse</h2>
+
+<p>The mistake I see most often is over-instrumenting the wrong layers. Teams dump every log line from every pod, then skip trace propagation through queues, async workers, and model gateways. That gives you huge bills and weak diagnosis.</p>
+
+<p>Start with service boundaries and expensive operations:</p>
+
+<ol>
+  <li>Ingress and API gateway</li>
+  <li>Auth and tenant resolution</li>
+  <li>Queue publish and consume</li>
+  <li>Database and cache calls</li>
+  <li>External API calls, especially LLM providers</li>
+  <li>Vector search and reranking</li>
+  <li>GPU job scheduling and inference workers</li>
+</ol>
+
+<p>Use structured logs in JSON. Include request IDs, trace IDs, tenant IDs, deployment version, and region on every event. If your logs are unstructured strings, you are choosing pain.</p>
+
+<p>For traces, propagate context across HTTP, gRPC, Kafka, SQS, Celery, and background jobs. Async boundaries are where most traces die. In Python, that usually means explicit context handling in Celery or asyncio-heavy code. In Go, it means being disciplined with <code>context.Context</code>. In Node.js, it means validating that async hooks actually preserve context in your framework and runtime version.</p>
+
+<p>For metrics, keep cardinality under control. Do not put user IDs, prompt text, raw URLs, or document IDs into labels. Prometheus will punish you for that. Good labels are service, endpoint template, model name, region, and status class. Bad labels are anything that grows with traffic.</p>
+
+<h2>What matters for AI platforms specifically</h2>
+
+<p>AI workloads break standard observability assumptions in three ways.</p>
+
+<p>First, latency is multi-stage and variable. A single request might hit an API, embedding service, vector database, reranker, LLM, and post-processor. P95 means very little unless you can break it down by stage.</p>
+
+<p>Second, cost is part of reliability. If a prompt regression doubles token usage, that is an incident even if the API still returns 200s. We should emit token and cost metrics per route, tenant, and model.</p>
+
+<p>Third, output quality can fail silently. Traditional observability will not tell you when retrieval quality collapsed after an index rebuild. You need quality-adjacent signals: retrieval hit counts, answer refusal rate, moderation triggers, fallback frequency, and offline eval scores tied to deployment versions.</p>
+
+<p>I would treat these as first-class telemetry, not product analytics. They belong in the same operational view as latency and errors.</p>
+
+<h2>Alerting that engineers will not mute</h2>
+
+<p>Most alerting is noisy because it is built on infrastructure symptoms instead of user-facing failure.</p>
+
+<p>Good alerts for platform teams usually come from a short list:</p>
+
+<ul>
+  <li>Request success rate below SLO by service and tenant tier</li>
+  <li>P95 latency regression on critical routes</li>
+  <li>Queue lag above threshold for background processing</li>
+  <li>Model provider error rate or timeout spike</li>
+  <li>GPU saturation or failed scheduling for inference pools</li>
+  <li>Sudden token-cost increase per request class</li>
+</ul>
+
+<p>I strongly prefer multi-window, multi-burn-rate SLO alerts over static thresholds for mature services. For noisy or early-stage systems, start simpler: page on hard failures, ticket on trends. If everything pages, nothing pages.</p>
+
+<h2>What usually goes wrong</h2>
+
+<p><strong>1. Teams buy a tool before they define telemetry contracts.</strong> Then every service emits different field names, trace attributes, and status conventions. Correlation becomes impossible.</p>
+
+<p><strong>2. Logs become the default for everything.</strong> This is the most common failure mode. Engineers use logs to answer metric questions and metric dashboards to answer trace questions. The result is cost bloat and slow debugging.</p>
+
+<p><strong>3. Sampling is added too late.</strong> High-volume traces and debug logs hit production, then finance notices. Put head-based or tail-based sampling in the collector from day one.</p>
+
+<p><strong>4. Async systems lose context.</strong> Kafka consumers, Celery workers, batch jobs, and scheduled pipelines often drop trace IDs. The incident spans three systems, but every tool shows an isolated fragment.</p>
+
+<p><strong>5. AI metadata is missing.</strong> You know a request was slow, but not which model version or retrieval path caused it. This is a schema failure, not a dashboard failure.</p>
+
+<p><strong>6. Nobody tests alerts.</strong> A paging rule that has never been exercised is not an alerting strategy. It is hope.</p>
+
+<h2>Lessons learned from running this in production</h2>
+
+<p>The best observability improvement is usually not a new platform. It is a small set of enforced conventions.</p>
+
+<p>I would standardize these early:</p>
+
+<ul>
+  <li>A required set of log fields and trace attributes</li>
+  <li>A shared request ID and tenant ID strategy</li>
+  <li>Service-level dashboards generated from templates</li>
+  <li>Collector-side sampling and redaction rules</li>
+  <li>Runbooks linked directly from alerts</li>
+</ul>
+
+<p>I would also keep the architecture boring. One collector path. One dashboard tool. One alert manager. Teams get into trouble when they run CloudWatch for some services, Datadog for others, Prometheus for Kubernetes, and custom scripts for AI metrics. During an incident, that fragmentation is the outage multiplier.</p>
+
+<p>If you are on Kubernetes, deploy the OpenTelemetry Collector as both a DaemonSet for node-local collection and a Deployment for centralized processing. Use the collector to redact secrets, drop high-cardinality attributes, and route different telemetry to different backends. That is where you control cost without changing every application.</p>
+
+<p>Finally, treat observability changes like production code. Version dashboards. Review alert rules in pull requests. Test trace propagation in integration tests. If your platform depends on telemetry for operations, telemetry deserves engineering discipline.</p>
+
+<h2>What I would do first</h2>
+
+<p>If your current setup is messy, do not try to fix everything at once.</p>
+
+<ol>
+  <li>Pick a standard: OpenTelemetry for instrumentation and collection.</li>
+  <li>Define required fields for logs, metrics, and traces.</li>
+  <li>Instrument the top five user-facing request paths end to end.</li>
+  <li>Add model, retrieval, and cost metadata to spans and metrics.</li>
+  <li>Set up three useful alerts: error rate, latency, and queue lag.</li>
+  <li>Review telemetry cost after two weeks and add sampling where needed.</li>
+</ol>
+
+<p>That gets you from “we have data” to “we can debug production” fast. For observability software, that is the bar that matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="../ai-engineering.html">AI Engineering</a>
+          <a href="../platform-engineering.html">Platform Engineering</a>
+          <a href="../devops-automation.html">DevOps Automation</a>
+          <a href="../cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="../about.html">About</a>
+          <a href="../engagements.html">Engagements</a>
+          <a href="../insights.html">Insights</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="../contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
