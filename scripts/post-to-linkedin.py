@@ -22,6 +22,24 @@ from openai import OpenAI
 LINKEDIN_API = "https://api.linkedin.com/rest/posts"
 SITE_URL = os.environ.get("SITE_URL", "https://www.ciracon.com")
 
+# Mirrors the Ciracon house voice from scripts/generate-article.py.
+HOUSE_VOICE = (
+    "You write as a Ciracon engineer: 15+ years across infra, platform, and AI. "
+    "Opinionated, dry, occasionally sardonic, respects the reader's time. "
+    "Prefers war stories to abstractions. Names trade-offs explicitly and "
+    "disagrees with industry hype when warranted. Short, declarative sentences. "
+    "No hedging ('might', 'could', 'may'). No corporate plural ('we are pleased "
+    "to', 'we are excited to'). Concrete tool names over generic advice."
+)
+
+LINKEDIN_BANNED_PHRASES = [
+    "leverage", "unlock", "robust", "seamless", "game-changer",
+    "best-in-class", "at the end of the day", "it depends",
+    "in today's", "studies show", "research indicates",
+    "we are pleased", "we are excited", "i'm excited to share",
+    "link in comments", "boring",  # boring is fully banned in 200-word posts
+]
+
 
 def extract_metadata(html_path: str) -> dict:
     """Extract title and description from the article HTML."""
@@ -51,8 +69,14 @@ def extract_metadata(html_path: str) -> dict:
         re.DOTALL,
     )
     body_text = ""
+    h2_headings: list[str] = []
     if body_match:
-        body_text = re.sub(r"<[^>]+>", " ", body_match.group(1))
+        body_html = body_match.group(1)
+        h2_headings = [
+            unescape(re.sub(r"<[^>]+>", "", h).strip())
+            for h in re.findall(r"<h2[^>]*>(.+?)</h2>", body_html, re.DOTALL)
+        ]
+        body_text = re.sub(r"<[^>]+>", " ", body_html)
         body_text = re.sub(r"\s+", " ", body_text).strip()[:3000]
 
     return {
@@ -61,6 +85,7 @@ def extract_metadata(html_path: str) -> dict:
         "category": category,
         "url": url,
         "body_text": body_text,
+        "h2_headings": h2_headings,
     }
 
 
@@ -79,32 +104,46 @@ def build_post_text(meta: dict) -> str:
                     {
                         "role": "system",
                         "content": (
-                            "You write LinkedIn posts for a senior engineer at a "
-                            "technical consulting company. The post must drive "
-                            "engineers to click through and read the full article.\n\n"
+                            HOUSE_VOICE + "\n\n"
+                            "You write LinkedIn posts that drive engineers to "
+                            "click through and read the full article. The first "
+                            "two lines must be screenshot-shareable on their own.\n\n"
                             "STRUCTURE (follow this exactly):\n"
-                            "1. HOOK (1-2 sentences): A bold, specific, or contrarian "
-                            "claim drawn from the article. Not a question. Not generic.\n"
+                            "1. HOOK (1-2 sentences): A bold, specific, contrarian, "
+                            "or war-story claim drawn directly from the article. "
+                            "A genuine, specific question is allowed if it's the "
+                            "kind a senior engineer would actually ask in Slack — "
+                            "no rhetorical openers, no 'Have you ever…'.\n"
                             "\n"
                             "2. BODY (2-3 short paragraphs): Pull out 2-3 concrete "
-                            "insights, failure modes, or practical recommendations from "
-                            "the article. Use specific tool names, patterns, or numbers "
-                            "when available. Each paragraph should be 2-3 sentences max.\n"
+                            "insights, failure modes, or recommendations from the "
+                            "article. At least one specific number, named tool, "
+                            "or named pattern is required. Each paragraph: 2-3 "
+                            "sentences max. Give away the punchline — LinkedIn "
+                            "rewards complete posts. The click is for depth, not "
+                            "to find out the answer.\n"
                             "\n"
-                            "3. CTA (1 sentence): Direct the reader to the full article "
-                            "using the exact URL provided.\n"
+                            "3. CTA (1 sentence): Direct the reader to the full "
+                            "article using the exact URL provided. Do NOT say "
+                            "'link in comments'.\n"
                             "\n"
-                            "4. HASHTAGS (last line): 3-5 hashtags relevant to the topic. "
-                            "Always include #AIEngineering or #PlatformEngineering or "
-                            "#DevOps as appropriate. Use CamelCase for multi-word tags.\n"
+                            "4. HASHTAGS (last line): 3-5 hashtags relevant to the "
+                            "topic. Always include #AIEngineering, "
+                            "#PlatformEngineering, or #DevOps as appropriate. "
+                            "Use CamelCase for multi-word tags.\n"
                             "\n"
                             "RULES:\n"
                             "- Total length: 150-250 words (NOT counting hashtags).\n"
                             "- Separate each section with a blank line.\n"
                             "- Write in first person ('I', 'we').\n"
                             "- No emojis. No clickbait. No 'I'm excited to share'.\n"
-                            "- Do NOT say 'link in comments'.\n"
-                            "- Do NOT start with a question."
+                            "- Numbers must be framed as lived experience: "
+                            "'in our audits…', 'in the platforms we've shipped…', "
+                            "'we've seen…'. Never 'studies show'.\n"
+                            "- Banned words: leverage, unlock, robust, seamless, "
+                            "game-changer, best-in-class, boring, at the end of "
+                            "the day, it depends.\n"
+                            "- Do NOT start with 'Most teams…'."
                         ),
                     },
                     {
@@ -133,22 +172,41 @@ def build_post_text(meta: dict) -> str:
                 tag = meta["category"].replace(" ", "")
                 post_text += f"\n\n#{tag} #Engineering #Ciracon"
 
+            # Warn if banned phrases slipped through (don't block posting)
+            lower = post_text.lower()
+            hits = [p for p in LINKEDIN_BANNED_PHRASES if p in lower]
+            if hits:
+                print(
+                    f"Warning: LinkedIn post contains banned phrases: {hits}",
+                    file=sys.stderr,
+                )
+
             return post_text
         except Exception as e:
             print(f"Warning: OpenAI post generation failed, using fallback: {e}", file=sys.stderr)
 
-    # Fallback: simple template
+    # Fallback: pull the first 1-2 sentences of the article body as the hook,
+    # then list 2 H2 headings as takeaways. Better than just title + description.
     category_tag = meta["category"].replace(" ", "")
-    lines = [
-        f"{meta['title']}",
-        "",
-        meta["description"],
-        "",
+    body_text = meta.get("body_text", "") or meta.get("description", "")
+    sentences = re.split(r"(?<=[.!?])\s+", body_text.strip())
+    hook = " ".join(sentences[:2]).strip() or meta["title"]
+
+    takeaway_lines = []
+    for heading in (meta.get("h2_headings") or [])[:2]:
+        takeaway_lines.append(f"- {heading}")
+
+    parts = [hook, ""]
+    if takeaway_lines:
+        parts.append("In the article:")
+        parts.extend(takeaway_lines)
+        parts.append("")
+    parts.extend([
         f"Read the full article: {meta['url']}",
         "",
         f"#{category_tag} #Engineering #Ciracon",
-    ]
-    return "\n".join(lines)
+    ])
+    return "\n".join(parts)
 
 
 def post_to_linkedin(meta: dict) -> None:
