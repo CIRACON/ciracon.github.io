@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building and Optimizing a RAG Model | Ciracon</title>
+  <meta name="description" content="A practical guide to retrieval-augmented generation models, covering architecture, indexing, prompting, and performance tradeoffs.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://www.ciracon.com/insights/insight-building-and-optimizing-a-rag-model.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../services.html">Services</a>
+        <a href="../engagements.html">Work</a>
+        <a href="../about.html">About</a>
+        <a href="../insights.html" class="active">Insights</a>
+        <a href="../contact.html" class="nav-cta"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Let’s Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="page-header page-header-compact">
+    <div class="container">
+      <div class="eyebrow eyebrow-accent reveal"><span class="eyebrow-dot"></span> AI Engineering</div>
+      <h1 class="reveal reveal-delay-1">Building and Optimizing a RAG Model</h1>
+      <p class="lead reveal reveal-delay-2">A practical guide to retrieval-augmented generation models, covering architecture, indexing, prompting, and performance tradeoffs.</p>
+    </div>
+  </header>
+
+  <!-- Article Content -->
+  <section class="section section-darker">
+    <div class="article-content">
+      <a href="../insights.html" class="article-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All insights
+      </a>
+
+      <div class="article-meta">
+        <span>AI Engineering</span>
+        <span>6 min read</span>
+      </div>
+
+      <div>
+        <p>“Just add RAG” is the new “just put it behind Kubernetes.” The bad pattern is treating retrieval as a magic patch for missing product boundaries, weak source data, and zero eval discipline.</p>
+<p>Teams keep shipping RAG systems that look fine in demos and then collapse under ordinary user traffic. The mistake is not the model. It is the belief that retrieval quality is a prompt problem instead of a systems problem.</p>
+
+<div class="diagram">
+  <div class="diagram-title">Where a RAG request actually succeeds or dies</div>
+  <div class="diagram-flow">
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">1</span>
+        <span class="node-label">Ingest</span>
+        <span class="node-sub">Chunk and index</span>
+        <span class="node-tooltip">Bad chunking and stale metadata poison retrieval before the model sees anything.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-step">
+      <div class="diagram-flow-node">
+        <span class="node-num">2</span>
+        <span class="node-label">Retrieve</span>
+        <span class="node-sub">Rank candidates</span>
+        <span class="node-tooltip">Embedding search without filters or reranking returns plausible garbage very efficiently.</span>
+      </div>
+      <div class="diagram-flow-connector"><svg viewBox="0 0 32 12"><line x1="0" y1="6" x2="26" y2="6"/><polygon points="26,2 32,6 26,10"/></svg></div>
+    </div>
+    <div class="diagram-flow-node">
+      <span class="node-num">3</span>
+      <span class="node-label">Generate</span>
+      <span class="node-sub">Answer with citations</span>
+      <span class="node-tooltip">The model can only be as grounded as the context you handed it and the budget you left in the prompt.</span>
+    </div>
+  </div>
+  <div class="diagram-hint">Hover over each step for details</div>
+</div>
+
+<h2>The popular belief: bigger context plus a vector DB fixes factuality</h2>
+<p>This is the default story. Take your docs, chunk them, embed them, drop them into Pinecone, Weaviate, pgvector, or OpenSearch, and wire the top <code>k</code> chunks into the prompt. Hallucinations go down. Accuracy goes up. Job done.</p>
+<p>That story survives because demos are forgiving. The user asks a narrow question, the answer exists verbatim in one page, and nobody checks the misses. Real usage is uglier. Queries are vague, documents conflict, permissions matter, and the right answer often spans three systems and two timestamps.</p>
+<p>In the teams we work with, the first production version of RAG usually retrieves something relevant in under 150 ms and still answers the wrong question. Fast nonsense is still nonsense.</p>
+
+<h2>Why this falls over when real users arrive</h2>
+<p>The failure starts upstream. If your source corpus has duplicate pages, stale runbooks, and PDFs scraped into broken paragraphs, your retriever learns the wrong shape of truth. You do not fix that with a better system prompt.</p>
+<p>Then chunking makes it worse. Teams split by token count because the library default said 800 tokens with 100 overlap. That shreds tables, headers, and procedural steps. The retriever returns chunk 4 of 9 with no title, no product name, and no version boundary. The model fills in the missing pieces. That is the hallucination you built, not the one the model invented.</p>
+<p>A named failure mode shows up constantly with <code>pgvector</code>: HNSW indexes look fine in testing, then recall drops and latency spikes once the table grows and metadata filters get bolted on as an afterthought. In our audits, <code>pgvector</code> setups crossing roughly 10 million rows without partitioning or careful filter strategy start producing the worst kind of incident: not an outage, just quietly worse answers.</p>
+<p>RAG also fails when retrieval and authorization are split across services. I have seen teams fetch top documents first and apply ACL checks second. That creates empty context for valid users and leakage risk for everyone else. If your permissions model is not part of retrieval, you do not have an enterprise RAG system. You have a demo with legal exposure.</p>
+<p>Latency is the other lie. A vector search at 80 ms looks cheap until you add query rewriting, reranking, one model call, and citation formatting. In the platforms we've shipped, the difference between “basic retrieval” and “retrieval that users trust” is often 300 to 700 ms of extra path length. That trade is usually worth it. Pretending it does not exist is how you get paged.</p>
+
+<h2>Unpopular take: most RAG failures are information architecture failures, not model failures.</h2>
+<p>The model gets blamed because it is the visible part. The real breakage sits in document ownership, update cadence, chunk semantics, and ranking strategy. If the corpus is messy, retrieval just gives the model a more confident path to the wrong answer.</p>
+<p>This is why “swap embeddings” rarely moves the needle much. Better embeddings help on the margin. They do not repair a knowledge base where five versions of the same policy coexist and the deprecated one has better keyword density.</p>
+
+<h2>Where the popular advice actually holds</h2>
+<p>There are cases where the simple recipe works. If your corpus is small, stable, and internally consistent, plain vector search plus a decent model is enough. Product docs. API references. Single-tenant knowledge bases with tight editorial control. FAQ-style support flows.</p>
+<p>A typical client we see gets solid results from vanilla RAG when the answer lives in one document, the metadata is clean, and freshness is measured in weeks instead of minutes. In those cases, adding cross-encoders, graph retrieval, or agent loops is ceremony. Keep it simple.</p>
+<p>The same is true when the business cost of an occasional miss is low. Internal search assistants for engineering notes do not need courtroom-grade citation chains. A support bot answering refund policy does.</p>
+
+<h2>The cheap fix that costs you in month six</h2>
+<p>The cheap fix is dumping everything into one index. Confluence pages, Jira tickets, Slack exports, PDFs, changelogs, incident docs. Same embedding model. Same chunk size. Same retrieval path. It feels efficient. It is not.</p>
+<p>Different sources need different treatment. Slack is conversational and noisy. Jira is sparse but metadata-rich. PDFs need layout-aware extraction. Confluence pages need section-aware chunking. If you flatten them into one retrieval strategy, the noisiest source wins because it produces the most vaguely relevant text.</p>
+<p>I would pick hybrid retrieval over pure vector search by default. BM25 or sparse search catches exact terms, IDs, error codes, and product names that embeddings routinely blur. Then rerank the merged candidates. If your users ask “why did <code>ERR-8492</code> spike after deploy,” dense-only retrieval is how you miss the only chunk that matters.</p>
+
+<h2>What we recommend instead of “just add RAG”</h2>
+<p>Start with source contracts. Name the systems of record. Decide who owns freshness. Put expiry on content that should not survive forever. If nobody owns the docs, do not build a chatbot on top of them and act surprised later.</p>
+<p>Then design retrieval per source type. Use structural chunking for docs with headings and tables. Preserve titles, timestamps, product names, tenant IDs, and ACL metadata in every chunk. Store enough metadata to filter before ranking, not after.</p>
+<p>Use hybrid retrieval as the default. Dense plus sparse, then rerank. Cross-encoder rerankers cost latency, but they rescue precision on ambiguous queries. I take that trade every time for support, compliance, and internal ops use cases.</p>
+<p>Build evals before launch. Not generic benchmarks. Your real questions, your real edge cases, your real failure classes: stale policy, wrong version, missing citation, cross-tenant leakage, partial procedure, acronym collision. In our audits, teams with even 200 hand-labeled retrieval queries find obvious ranking bugs within a day that prompt tweaking had hidden for months.</p>
+<p>Instrument retrieval like a production dependency. Log query variants, retrieved chunk IDs, source freshness, reranker scores, final citations, and user feedback. If you cannot answer “which source caused this bad answer,” you are not operating a RAG system. You are guessing.</p>
+
+<h2>What to do next Monday</h2>
+<p>Pick 50 real user questions and label the right supporting documents by hand. Run your current pipeline and measure retrieval hit rate before touching prompts.</p>
+<p>Split your corpus by source type and stop using one chunking strategy for all of them. Add metadata filters for version, tenant, document type, and freshness at retrieval time.</p>
+<p>If you are on pure vector search, add BM25 and a reranker. If latency jumps, cap candidate counts and profile the path instead of ripping the reranker back out.</p>
+<p>Finally, delete stale content. Not archive. Delete or hard-exclude from retrieval. The fastest accuracy gain in RAG is often not a new model. It is removing the wrong documents from the blast radius.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</div>
+        <p>Engineering-first consulting. We design, build, and operate production-grade AI and cloud platforms.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a href="../ai-engineering.html">AI Engineering</a>
+          <a href="../platform-engineering.html">Platform Engineering</a>
+          <a href="../devops-automation.html">DevOps Automation</a>
+          <a href="../cloud-automation.html">Cloud &amp; Automation</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="../about.html">About</a>
+          <a href="../engagements.html">Engagements</a>
+          <a href="../insights.html">Insights</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="footer-links">
+          <a href="mailto:info@ciracon.com">info@ciracon.com</a>
+          <a href="../contact.html">Schedule a Consultation</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Ciracon. All rights reserved.</span>
+      <span>AI Engineering &middot; Platform Engineering &middot; DevOps &middot; Cloud</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
