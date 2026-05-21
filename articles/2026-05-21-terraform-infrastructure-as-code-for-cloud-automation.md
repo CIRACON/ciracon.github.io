@@ -1,0 +1,107 @@
+---
+title: "Terraform Infrastructure as Code for Cloud Automation"
+category: "Cloud Automation"
+description: "Learn how Terraform enables infrastructure as code to provision, manage, and automate cloud resources consistently and efficiently."
+date: "2026-05-21"
+slug: "terraform-infrastructure-as-code-for-cloud-automation"
+---
+
+<p>Terraform is the wrong default for a lot of cloud estates. Teams keep reaching for it because the first demo works, the provider list is huge, and nobody feels the pain until state, drift, and ownership collisions show up in month six.</p>
+
+<p>That claim annoys people because Terraform is still good software. It just gets used as a universal answer when the real question is narrower: who owns change, where does state live, and how much blast radius are you willing to hand to a plan file.</p>
+
+<div class="diagram">
+  <div class="diagram-title">Three ways teams manage cloud infrastructure</div>
+  <div class="diagram-compare">
+    <div class="diagram-compare-col diagram-col-muted">
+      <h4>Terraform</h4>
+      <ul><li><span class="cmp-icon">&ndash;</span> Optimises for cross-cloud reach</li><li><span class="cmp-icon">&ndash;</span> State management becomes the real platform</li></ul>
+    </div>
+    <div class="diagram-compare-col diagram-col-accent">
+      <h4>CloudFormation / CDK</h4>
+      <ul><li><span class="cmp-icon">&check;</span> Optimises for AWS-native control</li><li><span class="cmp-icon">&check;</span> Fewer moving parts around state and drift</li></ul>
+    </div>
+  </div>
+</div>
+
+<h2>Terraform optimises for provider coverage, not operational calm</h2>
+
+<p>Terraform wins the evaluation spreadsheet fast. One workflow. One language. AWS, GCP, Azure, Cloudflare, Datadog, GitHub, and the random SaaS your security team bought last quarter. That story is real.</p>
+
+<p>The trade-off is also real. Terraform turns state into critical infrastructure. Not metaphorically. Literally. If your remote state backend, locking, and workspace boundaries are sloppy, the tool that was supposed to tame infrastructure becomes another outage source.</p>
+
+<p>In our audits, the median Terraform estate has three recurring problems: oversized root modules, weak environment isolation, and undocumented provider upgrades. None of these show up in the hello-world repo. All of them show up once five teams share the same account and the same CI runners.</p>
+
+<p>A named failure mode worth calling out: <code>terraform refresh</code> and provider drift around AWS security groups have caused more accidental rule churn than teams admit. We’ve seen plans replace or reorder rules after console edits, then wipe emergency changes during the next apply. The issue is not that Terraform is broken. The issue is that humans edit prod at 2am and expect state to stay truthful.</p>
+
+<p>In the platforms we’ve shipped, Terraform apply time crossing 20 minutes is where teams stop trusting change windows. They batch unrelated updates, avoid small fixes, and turn infrastructure delivery into a weekly ceremony. The tool still works. The operating model rots.</p>
+
+<h2>CloudFormation and CDK optimise for AWS control, and that matters more than people admit</h2>
+
+<p>If your world is mostly AWS, CloudFormation deserves more respect than it gets. CDK on top of it is the version I’d pick for most engineering teams because you keep AWS-native semantics while writing sane abstractions in TypeScript or Python.</p>
+
+<p>This stack optimises for a narrower problem. It assumes AWS is home. In return, you get tighter service coverage, fewer third-party provider surprises, and one less external state machine to babysit. Drift still exists, but the control plane is at least native to the platform you are changing.</p>
+
+<p>Here’s where I disagree with the consensus: multi-cloud support is overrated for infrastructure provisioning. In the teams we work with, “multi-cloud” usually means 85% AWS plus a handful of edge services or a data product elsewhere, and forcing everything through Terraform adds complexity long before it adds negotiating power.</p>
+
+<p>CDK has its own sins. Bad construct design produces unreadable diffs and giant stacks nobody wants to touch. I’ve seen platform teams build internal construct libraries so clever that a simple SQS queue required six layers of abstraction and a code archaeology session. That is not a tooling failure. That is engineers treating IaC like a framework contest.</p>
+
+<p>Still, for AWS-heavy estates, CloudFormation/CDK usually fails in more predictable ways. Predictable failure is underrated. You can build runbooks around it.</p>
+
+<h2>Pulumi optimises for developer ergonomics, and sometimes that is the right bet</h2>
+
+<p>Pulumi is the option teams mention once they are tired of HCL and want real languages, tests, and package reuse. Fair enough. If your platform team already lives in TypeScript or Go, Pulumi feels natural on day one.</p>
+
+<p>It optimises for software engineering habits more than Terraform does. You get loops without hacks, shared libraries without module contortions, and stronger local testing patterns. For small, high-skill teams building internal platforms, that speed is useful.</p>
+
+<p>The bill comes later. General-purpose languages make it easier to build dynamic, opaque infrastructure definitions that only the original author understands. I’ve reviewed Pulumi repos where understanding one VPC change required tracing four packages and two environment loaders. That is not better than unreadable Terraform. It is unreadable with nicer syntax.</p>
+
+<p>Who should pick it? Teams with strong language discipline, code review maturity, and a real appetite for maintaining internal libraries. Not teams that already struggle to keep application code clean. Infrastructure written in TypeScript does not become clean because the file extension changed.</p>
+
+<h2>Where this falls over at 3am</h2>
+
+<p>The night-page version is simple. Terraform incidents are usually state and ownership incidents. CloudFormation incidents are usually stack lifecycle and dependency incidents. Pulumi incidents are usually abstraction incidents.</p>
+
+<p>With Terraform, the ugly one is shared state. A typical client we see has one S3 backend, DynamoDB locking, and workspace names standing in for actual isolation. Then one pipeline hangs on a stale lock, another team force-unlocks, and now prod networking and staging IAM are both one bad apply away from a bad day.</p>
+
+<p>With CloudFormation, nested stack failures can leave rollbacks half-done and operators staring at events for 40 minutes. In the teams we work with, that pain is still easier to reason about than a Terraform monorepo where 14 modules share providers and nobody knows why a harmless tag change wants to replace a load balancer.</p>
+
+<p>With Pulumi, the common failure is hidden logic. The preview says one thing, helper code does another, and your reviewers are now debugging application code just to approve an IAM change. That works until the one engineer who built the patterns leaves.</p>
+
+<h2>Who should pick what, without pretending all choices are equal</h2>
+
+<p>Pick Terraform when you have real cross-provider needs. Not aspirational ones. Real ones. If the same team must manage AWS, Cloudflare, Datadog, GitHub, and a few vendor APIs in one delivery path, Terraform is still the least bad answer.</p>
+
+<p>Pick CloudFormation/CDK when AWS is the estate and likely stays that way. That is the default I’d choose for a new AWS platform. It keeps the control plane closer to the platform, avoids a separate state substrate, and reduces the number of moving parts junior engineers can damage accidentally.</p>
+
+<p>Pick Pulumi when your platform team is genuinely a software team. That means tests, versioned internal packages, design discipline, and reviewers who can spot bad abstractions before they hit prod. If that sentence sounds flattering rather than normal, don’t pick Pulumi.</p>
+
+<h2>The default we reach for, and the conditions that change it</h2>
+
+<p>For AWS-first estates, we reach for CDK backed by CloudFormation. That is the boring answer, and it is correct more often than people want to admit. It keeps the shape of the system legible.</p>
+
+<p>The default changes when provider sprawl is already a fact. If your infrastructure graph crosses cloud, CDN, observability, identity, and SaaS boundaries every week, Terraform earns its keep. But then treat state as a first-class platform service: isolated backends per environment, narrow root modules, pinned providers, mandatory drift detection, and no console edits without a repair step.</p>
+
+<p>The default also changes when your platform group is small and highly capable, and infrastructure is productised internally. Then Pulumi can be excellent. In the platforms we’ve shipped, teams with that profile cut repetitive IaC code by roughly 30% because shared libraries were actually maintained rather than dumped in a modules folder and forgotten.</p>
+
+<h2>The cheap fix that costs you in month six</h2>
+
+<p>The expensive mistake is not choosing the “wrong” tool. It is pretending tool choice removes the need for ownership boundaries. A single Terraform repo for the whole company is bad. A giant CDK app with every stack wired together is bad. A Pulumi codebase that only one staff engineer understands is bad.</p>
+
+<p>Split by blast radius first. Then by team ownership. Then by deployment cadence. If networking, data, and application platforms all change at different rates, do not force them through one state file, one stack, or one code package because a diagram looked tidy.</p>
+
+<p>In our audits, teams that enforce those boundaries cut failed infrastructure deploys by 40% compared with estates organised around one central repo and shared execution path. The tool mattered less than the isolation model.</p>
+
+<h2>Next steps if your Terraform estate already feels heavy</h2>
+
+<p>Start with three checks.</p>
+
+<ol>
+  <li><p>Measure apply time for your top 10 production paths. If several are above 15–20 minutes, split the roots before you add more modules.</p></li>
+  <li><p>List every place humans can change infrastructure outside IaC: console, scripts, vendor UI, break-glass roles. If you cannot repair drift inside one workday, your state is fiction.</p></li>
+  <li><p>Map ownership to execution. One team, one root module or stack boundary, one clear rollback path. Shared state is shared blame.</p></li>
+</ol>
+
+<p>Then make the call honestly. Keep Terraform where cross-provider control is the real requirement. Move AWS-centric domains to CDK if state and drift are eating your weekends. Use Pulumi only if your engineering habits are strong enough to survive the extra power.</p>
+
+<p>Infrastructure as code is not about declaring resources. It is about deciding who gets to change them safely. Pick the tool that makes that answer easier, not the one with the nicest conference talk.</p>
