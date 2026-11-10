@@ -2258,13 +2258,13 @@ h4, .h4 {
    Scroll Reveal
    ═══════════════════════════════════════════════════════ */
 
-.reveal {
+.js .reveal {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.reveal.visible {
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -2555,3 +2555,50 @@ h4, .h4 {
   .interest-group { flex-direction: column; }
   .interest-label { justify-content: center; }
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   Accessibility & SEO helpers
+   ═══════════════════════════════════════════════════════ */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal.visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Article CTA + related insights */
+.article-cta {
+  margin-top: var(--space-xl);
+  padding: var(--space-md) var(--space-lg, 2rem);
+  border: 1px solid var(--border-dark);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: var(--bg-card-dark);
+}
+.article-content .article-cta h2,
+.article-content .article-related h2 {
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem;
+}
+.article-content .article-cta p { margin: 0; }
+.article-related { margin-top: var(--space-xl); }
+.article-content .article-related ul { margin-top: 0.5rem; }
+.article-content a:not(.article-back) { color: var(--accent); }
+.article-content a:not(.article-back):hover { text-decoration: underline; }

@@ -7,22 +7,101 @@
   <meta name="description" content="A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html">
+  <!-- seo:start -->
+  <script>document.documentElement.classList.add('js')</script>
+  <meta name="theme-color" content="#0B0F14">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta property="og:site_name" content="Ciracon">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Practical AI Deployment for Engineering Teams | Ciracon">
+  <meta property="og:description" content="A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.">
+  <meta property="og:url" content="https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html">
+  <meta property="og:image" content="https://www.ciracon.com/images/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ciracon — Build the infrastructure for production AI">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Practical AI Deployment for Engineering Teams | Ciracon">
+  <meta name="twitter:description" content="A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.">
+  <meta name="twitter:image" content="https://www.ciracon.com/images/og-default.png">
+  <meta property="article:published_time" content="2026-03-10">
+  <meta property="article:modified_time" content="2026-03-10">
+  <meta property="article:section" content="AI Engineering">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html#article",
+        "headline": "Practical AI Deployment for Engineering Teams",
+        "description": "A technical guide to deploying AI systems reliably, covering infrastructure, monitoring, scalability, and production best practices.",
+        "image": "https://www.ciracon.com/images/og-default.png",
+        "datePublished": "2026-03-10",
+        "dateModified": "2026-03-10",
+        "articleSection": "AI Engineering",
+        "author": {
+          "@id": "https://www.ciracon.com/#organization",
+          "@type": "Organization",
+          "name": "Ciracon"
+        },
+        "publisher": {
+          "@id": "https://www.ciracon.com/#organization",
+          "@type": "Organization",
+          "name": "Ciracon",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.ciracon.com/images/apple-touch-icon.png"
+          }
+        },
+        "mainEntityOfPage": "https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html",
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.ciracon.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Insights",
+            "item": "https://www.ciracon.com/insights.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Practical AI Deployment for Engineering Teams",
+            "item": "https://www.ciracon.com/insights/insight-practical-ai-deployment-for-engineering-teams.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <!-- seo:end -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <a href="/" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <div class="nav-links">
-        <a href="../index.html">Home</a>
+        <a href="/">Home</a>
         <a href="../services.html">Services</a>
         <a href="../engagements.html">Work</a>
         <a href="../about.html">About</a>
@@ -31,6 +110,8 @@
       </div>
     </div>
   </nav>
+
+  <main id="main">
 
   <!-- Page Header -->
   <header class="page-header page-header-compact">
@@ -51,6 +132,7 @@
 
       <div class="article-meta">
         <span>AI Engineering</span>
+        <span><time datetime="2026-03-10">March 10, 2026</time></span>
         <span>7 min read</span>
       </div>
 
@@ -262,8 +344,26 @@
 <p>Canary deployments are non-negotiable for AI services. You need traffic splitting, not just health checks. A model can be "healthy" (serving requests, returning 200s) while producing garbage outputs because of a data drift issue. Your canary criteria should include output quality metrics, not just latency and error rates.</p>
 <p>Once that works for one service, standardize the pattern. Most AI deployment problems are not unique. They’re the usual platform engineering problems, just with bigger artifacts, slower startup, more expensive compute, and fuzzier failure modes.</p>
       </div>
+
+      <!-- related:start -->
+      <aside class="article-cta">
+        <h2>Need help with AI Engineering?</h2>
+        <p>Ciracon designs and builds production-grade systems for engineering teams. Learn how we approach <a href="../ai-engineering.html">AI Engineering</a>, or <a href="../contact.html">start a conversation</a>.</p>
+      </aside>
+      <nav class="article-related" aria-label="Related insights">
+        <h2>Related insights</h2>
+        <ul>
+          <li><a href="insight-building-and-optimizing-a-rag-model.html">Building and Optimizing a RAG Model</a></li>
+          <li><a href="insight-infrastructure-as-code-in-ai-engineering.html">Infrastructure as Code in AI Engineering</a></li>
+          <li><a href="insight-retrieval-augmented-generation-in-ai-engineering.html">Retrieval-Augmented Generation in AI Engineering</a></li>
+          <li><a href="insight-llm-fundamentals-for-ai-engineering.html">LLM Fundamentals for AI Engineering</a></li>
+        </ul>
+      </nav>
+      <!-- related:end -->
     </div>
   </section>
+
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
