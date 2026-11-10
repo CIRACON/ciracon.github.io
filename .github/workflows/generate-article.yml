@@ -1,7 +1,9 @@
 name: Generate Insight Article
 
 on:
-  schedule:
+  # Schedule disabled. To re-enable, uncomment `schedule:` and both cron lines.
+  # An empty `schedule:` key makes the workflow file invalid.
+  # schedule:
     # Runs Tuesday and Thursday at 9:00 AM Pacific
     # 16:00 UTC = 9am PDT (Mar-Nov), 17:00 UTC = 9am PST (Nov-Mar)
     # - cron: '0 16 * * 2,4'
