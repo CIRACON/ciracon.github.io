@@ -1,7 +1,9 @@
 name: Generate Insight Article
 
 on:
-  schedule:
+  # Schedule disabled. To re-enable, uncomment `schedule:` and both cron lines.
+  # An empty `schedule:` key makes the workflow file invalid.
+  # schedule:
     # Runs Tuesday and Thursday at 9:00 AM Pacific
     # 16:00 UTC = 9am PDT (Mar-Nov), 17:00 UTC = 9am PST (Nov-Mar)
     # - cron: '0 16 * * 2,4'
@@ -41,6 +43,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so seo_build.py can read page dates
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,6 +64,9 @@ jobs:
       - name: Build article HTML page
         id: build
         run: python scripts/build-article.py "${{ steps.generate.outputs.article_path }}"
+
+      - name: Apply SEO metadata and regenerate sitemap
+        run: python scripts/seo_build.py
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -84,6 +91,7 @@ jobs:
             - `${{ steps.generate.outputs.article_path }}` — source Markdown
             - `${{ steps.build.outputs.page_path }}` — generated HTML article
             - `insights.html` — new card added to the grid
+            - `sitemap.xml` and article SEO metadata / related links refreshed
 
             ---
             *Generated automatically from trending topics via Google Trends + OpenAI.*

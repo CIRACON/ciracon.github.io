@@ -75,12 +75,12 @@ def build_article_page(meta: dict, body: str) -> str:
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="../index.html" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
+      <a href="/" class="logo"><span class="accent">C</span>ira<span class="accent">c</span>on</a>
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <div class="nav-links">
-        <a href="../index.html">Home</a>
+        <a href="/">Home</a>
         <a href="../services.html">Services</a>
         <a href="../engagements.html">Work</a>
         <a href="../about.html">About</a>
